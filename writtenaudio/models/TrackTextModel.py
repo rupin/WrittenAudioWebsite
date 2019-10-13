@@ -3,7 +3,7 @@ import uuid
 from django.conf import settings
 from writtenaudio.models import TrackModel
 
-from writtenaudio.models import TTSChoiceModel
+from writtenaudio.models import VoiceProfileModel
 
 class TrackText(models.Model):
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -15,7 +15,7 @@ class TrackText(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 	processed=models.BooleanField(default=False)
 	duration=models.IntegerField(blank=True, null=True)
-	tts_choice=models.ForeignKey(TTSChoiceModel.TTSChoice, on_delete=models.CASCADE, blank=True, null=True)
+	voice_profile=models.ForeignKey(VoiceProfileModel.VoiceProfile, on_delete=models.CASCADE, blank=True, null=True)
 	track=models.ForeignKey(TrackModel.Track, on_delete=models.CASCADE, blank=True, null=True)
 	class Meta:
 		ordering=['time_marker', 'track']

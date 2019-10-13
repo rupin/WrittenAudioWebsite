@@ -1,4 +1,5 @@
 from .CustomUserModel import CustomUser	
 from .TrackModel import Track
 from .TrackTextModel import TrackText
-from .TTSChoiceModel import TTSChoice
+from .TTSServiceModel import TTSService
+from .VoiceProfileModel import VoiceProfile

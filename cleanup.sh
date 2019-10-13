@@ -1,2 +1,1 @@
-find . -name '*.pyc' -delete
-find . -name '*.py~' -delete
+find . | grep -E "(__pycache__|\.pyc|\.pyo|\.py~$)" | xargs rm -rf

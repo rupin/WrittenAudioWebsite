@@ -1,0 +1,2 @@
+
+AUTH_USER_MODEL = '{{ project_name }}.CustomUser' 

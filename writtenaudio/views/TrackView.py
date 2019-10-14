@@ -14,13 +14,13 @@ from dateutil.parser import *
 from writtenaudio.models.TrackModel import Track
 
 def ViewMyTracks(request):
-    
+    user=request.user
     template = loader.get_template('mytracks.html')
-    mytracks=Track.objects.all()
-    print(mytracks.count())
+    mytracks=Track.objects.filter(user=user)
+    #print(mytracks.count())
     context = {
        'tracks':mytracks,
        'trackcount':mytracks.count(),
-       'user':request.user
+       'user':user
     }
     return HttpResponse(template.render(context, request))

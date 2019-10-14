@@ -1,1 +1,31 @@
-{% include "blocks.html" %}
+{% extends 'base_template.html' %}
+
+{% block tracks_table %}
+          
+    {% include 'tracks_table.html' %}
+
+{% endblock %}
+
+{% block sidebar %}
+          
+    {% include 'sidebar.html' %}
+
+{% endblock %}
+
+{% block userheader %}
+          
+    {% include 'userheader.html' %}
+
+{% endblock %}
+
+{% block notifications %}
+          
+    {% include 'notifications.html' %}
+
+{% endblock %}
+
+{% block create_track %}
+          
+    {% include 'createtrack.html' %}
+
+{% endblock %}

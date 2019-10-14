@@ -12,6 +12,6 @@ class Track(models.Model):
 	processed=models.BooleanField(default=False)
 	duration=models.IntegerField(blank=True, null=True)
 	class Meta:
-		ordering=['created_at']
+		ordering=['updated_at']
 	def __str__(self):
 		return self.title

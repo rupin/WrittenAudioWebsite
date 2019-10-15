@@ -1,0 +1,75 @@
+              {% load DurationFormatter%}
+              {% load SecondsFormatter%}
+               <div class="row">
+                <div class="col-md-6">
+
+                    <div class="box-primary box">
+                    <div class="box-header">
+                      <h3 class="box-title">View Track Details</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">                    
+
+                    <div class="form-group">
+                        <label>Output Audio Format:&nbsp</label>
+                        
+                          {{track.output_format}}
+                    </div>
+
+                    </div><!-- /.box-body -->
+                  </div><!-- /.box -->
+                </div> <!-- class="col-xs-12" -->
+              </div> <!--row-->
+
+
+              <div class="row">
+                <div class="col-xs-12">
+
+                    <div class="box-primary box">
+                    <div class="box-header">
+                      <h3 class="box-title">Track Audio Sections</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">                   
+
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                          <tr>
+                            <th>Time Marker</th>                            
+                            <th>Text</th>                           
+                            <th>Duration</th>  
+                            <th>Voice Profile</th>                           
+                          </tr>
+
+                          
+                        </thead>
+
+
+                        <tbody>
+                          {% for tracktext in tracktextlist %}
+                            <tr>
+                            
+                          <td>
+                            
+                                  {{tracktext.time_marker|SecondsToDateFormatter}} 
+                             
+                           
+                          </td>
+
+                            <td>
+                              {{tracktext.text}}
+                            </td>  
+                                                  
+                            <td>{{tracktext.duration|SecondsToDateFormatter}}</td>
+                            <td>{{tracktext.voice_profile}}</td>     
+                            
+                            
+                          </tr>
+                           {%endfor%} 
+                          
+                          
+                        </tbody>
+                        
+                      </table>                     
+                    </div><!-- /.box-body -->
+                  </div><!-- /.box -->
+                </div> <!-- class="col-xs-12" -->
+              </div> <!--row-->

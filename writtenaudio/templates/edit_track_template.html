@@ -1,0 +1,145 @@
+              {% load DurationFormatter%}
+              {% load SecondsFormatter%}
+               <div class="row">
+                <div class="col-md-6">
+
+                    <div class="box-primary box">
+                    <div class="box-header">
+                      <h3 class="box-title">Edit Track Details</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">  
+
+                      <div class="form-group">
+                          <label for="v">Title of the Track</label>
+                          <input type="text" class="form-control" id="tracktitle" value="{{track.title}}" name='tracktitle'>
+                      </div>
+
+                    <div class="form-group">
+                        <label>Output Audio Format</label>
+                        <select class="form-control" name='outputformat'>
+                          <option value='NA'>Select</option>
+                          {% ifequal track.output_format 'MP3' %}
+                            <option value='MP3' selected='selected'>MP3 (MPEG Audio Layer-3)</option>
+                          {% else%}
+                            <option value='MP3'>MP3 (MPEG Audio Layer-3)</option>
+                           {%endifequal%} 
+
+                           {% ifequal track.output_format 'WAV' %}
+                            <option value='WAV' selected='selected'>WAV (Waveform Audio File Format)</option>
+                          {% else%}
+                            <option value='WAV'>WAV (Waveform Audio File Format)</option>
+                           {%endifequal%} 
+                          
+                          
+                        </select>
+                    </div>
+
+                    </div><!-- /.box-body -->
+                  </div><!-- /.box -->
+                </div> <!-- class="col-xs-12" -->
+              </div> <!--row-->
+
+
+              <div class="row">
+                <div class="col-xs-12">
+
+                    <div class="box-primary box">
+                    <div class="box-header">
+                      <h3 class="box-title">Track Audio Sections</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">                   
+
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                          <tr>
+                            <th colspan=3>Time Marker</th>                            
+                            <th rowspan=2>Text</th>                           
+                            <th rowspan=2>Duration</th>  
+                            <th rowspan=2>Voice Profile</th>                           
+                          </tr>
+
+                          <tr>
+                            <th>Hours</th>   
+                            <th>Minutes</th> 
+                            <th>Seconds</th> 
+                          </tr>
+                        </thead>
+
+
+                        <tbody>
+                          {% for tracktext in tracktextlist %}
+                            <tr>
+                            <td>
+                              
+                              <select class="form-control" name='outputformat'>
+                                {% autoescape off %}
+                                  {{tracktext.time_marker|optionGenerator:'h'}} 
+                                {% endautoescape %}    
+                              </select>
+                            </td>
+                            <td>
+                            <select class="form-control" name='outputformat'>
+                                {% autoescape off %}
+                                  {{tracktext.time_marker|optionGenerator:'m'}} 
+                                {% endautoescape %}    
+                              </select>
+
+                          </td>
+                          <td>
+                            <select class="form-control" name='outputformat'>
+                                {% autoescape off %}
+                                  {{tracktext.time_marker|optionGenerator:'s'}} 
+                                {% endautoescape %}                       
+                               
+                              </select>
+                           
+                          </td>
+                            <td>
+                              <textarea class="form-control" rows="3">{{tracktext.text}}</textarea>
+                            </td>  
+                                                  
+                            <td>{{tracktext.duration|SecondsToDateFormatter}}</td>
+                            <td>{{tracktext.voice_profile}}</td>     
+                            
+                            <td>
+
+
+
+                                  <div class="btn-group">
+                                    <button type="button" class="btn btn-info"><i class="fa fa-volume-up"></i></button>
+
+                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                      <span class="caret"></span>
+                                      <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                      <li><a href="/editTrack/{{track.id}}">
+                                          <i class="fa fa-pencil"></i>
+
+                                      Edit</a></li>
+                                      <li>
+                                        <a href="/cloneTrack/{{track.id}}">
+
+                                          <i class="fa fa-clone"></i>Clone
+
+                                      </a>
+                                    </li>
+                                      <li class="divider"></li>
+                                      <li ><a href="/deleteTrack/{{track.id}}" class='text-red'>
+                                        <i class="fa fa-trash"></i>
+
+                                      Delete</a></li>
+                                    </ul>
+                                  </div>
+                            </td>
+                          </tr>
+                           {%endfor%} 
+                          
+                          
+                        </tbody>
+                        
+                      </table>                     
+                    </div><!-- /.box-body -->
+                  </div><!-- /.box -->
+                </div> <!-- class="col-xs-12" -->
+              </div> <!--row-->

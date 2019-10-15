@@ -11,7 +11,14 @@ class Track(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 	processed=models.BooleanField(default=False)
 	duration=models.IntegerField(blank=True, null=True)
+
+	FORMATS = (
+						('MP3', 'MP3'),
+						("WAV", "WAV"),				
+
+				)
+	output_format=models.CharField(max_length=10, choices=FORMATS, default='WAV')
 	class Meta:
-		ordering=['updated_at']
+		ordering=['-updated_at']
 	def __str__(self):
 		return self.title

@@ -17,10 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from writtenaudio.views import TrackView
+from writtenaudio.views import HomePageViews
+import uuid
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mytracks/', TrackView.ViewMyTracks),
+    path('createtrack/', TrackView.CreateTrack),
+    path('editTrack/<uuid:trackid>', TrackView.EditTrack),
+    path('home/', HomePageViews.HomePage),
+    path('viewTrack/<uuid:trackid>', TrackView.ViewTrack),
 ]
 
 

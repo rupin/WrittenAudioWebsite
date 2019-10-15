@@ -1,11 +1,5 @@
 {% extends 'base_template.html' %}
 
-{% block tracks_table %}
-          
-    {% include 'tracks_table.html' %}
-
-{% endblock %}
-
 {% block sidebar %}
           
     {% include 'sidebar.html' %}
@@ -26,6 +20,11 @@
 
 
 
-    {%block page_heading%}
+ {%block edit_track%}
+ 	{% include 'edit_track_template.html' %}
+
+ {%endblock%}
+
+  {%block page_heading%}
         {% include 'page_heading.html' %}
     {%endblock%}

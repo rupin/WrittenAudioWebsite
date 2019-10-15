@@ -11,17 +11,19 @@
                         <thead>
                           <tr>
                             <th>Title</th>
-                            <th>Track Duration</th>                            
+                            <th>Track Duration</th>
+                            <th>Output Format</th> 
                             <th>Created On</th>
                             <th>Last Updated</th>
-                            <th>Download</th>
+                            <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                           {% for track in tracks %}
                             <tr>
-                            <td>{{track.title}}</td>
-                            <td>{{track.duration|SecondsFormatter}}</td>                            
+                            <td><a href="/viewTrack/{{track.id}}">{{track.title}}</a></td>
+                            <td>{{track.duration|SecondsToTextFormatter}}</td>  
+                            <td>{{track.output_format}}</td>                           
                             <td>{{track.created_at|date:"M d, Y"}}</td>
                             <td>{{track.updated_at|date:"M d, Y"}}</td>
                             <td>
@@ -29,17 +31,34 @@
 
 
                                   <div class="btn-group">
-                                    <button type="button" class="btn btn-info">Action</button>
+                                    <button type="button" class="btn btn-info"><i class="fa fa-volume-up" title=></i></button>
 
                                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                       <span class="caret"></span>
                                       <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                      <li><a href="#">Edit</a></li>
-                                      <li><a href="#">Clone</a></li>
+                                      <li><a href="/download/{{track.id}}">
+                                          <i class="fa fa-download"></i>
+
+                                      Download</a></li>
+
+                                      <li><a href="/editTrack/{{track.id}}">
+                                          <i class="fa fa-pencil"></i>
+
+                                      Edit</a></li>
+                                      <li>
+                                        <a href="/cloneTrack/{{track.id}}">
+
+                                          <i class="fa fa-clone"></i>Clone
+
+                                      </a>
+                                    </li>
                                       <li class="divider"></li>
-                                      <li ><a href="#" class='text-red'>Delete</a></li>
+                                      <li ><a href="/deleteTrack/{{track.id}}" class='text-red'>
+                                        <i class="fa fa-trash"></i>
+
+                                      Delete</a></li>
                                     </ul>
                                   </div>
                             </td>

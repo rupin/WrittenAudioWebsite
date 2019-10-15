@@ -6,12 +6,13 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>WrittenAudio| Dashboard</title>
+    <title>WrittenAudio</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
    <!-- Bootstrap 3.3.2 -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet" type="text/css" />    
     <!-- FontAwesome 4.3.0 -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    
     <!-- Ionicons 2.0.0 -->
     <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />    
     <!-- Theme style -->
@@ -83,13 +84,10 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>
-            Add and Modify Tracks            
-          </h1>
-          <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Tracks</li>
-          </ol>
+           {%block page_heading%}
+
+           {% endblock %}
+
         </section>
 
         <!-- Main content -->
@@ -97,12 +95,23 @@
           <!-- Small boxes (Stat box) -->
           {% block topboxes %}
           {% endblock %}
+
+
+          {%block create_track%}
+          {%endblock%}
+
+          {%block edit_track%}
+          {%endblock%}
+
+          {%block view_track%}
+          {%endblock%}
+
+
           
           {%block tracks_table%}
           {%endblock%}
 
-          {%block create_track%}
-          {%endblock%}
+          
 
 
 

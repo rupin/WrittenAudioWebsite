@@ -14,7 +14,7 @@ class TrackText(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	processed=models.BooleanField(default=False)
-	duration=models.IntegerField(blank=True, null=True)
+	duration=models.IntegerField(blank=True, null=True, default=0)
 	voice_profile=models.ForeignKey(VoiceProfileModel.VoiceProfile, on_delete=models.CASCADE, blank=True, null=True)
 	track=models.ForeignKey(TrackModel.Track, on_delete=models.CASCADE, blank=True, null=True)
 	class Meta:

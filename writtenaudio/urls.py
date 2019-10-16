@@ -20,6 +20,8 @@ from writtenaudio.views import TrackView
 from writtenaudio.views import HomePageViews
 import uuid
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mytracks/', TrackView.ViewMyTracks),
@@ -33,3 +35,6 @@ urlpatterns = [
 urlpatterns += [
     path('', include('django.contrib.auth.urls')),
 ]
+
+
+    

@@ -13,6 +13,8 @@ import datetime
 from dateutil.parser import *
 from writtenaudio.models.TrackModel import Track
 
+from django.http import HttpResponseRedirect
+
 def ViewMyTracks(request):
     user=request.user
     template = loader.get_template('mytracks.html')
@@ -27,25 +29,28 @@ def ViewMyTracks(request):
     return HttpResponse(template.render(context, request))
 
 def CreateTrack(request):
-	template = loader.get_template('createtrackview.html')
-	user=request.user
-	if request.method == 'GET':   
-	   
-	    context = {
-	       
-	       'user':user,
-	       'page_title': 'Create Track'
-	    }
-	if request.method=='POST':
-		tracktitle=request.POST.get("tracktitle", "")
-		outputformat=request.POST.get('outputformat', "")
-		print(tracktitle)
-		print(outputformat)
-		context={'user':user}
-		createdTrack=Track.objects.create(user=user, title=tracktitle, duration=0, output_format=outputformat)
-	
+  template = loader.get_template('createtrackview.html')
+  user=request.user
+  if request.method == 'GET':
+    context = {
 
-	return HttpResponse(template.render(context, request))
+    'user':user,
+    'page_title': 'Create Track'
+    }
+    return HttpResponse(template.render(context, request))
+
+  if request.method=='POST':
+    tracktitle=request.POST.get("tracktitle", "")
+    outputformat=request.POST.get('outputformat', "")
+    #print(tracktitle)
+    #print(outputformat)
+    context={'user':user}
+    createdTrack=Track.objects.create(user=user, title=tracktitle, duration=0, output_format=outputformat)
+    trackID=str(createdTrack.id)
+    return HttpResponseRedirect('/editTrack/'+trackID)
+    
+
+	
 
 def EditTrack(request,trackid):
     user=request.user    
@@ -58,6 +63,7 @@ def EditTrack(request,trackid):
        'tracktextlist':myTrackText,      
        'user':user,
        'page_title': mytrack.title,
+       'track_section_count':myTrackText.count()
        
 
     }
@@ -74,6 +80,7 @@ def ViewTrack(request,trackid):
        'tracktextlist':myTrackText,      
        'user':user,
        'page_title': mytrack.title,
+       'track_section_count':myTrackText.count()
        
 
     }

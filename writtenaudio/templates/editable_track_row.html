@@ -1,0 +1,70 @@
+{% load DurationFormatter%}
+{% load SecondsFormatter%}
+
+{% for tracktext in tracktextlist %}
+            <tr>
+            <td>
+              
+              <select class="form-control" name='outputformat'>
+                {% autoescape off %}
+                  {{tracktext.time_marker|optionGenerator:'h'}} 
+                {% endautoescape %}    
+              </select>
+            </td>
+            <td>
+            <select class="form-control" name='outputformat'>
+                {% autoescape off %}
+                  {{tracktext.time_marker|optionGenerator:'m'}} 
+                {% endautoescape %}    
+              </select>
+
+          </td>
+          <td>
+            <select class="form-control" name='outputformat'>
+                {% autoescape off %}
+                  {{tracktext.time_marker|optionGenerator:'s'}} 
+                {% endautoescape %}                       
+               
+              </select>
+           
+          </td>
+            <td>
+              <textarea class="form-control" rows="2">{{tracktext.text}}</textarea>
+            </td>  
+                                  
+            <td>{{tracktext.duration|SecondsToDateFormatter}}</td>
+            <td>{{tracktext.voice_profile}}</td>     
+            
+            <td>
+
+
+
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-info"><i class="fa fa-volume-up"></i></button>
+
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      <span class="caret"></span>
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="/editTrack/{{track.id}}">
+                          <i class="fa fa-pencil"></i>
+
+                      Edit</a></li>
+                      <li>
+                        <a href="/cloneTrack/{{track.id}}">
+
+                          <i class="fa fa-clone"></i>Clone
+
+                      </a>
+                    </li>
+                      <li class="divider"></li>
+                      <li ><a href="/deleteTrack/{{track.id}}" class='text-red'>
+                        <i class="fa fa-trash"></i>
+
+                      Delete</a></li>
+                    </ul>
+                  </div>
+            </td>
+          </tr>
+           {%endfor%} 

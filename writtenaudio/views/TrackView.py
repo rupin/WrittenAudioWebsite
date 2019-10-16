@@ -24,7 +24,7 @@ def ViewMyTracks(request):
        'tracks':mytracks,
        'trackcount':mytracks.count(),
        'user':user,
-       'page_title': 'View My Tracks'
+       'page_title': 'My Tracks'
     }
     return HttpResponse(template.render(context, request))
 
@@ -85,3 +85,13 @@ def ViewTrack(request,trackid):
 
     }
     return HttpResponse(template.render(context, request))
+
+
+def DeleteTrack(request,trackid):
+    user=request.user
+
+    myTrack=Track.objects.filter(user=user,id=trackid)
+    if myTrack.count()==1:
+        myTrack.delete()
+
+    return HttpResponseRedirect('/mytracks')

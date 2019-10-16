@@ -21,8 +21,8 @@ def durationToParts(value, arg):
 	return 0
 
 def options(value, arg):
-	if value is None or value==0:
-		return 0
+	if value is None:
+		value=0
 
 	hours, remainder = divmod(value, 3600)
 	minutes, seconds = divmod(remainder, 60)

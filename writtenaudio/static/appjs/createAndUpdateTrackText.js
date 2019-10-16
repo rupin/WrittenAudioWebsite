@@ -2,9 +2,50 @@
 
 function updateTimeMarker(trackID, timeMarker)
 {
+	$.ajaxSetup({
+     beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie != '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                         break;
+                     }
+                 }
+             }
+             return cookieValue;
+         }
+        	//console.log(getCookie('csrftoken'))
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         
+     }
+});
+	URL='http://localhost:8000/updateTrackText/'+trackID+"/"
 
+	requestdata='{"time_marker": '+timeMarker+""+'}'
+	
+	$.ajax({
+	    url: URL,
+	    type: 'PATCH',
+	    data:requestdata,
+	    contentType: "application/json",
+	    dataType: "json",	    
+	    success: function(result) {
+	        // Do something with the result
+	    }
+	});
 }
+
+
+
 $( document ).ready(function() {
+	
+	
+	 
     $('select').on('change', function() {
   			select_type=$(this).attr('data_select_type');
   			tracktextid=$(this).attr('data_id');

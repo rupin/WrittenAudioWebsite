@@ -19,6 +19,7 @@ from django.urls import path, include
 from writtenaudio.views import TrackView
 from writtenaudio.views import TrackTextViews
 from writtenaudio.views import HomePageViews
+from writtenaudio.api import TrackTextAPI
 import uuid
 
 
@@ -32,6 +33,9 @@ urlpatterns = [
     path('', HomePageViews.HomePage),
     path('viewTrack/<uuid:trackid>', TrackView.ViewTrack),
     path('CreateTrackEmptyRow/<uuid:trackid>', TrackTextViews.CreateTrackEmptyRow),
+
+    #APIS
+    path('updateTrackText/<uuid:pk>/', TrackTextAPI.UpdateTrackTextAPIView.as_view(),),
     
 ]
 

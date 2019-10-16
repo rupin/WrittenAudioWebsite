@@ -2,17 +2,19 @@
 {% load SecondsFormatter%}
 
 {% for tracktext in tracktextlist %}
-            <tr>
+            <tr id='row_{{tracktext.id}}'>
+             
+             
             <td>
-              
-              <select class="form-control" name='outputformat'>
+             
+              <select data_select_type='h' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='h_{{tracktext.id}}' >
                 {% autoescape off %}
                   {{tracktext.time_marker|optionGenerator:'h'}} 
                 {% endautoescape %}    
               </select>
             </td>
             <td>
-            <select class="form-control" name='outputformat'>
+            <select data_select_type='m' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='m_{{tracktext.id}}' >
                 {% autoescape off %}
                   {{tracktext.time_marker|optionGenerator:'m'}} 
                 {% endautoescape %}    
@@ -20,7 +22,7 @@
 
           </td>
           <td>
-            <select class="form-control" name='outputformat'>
+            <select data_select_type='s' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='s_{{tracktext.id}}' >
                 {% autoescape off %}
                   {{tracktext.time_marker|optionGenerator:'s'}} 
                 {% endautoescape %}                       

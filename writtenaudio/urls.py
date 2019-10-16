@@ -33,6 +33,7 @@ urlpatterns = [
     path('', HomePageViews.HomePage),
     path('viewTrack/<uuid:trackid>', TrackView.ViewTrack),
     path('CreateTrackEmptyRow/<uuid:trackid>', TrackTextViews.CreateTrackEmptyRow),
+    path('deleteTrackText/<uuid:tracktextid>', TrackTextViews.DeleteTrackText),
 
     #APIS
     path('updateTrackText/<uuid:pk>/', TrackTextAPI.UpdateTrackTextAPIView.as_view(),),

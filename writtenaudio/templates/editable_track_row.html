@@ -30,8 +30,9 @@
               </select>
            
           </td>
-            <td>
-              <textarea class="form-control" rows="2">{{tracktext.text}}</textarea>
+            <td> 
+              <textarea class="form-control" rows="2" data_type='text' data_id={{tracktext.id}}>{{tracktext.text}}</textarea>
+              
             </td>  
                                   
             <td>{{tracktext.duration|SecondsToDateFormatter}}</td>
@@ -48,20 +49,17 @@
                       <span class="caret"></span>
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href="/editTrack/{{track.id}}">
-                          <i class="fa fa-pencil"></i>
-
-                      Edit</a></li>
+                    <ul class="dropdown-menu" role="menu">                      
                       <li>
-                        <a href="/cloneTrack/{{track.id}}">
+                        <a href="/cloneTrack/{{tracktext.id}}">
 
                           <i class="fa fa-clone"></i>Clone
 
                       </a>
                     </li>
                       <li class="divider"></li>
-                      <li ><a href="/deleteTrack/{{track.id}}" class='text-red'>
+                      <li ><a href='javascript:;' onclick='deleteTrackText("{{tracktext.id}}");'
+                       data_track_text_id='{{tracktext.id}}' class='text-red'>
                         <i class="fa fa-trash"></i>
 
                       Delete</a></li>

@@ -85,7 +85,7 @@
     </div><!-- /.box-header -->
     <div class="box-body">                   
 
-    <table id="example2" class="table table-bordered table-hover">
+    <table id="example2"  class="table table-bordered table-hover">
         <thead>
           <tr>
             <th colspan=3>Time Marker</th>                            
@@ -102,7 +102,7 @@
         </thead>
 
 
-        <tbody>
+        <tbody id='track_text_tbody'>
           {%include 'editable_track_row.html'%}
            
           
@@ -135,7 +135,7 @@
         </div>
 
         <div class="col-xs-2">
-           <button type="button" class="btn btn-info">
+           <button type="button" id='addnewrow' data_track_id='{{track.id}}' class="btn btn-info">
             <i class="fa fa-plus"></i>&nbsp;Add New Row
           </button>
         </div>

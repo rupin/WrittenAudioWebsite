@@ -28,3 +28,17 @@ def CreateTrackEmptyRow(request, trackid):
 		context={'tracktextlist':[createdTrackText]} ## UI Expects a List
 
 	return HttpResponse(template.render(context, request))
+
+def DeleteTrackText(request, tracktextid):
+	user=request.user	
+	myTrackText=TrackText.objects.filter(id=tracktextid)
+	if(myTrackText.count()==1): #There is a track like this
+		myTrack=Track.objects.filter(id=myTrackText[0].track.id, user=user)
+		if(myTrack.count()==1): #User has access to this track
+			myTrackText[0].delete()
+			return HttpResponse(str(tracktextid), status=200)
+		else:
+			return HttpResponse('Unauthorized', status=401)
+	else:
+			
+		return HttpResponse('Not Found', status=404)

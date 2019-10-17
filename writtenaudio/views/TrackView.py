@@ -12,6 +12,7 @@ from django.utils.dateparse import parse_date
 import datetime
 from dateutil.parser import *
 from writtenaudio.models.TrackModel import Track
+from writtenaudio.models.TrackTextModel import TrackText
 from writtenaudio.models.TTSServiceModel import TTSService
 
 from django.http import HttpResponseRedirect
@@ -30,27 +31,39 @@ def ViewMyTracks(request):
     }
     return HttpResponse(template.render(context, request))
 
+# @login_required
+# def CreateTrack(request):
+#   template = loader.get_template('createtrackview.html')
+#   user=request.user
+#   if request.method == 'GET':
+#     context = {
+
+#     'user':user,
+#     'page_title': 'Create Track'
+#     }
+#     return HttpResponse(template.render(context, request))
+
+#   if request.method=='POST':
+#     tracktitle=request.POST.get("tracktitle", "")
+#     outputformat=request.POST.get('outputformat', "")
+#     #print(tracktitle)
+#     #print(outputformat)
+#     context={'user':user}
+#     createdTrack=Track.objects.create(user=user, title=tracktitle, duration=0, output_format=outputformat)
+#     trackID=str(createdTrack.id)
+#     return HttpResponseRedirect('/editTrack/'+trackID)
+
+
+
 @login_required
-def CreateTrack(request):
-  template = loader.get_template('createtrackview.html')
+#definitely requires throttling
+def CreateEmptyTrack(request):  
   user=request.user
-  if request.method == 'GET':
-    context = {
-
-    'user':user,
-    'page_title': 'Create Track'
-    }
-    return HttpResponse(template.render(context, request))
-
-  if request.method=='POST':
-    tracktitle=request.POST.get("tracktitle", "")
-    outputformat=request.POST.get('outputformat', "")
-    #print(tracktitle)
-    #print(outputformat)
-    context={'user':user}
-    createdTrack=Track.objects.create(user=user, title=tracktitle, duration=0, output_format=outputformat)
-    trackID=str(createdTrack.id)
-    return HttpResponseRedirect('/editTrack/'+trackID)
+  tracktitle='<Click Here to Edit The Track Title>'
+  createdTrack=Track.objects.create(user=user, title=tracktitle, duration=0)
+  trackID=createdTrack.id
+  createdEmptyTrackText=TrackText.objects.create(track=createdTrack)
+  return HttpResponseRedirect('/editTrack/'+str(trackID))
     
 
 	

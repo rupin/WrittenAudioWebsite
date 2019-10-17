@@ -56,7 +56,7 @@ function updateTrack(trackID, trackData)
       contentType: "application/json",
       dataType: "json",     
       success: function(result) {
-          // Do something with the result
+          $('#track_title_text_input').trigger('track_title_saved');
       }
   });
 }
@@ -77,7 +77,7 @@ function AddRowToTable(trackid)
 	    type: 'GET',
 	      
 	    success: function(result) {
-	        console.log(result)
+	        //console.log(result)
 	        $("#track_text_tbody").append(result)
 	    }
 	});
@@ -87,6 +87,8 @@ function AddRowToTable(trackid)
 function text_clean_up(newtext)
 {
 	newtext = newtext.replace(/(\r\n|\n|\r)/gm, ""); //Remove all Line breaks
+  newtext = newtext.replace(/</gm, "");
+  newtext = newtext.replace(/>/gm, "");
 
 	return newtext
 }
@@ -193,24 +195,56 @@ $("#addnewrow").on('click', function(){
 
 });
 
-$("#tracktitle").on('keypress change focusout', function () {
+// $("#track_title_text_input").on('keypress change focusout', function () {
     
 
-    // If a timer was already started, clear it.
-    if (timeoutId) clearTimeout(timeoutId);
+//     // If a timer was already started, clear it.
+//     if (timeoutId) clearTimeout(timeoutId);
     
-    that=$(this);
-    // Set timer that will save comment when it fires.
-    timeoutId = setTimeout(function (titleRef) {
-        // Make ajax call to save data.
-          trackid=$(titleRef).attr('data_id');
-          textValue=$(titleRef).val()
-          textValue=text_clean_up(textValue)
-          requestdata='{"title": "'+textValue+'"}'
-          //console.log(requestdata)
-        updateTrack(trackid,requestdata)
-    }, 750, that);
+//     that=$(this);
+//     // Set timer that will save comment when it fires.
+//     timeoutId = setTimeout(function (titleRef) {
+//         // Make ajax call to save data.
+//           trackid=$(titleRef).attr('data_id');
+//           textValue=$(titleRef).val()
+//           textValue=text_clean_up(textValue)
+//           requestdata='{"title": "'+textValue+'"}'
+//           //console.log(requestdata)
+//         updateTrack(trackid,requestdata)
+//     }, 1000, that);
+// });
+
+$("#save_title_button").on('click', function () {
+    
+
+   
+      // Make ajax call to save data.
+      $(this).removeClass('btn-primary').addClass('btn-disabled');
+      titleInput=$("#track_title_text_input")
+      trackid=$(titleInput).attr('data_id');
+      textValue=$(titleInput).val()
+      textValue=text_clean_up(textValue)
+      requestdata='{"title": "'+textValue+'"}'
+      //console.log(requestdata)
+      updateTrack(trackid,requestdata)
+    
 });
+
+
+$('#page_title_span').on('click', function(){
+
+  $(this).hide();
+  $("#input_group").show()
+})
+
+$('#track_title_text_input').on('track_title_saved', function(){
+
+  $("#input_group").hide()
+  $("#save_title_button").addClass('btn-primary').removeClass('btn-disabled');
+  updated_title_value=text_clean_up($(this).val())
+  $("#page_title_span").html(updated_title_value).show()
+  $(this).val(updated_title_value)
+})
 
 
 

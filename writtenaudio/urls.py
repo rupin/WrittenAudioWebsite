@@ -37,13 +37,16 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mytracks/', TrackView.ViewMyTracks),
-    path('createtrack/', TrackView.CreateTrack),
+    #path('createtrack/', TrackView.CreateTrack),
     path('editTrack/<uuid:trackid>', TrackView.EditTrack),
     path('deleteTrack/<uuid:trackid>', TrackView.DeleteTrack),
     path('', HomePageViews.HomePage),
     path('viewTrack/<uuid:trackid>', TrackView.ViewTrack),
     path('CreateTrackEmptyRow/<uuid:trackid>', TrackTextViews.CreateTrackEmptyRow),
     path('deleteTrackText/<uuid:tracktextid>', TrackTextViews.DeleteTrackText),
+    path('createtrack/', TrackView.CreateEmptyTrack),
+
+    
 
     #APIS
     path('updateTrackText/<uuid:pk>/', TrackTextAPI.UpdateTrackTextAPIView.as_view(),),

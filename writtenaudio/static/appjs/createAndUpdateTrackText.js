@@ -15,7 +15,7 @@ function getCookie(name) {
  return cookieValue;
 }
 
-function updateTrack(trackID, trackData)
+function updateTrackText(trackID, trackTextData)
 {
 	$.ajaxSetup({
      beforeSend: function(xhr, settings) {
@@ -29,13 +29,36 @@ function updateTrack(trackID, trackData)
 	$.ajax({
 	    url: URL,
 	    type: 'PATCH',
-	    data:trackData,
+	    data:trackTextData,
 	    contentType: "application/json",
 	    dataType: "json",	    
 	    success: function(result) {
 	        // Do something with the result
 	    }
 	});
+}
+
+function updateTrack(trackID, trackData)
+{
+  $.ajaxSetup({
+     beforeSend: function(xhr, settings) {
+         
+          xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         
+     }
+});
+  URL='http://localhost:8000/updateTrack/'+trackID+"/"  
+  
+  $.ajax({
+      url: URL,
+      type: 'PATCH',
+      data:trackData,
+      contentType: "application/json",
+      dataType: "json",     
+      success: function(result) {
+          // Do something with the result
+      }
+  });
 }
 
 function AddRowToTable(trackid)
@@ -61,11 +84,11 @@ function AddRowToTable(trackid)
 }
 
 
-function text_clean_up(text)
+function text_clean_up(newtext)
 {
-	text = text.replace(/(\r\n|\n|\r)/gm, ""); //Remove all Line breaks
+	newtext = newtext.replace(/(\r\n|\n|\r)/gm, ""); //Remove all Line breaks
 
-	return text
+	return newtext
 }
 
 function deleteTrackText(trackTextId)
@@ -100,35 +123,44 @@ $( document ).ready(function() {
     $(document).on('change', 'select', function() {
   			select_type=$(this).attr('data_select_type');
   			tracktextid=$(this).attr('data_id');
-  			selected_value=$(this).find('option:selected').text()
+  			selected_value=$(this).find('option:selected').val()
   			//console.log(selected_value)
   			if(select_type=='h')
   			{
   				hourValue=selected_value
   				minuteValue=$('#m_'+tracktextid).find('option:selected').text()
   				secondsValue=$('#s_'+tracktextid).find('option:selected').text()
+          updated_time_marker=(parseInt(hourValue)*3600)+(parseInt(minuteValue)*60)+parseInt(secondsValue)
+          requestdata='{"time_marker": '+updated_time_marker+""+'}'
   			}
   			else if(select_type=='m')
   			{
   				minuteValue=selected_value
   				hourValue=$('#h_'+tracktextid).find('option:selected').text()
   				secondsValue=$('#s_'+tracktextid).find('option:selected').text()
+          updated_time_marker=(parseInt(hourValue)*3600)+(parseInt(minuteValue)*60)+parseInt(secondsValue)
+          requestdata='{"time_marker": '+updated_time_marker+""+'}'
   			}
   			else if(select_type=='s')
   			{
   				secondsValue=selected_value
   				minuteValue=$('#m_'+tracktextid).find('option:selected').text()
   				hourValue=$('#h_'+tracktextid).find('option:selected').text()
+          updated_time_marker=(parseInt(hourValue)*3600)+(parseInt(minuteValue)*60)+parseInt(secondsValue)
+          requestdata='{"time_marker": '+updated_time_marker+""+'}'
   			}
-  			else
+  			else if(select_type=='voice_profile')
   			{
-  				//console.log('Gone')
-  				return
+  				requestdata='{"processed":"False","voice_profile": '+selected_value+""+'}'
+  				
   			}
+        else
+        {
+          return
+        }
   			
-  			updated_time_marker=(parseInt(hourValue)*3600)+(parseInt(minuteValue)*60)+parseInt(secondsValue)
-  			requestdata='{"time_marker": '+updated_time_marker+""+'}'
-  			updateTrack(tracktextid,requestdata)
+  			
+  			updateTrackText(tracktextid,requestdata)
 	});
 
 
@@ -148,9 +180,9 @@ $(document).on('keypress change focusout', 'textarea', function () {
         	tracktextid=$(textareaRef).attr('data_id');
         	textValue=$(textareaRef).val()
         	textValue=text_clean_up(textValue)
-        	requestdata='{"text": "'+textValue+'"}'
+        	requestdata='{"processed":"False","text": "'+textValue+'"}'
         	//console.log(requestdata)
-  			updateTrack(tracktextid,requestdata)
+  			updateTrackText(tracktextid,requestdata)
     }, 750, that);
 });
 
@@ -160,6 +192,29 @@ $("#addnewrow").on('click', function(){
 
 
 });
+
+$("#tracktitle").on('keypress change focusout', function () {
+    
+
+    // If a timer was already started, clear it.
+    if (timeoutId) clearTimeout(timeoutId);
+    
+    that=$(this);
+    // Set timer that will save comment when it fires.
+    timeoutId = setTimeout(function (titleRef) {
+        // Make ajax call to save data.
+          trackid=$(titleRef).attr('data_id');
+          textValue=$(titleRef).val()
+          textValue=text_clean_up(textValue)
+          requestdata='{"title": "'+textValue+'"}'
+          //console.log(requestdata)
+        updateTrack(trackid,requestdata)
+    }, 750, that);
+});
+
+
+
+
 
 
 });

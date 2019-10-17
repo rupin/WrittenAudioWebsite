@@ -12,6 +12,7 @@ from django.utils.dateparse import parse_date
 import datetime
 from dateutil.parser import *
 from writtenaudio.models.TrackModel import Track
+from writtenaudio.models.TTSServiceModel import TTSService
 
 from django.http import HttpResponseRedirect
 
@@ -58,6 +59,7 @@ def EditTrack(request,trackid):
     user=request.user    
     mytrack=Track.objects.get(user=user, id=trackid)
     myTrackText=TrackText.objects.filter(track=trackid).prefetch_related('voice_profile')
+    voiceProfiles=TTSService.objects.all()
     template = loader.get_template('edit_track_view.html')
     #print(mytracks.count())
     context = {
@@ -65,7 +67,8 @@ def EditTrack(request,trackid):
        'tracktextlist':myTrackText,      
        'user':user,
        'page_title': mytrack.title,
-       'track_section_count':myTrackText.count()
+       'track_section_count':myTrackText.count(),
+       'voiceprofiles':voiceProfiles
        
 
     }

@@ -11,28 +11,8 @@
 
       <div class="form-group">
           <label for="v">Title of the Track</label>
-          <input type="text" class="form-control" id="tracktitle" value="{{track.title}}" name='tracktitle'>
-      </div>
-
-    <div class="form-group">
-        <label>Output Audio Format</label>
-        <select class="form-control" name='outputformat'>
-          <option value='NA'>Select</option>
-          {% ifequal track.output_format 'MP3' %}
-            <option value='MP3' selected='selected'>MP3 (MPEG Audio Layer-3)</option>
-          {% else%}
-            <option value='MP3'>MP3 (MPEG Audio Layer-3)</option>
-           {%endifequal%} 
-
-           {% ifequal track.output_format 'WAV' %}
-            <option value='WAV' selected='selected'>WAV (Waveform Audio File Format)</option>
-          {% else%}
-            <option value='WAV'>WAV (Waveform Audio File Format)</option>
-           {%endifequal%} 
-          
-          
-        </select>
-    </div>
+          <input type="text" class="form-control" id="tracktitle" data_id={{track.id}} value="{{track.title}}" name='tracktitle'>
+      </div>   
 
     </div><!-- /.box-body -->
   </div><!-- /.box -->

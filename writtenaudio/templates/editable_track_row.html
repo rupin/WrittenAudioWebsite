@@ -36,7 +36,23 @@
             </td>  
                                   
             <td style='vertical-align: middle'> {{tracktext.duration|SecondsToDateFormatter}}</td>
-            <td style='vertical-align: middle'>{{tracktext.voice_profile}}</td>     
+            <td style='vertical-align: middle'>
+
+              <select data_select_type='voice_profile' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='profile_{{tracktext.id}}' >
+
+                {% for voiceprofile in voiceprofiles %}
+                    {% if voiceprofile.id == tracktext.voice_profile.id %}
+
+                        <option value='{{voiceprofile.id}}' selected='selected'>{{voiceprofile.name}}</option>
+                      {%else%}
+                      <option value='{{voiceprofile.id}}'>{{voiceprofile.name}}</option>
+
+                    {%endif%}
+                {%endfor%}
+              </select>
+            
+
+            </td>     
             
             <td style='vertical-align: middle'>
 

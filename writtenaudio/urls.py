@@ -20,6 +20,7 @@ from writtenaudio.views import TrackView
 from writtenaudio.views import TrackTextViews
 from writtenaudio.views import HomePageViews
 from writtenaudio.api import TrackTextAPI
+from writtenaudio.api import TrackAPI
 
 import uuid
 
@@ -46,6 +47,7 @@ urlpatterns = [
 
     #APIS
     path('updateTrackText/<uuid:pk>/', TrackTextAPI.UpdateTrackTextAPIView.as_view(),),
+    path('updateTrack/<uuid:pk>/', TrackAPI.UpdateTrackAPIView.as_view(),),
 
     
     

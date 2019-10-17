@@ -15,6 +15,7 @@ from writtenaudio.models.TrackTextModel import TrackText
 from writtenaudio.models.TrackModel import Track
 
 from django.http import HttpResponseRedirect
+from writtenaudio.models.TTSServiceModel import TTSService
 
 @login_required
 def CreateTrackEmptyRow(request, trackid):
@@ -26,7 +27,12 @@ def CreateTrackEmptyRow(request, trackid):
 		defaultData={'duration':0, 'track':myTrack[0], 'time_marker':0}
 		createdTrackText=TrackText(**defaultData)
 		createdTrackText.save()
-		context={'tracktextlist':[createdTrackText]} ## UI Expects a List
+		voiceProfiles=TTSService.objects.all()
+		context={
+				'tracktextlist':[createdTrackText],
+       			'voiceprofiles':voiceProfiles
+
+				} ## UI Expects a List
 
 	return HttpResponse(template.render(context, request))
 

@@ -19,3 +19,4 @@ class TrackText(models.Model):
 	track=models.ForeignKey(TrackModel.Track, on_delete=models.CASCADE, blank=True, null=True)
 	class Meta:
 		ordering=['time_marker', 'track']
+		verbose_name = "Track Text"

@@ -7,4 +7,7 @@ class CustomUser(AbstractUser):
     pass
     # add additional fields in here
     def __str__(self):
-    	return self.first_name + " " +self.last_name
+    	if(self.first_name is None or self.first_name==''):
+    		return self.username
+    	else:
+    		return self.first_name + " " +self.last_name

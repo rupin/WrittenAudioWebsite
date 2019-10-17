@@ -5,7 +5,7 @@
             <tr id='row_{{tracktext.id}}'>
              
              
-            <td>
+            <td style='vertical-align: middle'>
              
               <select data_select_type='h' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='h_{{tracktext.id}}' >
                 {% autoescape off %}
@@ -13,7 +13,7 @@
                 {% endautoescape %}    
               </select>
             </td>
-            <td>
+            <td style='vertical-align: middle'>
             <select data_select_type='m' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='m_{{tracktext.id}}' >
                 {% autoescape off %}
                   {{tracktext.time_marker|optionGenerator:'m'}} 
@@ -21,7 +21,7 @@
               </select>
 
           </td>
-          <td>
+          <td style='vertical-align: middle'>
             <select data_select_type='s' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='s_{{tracktext.id}}' >
                 {% autoescape off %}
                   {{tracktext.time_marker|optionGenerator:'s'}} 
@@ -30,15 +30,15 @@
               </select>
            
           </td>
-            <td> 
+            <td style='vertical-align: middle'> 
               <textarea class="form-control" rows="2" data_type='text' data_id={{tracktext.id}}>{{tracktext.text}}</textarea>
               
             </td>  
                                   
-            <td>{{tracktext.duration|SecondsToDateFormatter}}</td>
-            <td>{{tracktext.voice_profile}}</td>     
+            <td style='vertical-align: middle'> {{tracktext.duration|SecondsToDateFormatter}}</td>
+            <td style='vertical-align: middle'>{{tracktext.voice_profile}}</td>     
             
-            <td>
+            <td style='vertical-align: middle'>
 
 
 

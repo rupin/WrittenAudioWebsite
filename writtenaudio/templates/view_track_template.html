@@ -101,19 +101,19 @@
                           {% for tracktext in tracktextlist %}
                             <tr>
                             
-                          <td>
+                          <td style='vertical-align: middle'>
                             
                                   {{tracktext.time_marker|SecondsToDateFormatter}} 
                              
                            
                           </td>
 
-                            <td>
+                            <td style='vertical-align: middle'>
                               {{tracktext.text}}
                             </td>  
                                                   
-                            <td>{{tracktext.duration|SecondsToDateFormatter}}</td>
-                            <td>{{tracktext.voice_profile}}</td>     
+                            <td style='vertical-align: middle'>{{tracktext.duration|SecondsToDateFormatter}}</td>
+                            <td style='vertical-align: middle'>{{tracktext.voice_profile}}</td>     
                             
                             
                           </tr>

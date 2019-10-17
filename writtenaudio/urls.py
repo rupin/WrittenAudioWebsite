@@ -20,7 +20,16 @@ from writtenaudio.views import TrackView
 from writtenaudio.views import TrackTextViews
 from writtenaudio.views import HomePageViews
 from writtenaudio.api import TrackTextAPI
+
 import uuid
+
+from django.conf.urls.static import static
+
+from django.contrib.staticfiles.views import serve
+
+from django.views.decorators.cache import never_cache
+
+from django.conf import settings
 
 
 
@@ -37,6 +46,8 @@ urlpatterns = [
 
     #APIS
     path('updateTrackText/<uuid:pk>/', TrackTextAPI.UpdateTrackTextAPIView.as_view(),),
+
+    
     
 ]
 
@@ -44,6 +55,10 @@ urlpatterns = [
 urlpatterns += [
     path('', include('django.contrib.auth.urls')),
 ]
+
+if settings.DEBUG:
+
+    urlpatterns += static(settings.STATIC_URL, view=never_cache(serve))
 
 
     

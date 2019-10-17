@@ -16,6 +16,7 @@ from writtenaudio.models.TrackModel import Track
 
 from django.http import HttpResponseRedirect
 
+@login_required
 def CreateTrackEmptyRow(request, trackid):
 	template = loader.get_template('editable_track_row.html')
 	user=request.user
@@ -29,6 +30,7 @@ def CreateTrackEmptyRow(request, trackid):
 
 	return HttpResponse(template.render(context, request))
 
+@login_required
 def DeleteTrackText(request, tracktextid):
 	user=request.user	
 	myTrackText=TrackText.objects.filter(id=tracktextid)

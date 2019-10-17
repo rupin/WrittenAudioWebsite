@@ -15,6 +15,7 @@ from writtenaudio.models.TrackModel import Track
 
 from django.http import HttpResponseRedirect
 
+@login_required
 def ViewMyTracks(request):
     user=request.user
     template = loader.get_template('mytracks.html')
@@ -28,6 +29,7 @@ def ViewMyTracks(request):
     }
     return HttpResponse(template.render(context, request))
 
+@login_required
 def CreateTrack(request):
   template = loader.get_template('createtrackview.html')
   user=request.user
@@ -51,7 +53,7 @@ def CreateTrack(request):
     
 
 	
-
+@login_required
 def EditTrack(request,trackid):
     user=request.user    
     mytrack=Track.objects.get(user=user, id=trackid)
@@ -69,6 +71,7 @@ def EditTrack(request,trackid):
     }
     return HttpResponse(template.render(context, request))
 
+@login_required
 def ViewTrack(request,trackid):
     user=request.user    
     mytrack=Track.objects.get(user=user, id=trackid)
@@ -86,7 +89,7 @@ def ViewTrack(request,trackid):
     }
     return HttpResponse(template.render(context, request))
 
-
+@login_required
 def DeleteTrack(request,trackid):
     user=request.user
 

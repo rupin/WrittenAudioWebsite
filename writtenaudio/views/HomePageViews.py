@@ -13,6 +13,7 @@ import datetime
 from dateutil.parser import *
 from writtenaudio.models.TrackModel import Track
 
+@login_required
 def HomePage(request):
     user=request.user
     template = loader.get_template('home_page_view.html')    

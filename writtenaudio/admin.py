@@ -15,17 +15,22 @@ class CustomUserAdmin(UserAdmin):
 class TrackTextAdmin(ImportExportModelAdmin):   
     
     model = TrackTextModel.TrackText
-    list_display = ['time_marker', 'text', 'processed', 'duration']
+    list_display = ['time_marker', 'text', 'processed', 'duration', 'voice_profile']
 
 
 class TrackAdmin(ImportExportModelAdmin):   
     
     model = TrackModel.Track
     list_display = ['user','title', 'processed', 'duration']
+
+class TTSServiceAdmin(ImportExportModelAdmin):   
+    
+    model = TTSServiceModel.TTSService
+    list_display = ['name','provider', 'gender', 'accent']
 	
 
 
 admin.site.register(CustomUserModel.CustomUser, CustomUserAdmin)
 admin.site.register(TrackTextModel.TrackText,TrackTextAdmin)
 admin.site.register(TrackModel.Track,TrackAdmin)
-
+admin.site.register(TTSServiceModel.TTSService,TTSServiceAdmin)

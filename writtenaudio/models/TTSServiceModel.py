@@ -2,7 +2,7 @@ from django.db import models
 import uuid
 
 class TTSService(models.Model):
-
+	name=models.CharField(max_length=20, blank=False, default='')
 	PROVIDERS = (
 						('AMAZON POLLY', 'AMAZON POLLY'),
 						("GOOGLE_TTS", "GOOGLE_TTS"),				
@@ -20,4 +20,9 @@ class TTSService(models.Model):
 	gender=models.CharField(max_length=20, choices=GENDER, default='MALE')
 	service_voice_model=models.CharField(max_length=200, default='')
 	accent=models.CharField(max_length=20, default='')
-	pass
+	language_code=models.CharField(max_length=20, default='', blank=True)
+	class Meta:
+		ordering=['name']
+
+	def __str__(self):
+		return self.name

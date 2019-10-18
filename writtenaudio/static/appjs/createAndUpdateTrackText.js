@@ -107,7 +107,7 @@ function calculateDuration(inputValue)
     {
       if(isNaN(time_marker_array[0]))
       {
-        console.log('seconds is nonnumeric')
+        throw 'Time Marker is non-numeric'
       }
       else
       {
@@ -119,7 +119,7 @@ function calculateDuration(inputValue)
 
         if(isNaN(time_marker_array[0]))
         {
-            console.log('minutes is nonnumeric')
+            throw 'Time Marker is non-numeric'
         }
         else
         {
@@ -128,7 +128,7 @@ function calculateDuration(inputValue)
 
         if(isNaN(time_marker_array[1]))
         {
-            console.log('seconds is nonnumeric')
+            throw 'Time Marker is non-numeric'
         }
         else
         {
@@ -141,7 +141,7 @@ function calculateDuration(inputValue)
       {
           if(isNaN(time_marker_array[0]))
           {
-              console.log('seconds is nonnumeric')
+             throw 'Time Marker is non-numeric'
           }
           else
           {
@@ -150,7 +150,7 @@ function calculateDuration(inputValue)
 
           if(isNaN(time_marker_array[1]))
           {
-              console.log('minutes is nonnumeric')
+             throw 'Time Marker is non-numeric'
           }
           else
           {
@@ -158,7 +158,7 @@ function calculateDuration(inputValue)
           }
           if(isNaN(time_marker_array[2]))
           {
-              console.log('seconds is nonnumeric')
+              throw 'Time Marker is non-numeric'
           }
           else
           {
@@ -364,9 +364,16 @@ $("input[type=text][data-input-type=time_marker]").on('keypress change focusout'
           tracktextid=$(inputRef).attr('data_id');
           textValue=$(inputRef).val()
           textValue=text_clean_up(textValue)
-          trackDuration=calculateDuration(textValue)
+          try
+          {
+            trackDuration=calculateDuration(textValue)
+          }
+          catch(err)
+          {
+            console.log(err)
+          }
           requestdata='{"time_marker": "'+trackDuration+'"}'
-          console.log(requestdata)
+          //console.log(requestdata)
           updateTrackText(tracktextid,requestdata)
     }, 750, that);
 

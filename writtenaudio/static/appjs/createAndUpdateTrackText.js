@@ -93,6 +93,93 @@ function text_clean_up(newtext)
 	return newtext
 }
 
+function calculateDuration(inputValue)
+{
+  if(isNaN(inputValue))
+  {
+    //Means user has entered in hh:mm:ss format
+    time_marker_array=inputValue.split(":")
+    hours=0;
+    minutes=0;
+    seconds=0;
+    item_count=time_marker_array.length
+    if(item_count==1)
+    {
+      if(isNaN(time_marker_array[0]))
+      {
+        console.log('seconds is nonnumeric')
+      }
+      else
+      {
+        seconds=Math.trunc(time_marker_array[0])
+      }
+    }
+    if(item_count==2)
+    {
+
+        if(isNaN(time_marker_array[0]))
+        {
+            console.log('minutes is nonnumeric')
+        }
+        else
+        {
+            minutes=Math.trunc(time_marker_array[0])
+        }
+
+        if(isNaN(time_marker_array[1]))
+        {
+            console.log('seconds is nonnumeric')
+        }
+        else
+        {
+            seconds=Math.trunc(time_marker_array[1])
+        }
+    }
+
+
+      if(item_count==3)
+      {
+          if(isNaN(time_marker_array[0]))
+          {
+              console.log('seconds is nonnumeric')
+          }
+          else
+          {
+              hours=Math.trunc(time_marker_array[0])
+          }
+
+          if(isNaN(time_marker_array[1]))
+          {
+              console.log('minutes is nonnumeric')
+          }
+          else
+          {
+              minutes=Math.trunc(time_marker_array[1])
+          }
+          if(isNaN(time_marker_array[2]))
+          {
+              console.log('seconds is nonnumeric')
+          }
+          else
+          {
+              seconds=Math.trunc(time_marker_array[2])
+          }
+      }
+
+
+    calculatedTime=(hours*3600) +(minutes*60)+seconds
+    return calculatedTime
+
+
+
+  }
+  else
+  {
+    // User has entered seconds directly
+    return Math.trunc(inputValue)
+  }
+}
+
 function deleteTrackText(trackTextId)
 {
 	$.ajaxSetup({
@@ -245,6 +332,45 @@ $('#track_title_text_input').on('track_title_saved', function(){
   $("#page_title_span").html(updated_title_value).show()
   $(this).val(updated_title_value)
 })
+
+//
+
+$('#showmodal').on('click', function(){
+
+  $('#track_settings_modal').show();
+})
+
+
+$('.close').on('click', function(event){
+  target_modal=$(this).attr("data-dismiss")
+  //console.log(target_modal)
+  if(target_modal)
+  {
+    $("#"+target_modal).hide();
+  }
+  //$(event).stopPropagation()
+
+});
+
+$("input[type=text][data-input-type=time_marker]").on('keypress change focusout', function(){
+
+  // If a timer was already started, clear it.
+    if (timeoutId) clearTimeout(timeoutId);
+    
+    that=$(this);
+    // Set timer that will save comment when it fires.
+    timeoutId = setTimeout(function (inputRef) {
+        // Make ajax call to save data.
+          tracktextid=$(inputRef).attr('data_id');
+          textValue=$(inputRef).val()
+          textValue=text_clean_up(textValue)
+          trackDuration=calculateDuration(textValue)
+          requestdata='{"time_marker": "'+trackDuration+'"}'
+          console.log(requestdata)
+          updateTrackText(tracktextid,requestdata)
+    }, 750, that);
+
+});
 
 
 

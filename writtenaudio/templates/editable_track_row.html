@@ -5,37 +5,54 @@
             <tr id='row_{{tracktext.id}}'>
              
              
-            <td style='vertical-align: middle'>
+            <!--<td style='vertical-align: middle; padding:4px'>
              
-              <select data_select_type='h' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='h_{{tracktext.id}}' >
+              <select data_select_type='h' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='h_{{tracktext.id}}' style='width:50%' >
                 {% autoescape off %}
                   {{tracktext.time_marker|optionGenerator:'h'}} 
                 {% endautoescape %}    
               </select>
             </td>
-            <td style='vertical-align: middle'>
-            <select data_select_type='m' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='m_{{tracktext.id}}' >
+            <td style='vertical-align: middle;padding:4px'>
+            <select data_select_type='m' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='m_{{tracktext.id}}' style='width:50%' >
                 {% autoescape off %}
                   {{tracktext.time_marker|optionGenerator:'m'}} 
                 {% endautoescape %}    
               </select>
 
           </td>
-          <td style='vertical-align: middle'>
-            <select data_select_type='s' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='s_{{tracktext.id}}' >
+          <td style='vertical-align: middle;padding:4px'>
+            <select data_select_type='s' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='s_{{tracktext.id}}' style='width:50%' >
                 {% autoescape off %}
                   {{tracktext.time_marker|optionGenerator:'s'}} 
                 {% endautoescape %}                       
                
               </select>
            
-          </td>
-            <td style='vertical-align: middle'> 
-              <textarea class="form-control" rows="2" data_type='text' data_id={{tracktext.id}}>{{tracktext.text}}</textarea>
+          </td>-->
+
+            <td style='vertical-align: middle; padding:4px'>
+               <div class='row'>
+                   <div class='col-xs-5'>
+                   <div class="input-group">
+                       <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                        <input data_id='{{tracktext.id}}' data-input-type='time_marker' type="text" class="form-control" value='{{tracktext.time_marker|SecondsToDateFormatter}}'/>                 
+                    </div>
+
+                  </div>
+                  
+                </div>
+            </td>
+            <td style='vertical-align: middle padding:4px'> 
+              <textarea class="form-control" rows="1" data_type='text' data_id={{tracktext.id}}>{{tracktext.text}}</textarea>
               
             </td>  
                                   
-            <td style='vertical-align: middle'> {{tracktext.duration|SecondsToDateFormatter}}</td>
+            <td style='vertical-align: middle;padding:4px'> 
+              {%if tracktext.processed%} {{tracktext.duration|SecondsToDateFormatter}} {%endif%}
+            
+
+          </td>
             <td style='vertical-align: middle'>
 
               <select data_select_type='voice_profile' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='profile_{{tracktext.id}}' >
@@ -52,27 +69,33 @@
               </select>
             
 
-            </td>     
+            </td> 
             
             <td style='vertical-align: middle'>
 
 
 
                   <div class="btn-group">
-                    <button type="button" class="btn btn-info"><i class="fa fa-volume-up"></i></button>
+                  <button 
+                  type="button" 
+                  class="btn btn-primary {%if not tracktext.processed%} disabled {%endif%}">
 
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-volume-up"></i>
+
+                  </button>
+
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="caret"></span>
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu" role="menu">                      
                       <li>
-                        <a href="/cloneTrack/{{tracktext.id}}">
+                        <a href="#">
 
-                          <i class="fa fa-clone"></i>Clone
+                          <i class="fa fa-music"></i>Create Audio
 
-                      </a>
-                    </li>
+                        </a>
+                       </li>
                       <li class="divider"></li>
                       <li ><a href='javascript:;' onclick='deleteTrackText("{{tracktext.id}}");'
                        data_track_text_id='{{tracktext.id}}' class='text-red'>

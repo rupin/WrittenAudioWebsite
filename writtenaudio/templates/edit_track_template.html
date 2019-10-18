@@ -8,24 +8,33 @@
 
     <div class="box-primary box">
     <div class="box-header">
-      <h3 class="box-title">Track Audio Sections</h3>
+      <h3 class='box-title'>Track Audio Sections</h3>
      
     </div><!-- /.box-header -->
     <div class="box-body">                   
 
     <table id="example2"  class="table table-bordered table-hover">
         <thead>
-          <tr>
+          <!-- <tr>
             <th colspan=3>Time Marker</th>                            
             <th rowspan=2>Text</th>                           
-            <th rowspan=2>Duration</th>  
-            <th rowspan=2>Voice Profile</th>                           
-          </tr>
+            <th rowspan=2>Duration</th>  -->
+            <!--<th rowspan=2>Voice Profile</th> -->                          
+         <!--</tr>
 
           <tr>
             <th>Hours</th>   
             <th>Minutes</th> 
             <th>Seconds</th> 
+          </tr>-->
+
+          <tr>
+            <th>Time Marker</th>                            
+            <th>Text</th>                           
+            <th>Duration</th>
+            <th>Voice Profile</th>
+            <th></th>   
+            
           </tr>
         </thead>
 
@@ -63,19 +72,31 @@
         </div>
 
         <div class="col-xs-2">
-           <button type="button" id='addnewrow' data_track_id='{{track.id}}' class="btn btn-info">
-            <i class="fa fa-plus"></i>&nbsp;Add New Row
+           <button type="button" id='addnewrow' data_track_id='{{track.id}}' class="btn btn-primary">
+            <i class="fa fa-plus"></i>&nbsp;Add Row
           </button>
         </div>
 
-      </div>  
-        
-       
-          
-          
+      </div>          
         
     </div>  
 
   </div><!-- /.box -->
 </div> <!-- class="col-xs-12" -->
 </div> <!--row-->
+
+<div class="row">
+  <div class="col-xs-4">
+  </div>
+  <div class="col-xs-4">
+
+            <button type="button" id='showmodal' data_track_id='{{track.id}}' class="btn btn-success btn-block btn-lg">
+             I Am Ready!
+            </button>
+
+  </div>
+   <div class="col-xs-4">
+  </div>
+</div>  
+
+          

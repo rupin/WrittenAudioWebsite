@@ -122,58 +122,18 @@
               
           {%endblock%}
 
+          {%block modal%}
+
+  
+
+          {%endblock%}
+
           
 
 
 
           <!-- Main row -->
-          <div class="row">
-            <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
-              <!-- Custom tabs (Charts with tabs)-->
-             {% block saleschart %}
           
-              <!-- include 'saleschart.html' -->
-
-              {% endblock %}
-
-              <!-- Chat box -->
-              
-
-              {%block todolist%}
-
-              {%endblock%}
-
-              {% block emailwidget %}
-          
-    
-
-              {% endblock %}
-
-            </section><!-- /.Left col -->
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
-
-              {% block map %}
-          
-    
-
-              {% endblock %}
-
-              {% block salesgraph %}
-          
-    
-
-              {% endblock %}
-
-              {% block calender %}
-          
-                <!-- include 'calender.html' -->
-
-              {% endblock %}
-
-            </section><!-- right col -->
-          </div><!-- /.row (main row) -->
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
@@ -218,8 +178,8 @@
     <!-- AdminLTE App -->
     <script src="{% static 'dist/js/app.min.js' %}" type="text/javascript"></script>
 
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    s
+    
+    
     <!-- AdminLTE for demo purposes -->
     <script src="{% static 'dist/js/demo.js' %}" type="text/javascript"></script>
 

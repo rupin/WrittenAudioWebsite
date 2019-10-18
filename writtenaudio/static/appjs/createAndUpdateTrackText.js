@@ -238,7 +238,7 @@ $('#page_title_span').on('click', function(){
 })
 
 $('#track_title_text_input').on('track_title_saved', function(){
-
+  
   $("#input_group").hide()
   $("#save_title_button").addClass('btn-primary').removeClass('btn-disabled');
   updated_title_value=text_clean_up($(this).val())

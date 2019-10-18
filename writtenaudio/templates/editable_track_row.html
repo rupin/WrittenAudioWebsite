@@ -5,16 +5,12 @@
             <tr id='row_{{tracktext.id}}'>           
 
             <td style='vertical-align: middle; padding:4px'>
-               <div class='row' >
-                   <div class='col-xs-5'>
+               
                    <div class="input-group">
                        <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                         <input data_id='{{tracktext.id}}' data-input-type='time_marker' type="text" class="form-control" value='{{tracktext.time_marker|SecondsToDateFormatter}}'/>                 
                     </div>
 
-                  </div>
-                  
-                </div>
             </td>
             <td style='vertical-align: middle padding:4px'> 
               <textarea class="form-control" rows="1" data_type='text' data_id={{tracktext.id}}>{{tracktext.text}}</textarea>

@@ -97,79 +97,19 @@ function calculateDuration(inputValue)
 {
   if(isNaN(inputValue))
   {
-    //Means user has entered in hh:mm:ss format
-    time_marker_array=inputValue.split(":")
-    hours=0;
-    minutes=0;
-    seconds=0;
-    item_count=time_marker_array.length
-    if(item_count==1)
-    {
-      if(isNaN(time_marker_array[0]))
-      {
-        throw 'Time Marker is non-numeric'
-      }
-      else
-      {
-        seconds=Math.trunc(time_marker_array[0])
-      }
-    }
-    if(item_count==2)
-    {
-
-        if(isNaN(time_marker_array[0]))
-        {
-            throw 'Time Marker is non-numeric'
-        }
-        else
-        {
-            minutes=Math.trunc(time_marker_array[0])
-        }
-
-        if(isNaN(time_marker_array[1]))
-        {
-            throw 'Time Marker is non-numeric'
-        }
-        else
-        {
-            seconds=Math.trunc(time_marker_array[1])
-        }
-    }
-
-
-      if(item_count==3)
-      {
-          if(isNaN(time_marker_array[0]))
-          {
-             throw 'Time Marker is non-numeric'
-          }
-          else
-          {
-              hours=Math.trunc(time_marker_array[0])
-          }
-
-          if(isNaN(time_marker_array[1]))
-          {
-             throw 'Time Marker is non-numeric'
-          }
-          else
-          {
-              minutes=Math.trunc(time_marker_array[1])
-          }
-          if(isNaN(time_marker_array[2]))
-          {
-              throw 'Time Marker is non-numeric'
-          }
-          else
-          {
-              seconds=Math.trunc(time_marker_array[2])
-          }
-      }
-
-
-    calculatedTime=(hours*3600) +(minutes*60)+seconds
-    return calculatedTime
-
+    //Means probably user has entered in hh:mm:ss format. Returns isNaN if no numeric input is put
+     calculatedTime=inputValue.split(':').reduce((acc,time) => (60 * acc) + +time);
+     //console.log(calculatedTime)
+     if(isNaN(calculatedTime))
+     {
+      throw "Invalid Input"
+     }
+     else
+     {
+        return Math.trunc(calculatedTime)
+     }
+ 
+    
 
 
   }

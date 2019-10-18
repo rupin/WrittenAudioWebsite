@@ -367,14 +367,15 @@ $("input[type=text][data-input-type=time_marker]").on('keypress change focusout'
           try
           {
             trackDuration=calculateDuration(textValue)
+            $(inputRef).css("background-color", "#FFFFFF"); 
+            requestdata='{"time_marker": "'+trackDuration+'"}'          
+            updateTrackText(tracktextid,requestdata)
           }
           catch(err)
           {
-            console.log(err)
+            $(inputRef).css("background-color", "red");            
           }
-          requestdata='{"time_marker": "'+trackDuration+'"}'
-          //console.log(requestdata)
-          updateTrackText(tracktextid,requestdata)
+          
     }, 750, that);
 
 });

@@ -15,6 +15,8 @@ function getCookie(name) {
  return cookieValue;
 }
 
+/**********************************************************/
+
 function updateTrackText(trackID, trackTextData)
 {
 	$.ajaxSetup({
@@ -37,6 +39,8 @@ function updateTrackText(trackID, trackTextData)
 	    }
 	});
 }
+
+/**********************************************************/
 
 function updateTrack(trackID, trackData)
 {
@@ -61,6 +65,8 @@ function updateTrack(trackID, trackData)
   });
 }
 
+/**********************************************************/
+
 function AddRowToTable(trackid)
 {
 	$.ajaxSetup({
@@ -83,6 +89,8 @@ function AddRowToTable(trackid)
 	});
 }
 
+/**********************************************************/
+
 
 function text_clean_up(newtext)
 {
@@ -92,6 +100,8 @@ function text_clean_up(newtext)
 
 	return newtext
 }
+
+/**********************************************************/
 
 function calculateDuration(inputValue)
 {
@@ -120,6 +130,8 @@ function calculateDuration(inputValue)
   }
 }
 
+/**********************************************************/
+
 function deleteTrackText(trackTextId)
 {
 	$.ajaxSetup({
@@ -140,6 +152,28 @@ function deleteTrackText(trackTextId)
 	        
 	    }
 	});
+}
+/**********************************************************/
+function generateAudio(trackTextId)
+{
+  $.ajaxSetup({
+     beforeSend: function(xhr, settings) {
+         
+          xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         
+     }
+});
+  URL='http://localhost:8000/generateAudio/'+trackTextId+"/"  
+  
+  $.ajax({
+      url: URL,
+      type: 'PATCH',        
+      success: function(result) {
+          //track_text_id=result
+          //$('#row_'+track_text_id).remove()
+          
+      }
+  });
 }
 
 

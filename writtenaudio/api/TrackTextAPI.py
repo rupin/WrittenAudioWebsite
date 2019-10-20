@@ -21,7 +21,7 @@ class UpdateTrackTextAPIView(generics.UpdateAPIView):
 	def update(self, request, *args, **kwargs):
 		partial = kwargs.pop('partial', False)
 		instance = self.get_object()
-		serializer = self.get_serializer(instance, data=request.data, partial=partial)
+		serializer = self.get_serializer(instance, data=request.data, partial=True)
 		serializer.is_valid(raise_exception=True)
 		self.perform_update(serializer)		
 		return Response(serializer.data)
@@ -34,7 +34,7 @@ class UpdateAudio(generics.UpdateAPIView):
 		return TrackText.objects.all()
 		
 	def update(self, request, *args, **kwargs):
-		partial = kwargs.pop('partial', False)
+		partial = kwargs.pop('partial', True)
 		instance = self.get_object()
 		TTSOnlineService=TrackTextAudioServices(instance)
 		# value is a json, status is http status
@@ -45,7 +45,7 @@ class UpdateAudio(generics.UpdateAPIView):
 			#request.data['processed']=True
 			#request.data['duration']=value.get('duration')
 			#request.data['file_url']=value.get('file_url')
-		serializer = self.get_serializer(instance, data=request.data, partial=partial)
+		serializer = self.get_serializer(instance, data=request.data, partial=True)
 		serializer.is_valid(raise_exception=True)
 		
 		self.perform_update(serializer)		

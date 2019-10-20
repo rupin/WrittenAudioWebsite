@@ -36,6 +36,14 @@ function updateTrackText(trackID, trackTextData)
 	    dataType: "json",	    
 	    success: function(result) {
 	        // Do something with the result
+         if(result.processed) // flag that says if this track is processed
+         {
+            $("#play_button_"+trackID).removeClass('disabled')
+         }
+         else
+         {
+            $("#play_button_"+trackID).addClass('disabled')
+         }
 	    }
 	});
 }

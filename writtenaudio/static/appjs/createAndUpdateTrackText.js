@@ -38,11 +38,11 @@ function updateTrackText(trackID, trackTextData)
 	        // Do something with the result
          if(result.processed) // flag that says if this track is processed
          {
-            enableButton(trackID);
+            //enableButton(trackID);
          }
          else
          {
-            disableButton(trackID);
+            //disableButton(trackID);
          }
 	    }
 	});
@@ -177,14 +177,22 @@ function generateAudio(trackTextId)
       url: URL,
       type: 'PATCH',        
       success: function(result) {
-          if(result.processed) // flag that says if this track is processed
-         {
-            enableButton(trackTextId);
-         }
-         else
-         {
-            disableButton(trackTextId);
-         }
+          //console.log(result)
+          audioURL=result["audio_file"]
+          //console.log(audioURL)
+          audioURL=audioURL+"?a="+Math.random()    
+          //var audio = new Audio(audioURL);
+          //audio.play();
+          var count = $("#track_audio").children().length;
+          console.log(count)
+          $('#track_audio').empty()
+          var count = $("#track_audio").children().length;
+          console.log(count)
+          
+          $('#track_audio').append("<source id='sound_src' src=" + audioURL + " type='audio/mpeg'>");
+          $("#track_audio").trigger('load');
+          $("#audio-modal").show()
+          enableButton(trackTextId)
           
       }
   });
@@ -192,22 +200,21 @@ function generateAudio(trackTextId)
 
 function play(tracktextid)
 {
-
- 
-  URL="https://storage.cloud.google.com/written-audio-files/"+tracktextid+".mp3?a="+Math.random()
+  disableButton(tracktextid);
+  generateAudio(tracktextid);
+  //URL="https://storage.cloud.google.com/written-audio-files/"+tracktextid+".mp3?a="+Math.random()
   //$("#audio-source").attr('src', URL);
   //$('#audio-modal').show();
   //console.log(URL)
 
-  var audio = new Audio(URL);
-  audio.play();
+  
 
 }
 
 function disableButton(tracktextid)
 {
   buttonRef=$("#play_button_"+tracktextid)
-  console.log(buttonRef.attr('data-id'))
+  //console.log(buttonRef.attr('data-id'))
   $(buttonRef).addClass("disabled")
 }
 
@@ -215,7 +222,7 @@ function enableButton(tracktextid)
 {
   
   buttonRef=$("#play_button_"+tracktextid)
-  console.log(buttonRef.attr('data-id'))
+  //console.log(buttonRef.attr('data-id'))
   $(buttonRef).removeClass("disabled")
 }
 
@@ -258,7 +265,7 @@ $( document ).ready(function() {
   			}
   			else if(select_type=='voice_profile')
   			{
-          disableButton(tracktextid);
+          //disableButton(tracktextid);
 
   				requestdata='{"processed":"False","voice_profile": '+selected_value+""+'}'
   				
@@ -293,7 +300,7 @@ $(document).on('keypress change focusout', 'textarea', function () {
         	textValue=text_clean_up(textValue)
         	requestdata='{"processed":"False","text": "'+textValue+'"}'
         	//console.log(requestdata)
-          disableButton(tracktextid);
+          //disableButton(tracktextid);
   			updateTrackText(tracktextid,requestdata)
     }, 750, that);
 });
@@ -407,7 +414,21 @@ $("input[type=text][data-input-type=time_marker]").on('keypress change focusout'
 
 
 
+$(document).keydown(function(event) {
+//console.log(event) 
+  if (event.keyCode == 27) { 
+   $("#audio-modal").hide()
+  }
+});
+
+
+
 
 
 
 });
+
+
+
+
+

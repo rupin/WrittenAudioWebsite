@@ -16,14 +16,15 @@ class AudioCreationSerializer(serializers.ModelSerializer):
 		fields = ['audio_file', 'duration', 'processed']
 
 	def update(self, instance, validated_data):
-		TTSOnlineService=TrackTextAudioServices(instance)		
-		value, status=TTSOnlineService.GoogleTTSFunction()
-		if(status==200):		
-			instance.processed=True
-			
-			instance.duration=round(value.get('duration'),3)
-			instance.audio_file=value.get('file_url')	
-		instance.save()
+
+		if(not instance.processed):
+			TTSOnlineService=TrackTextAudioServices(instance)		
+			value, status=TTSOnlineService.GoogleTTSFunction()
+			if(status==200):		
+				instance.processed=True			
+				instance.duration=round(value.get('duration'),3)
+				instance.audio_file=value.get('file_url')	
+			instance.save()
 		return instance
 		
 	

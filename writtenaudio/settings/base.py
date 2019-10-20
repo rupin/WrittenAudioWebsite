@@ -1,6 +1,7 @@
 import os
 
 from pathlib import Path
+import json
 DEBUG = os.environ.get('DEBUG', default=False)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -153,6 +154,12 @@ LOGIN_URL = '/login/'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 GOOGLE_STORAGE=False
+
+with open('credentials/CloudEndPoints.json') as f:
+    endPoints = json.load(f)
+
+TTS_END_POINT=endPoints.get('URL')
+
 
 
 

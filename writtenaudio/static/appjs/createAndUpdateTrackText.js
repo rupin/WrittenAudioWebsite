@@ -177,8 +177,14 @@ function generateAudio(trackTextId)
       url: URL,
       type: 'PATCH',        
       success: function(result) {
-          //track_text_id=result
-          //$('#row_'+track_text_id).remove()
+          if(result.processed) // flag that says if this track is processed
+         {
+            $("#play_button_"+trackTextId).removeClass('disabled')
+         }
+         else
+         {
+            $("#play_button_"+trackTextId).addClass('disabled')
+         }
           
       }
   });

@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 import requests
 
-from writtenaudio.utilities.Utilities import TrackTextAudioServices
+
 from writtenaudio.permissions.TrackAccessPermission import UserPermittedonTrack
 
 
@@ -35,16 +35,7 @@ class UpdateAudio(generics.UpdateAPIView):
 		
 	def update(self, request, *args, **kwargs):
 		partial = kwargs.pop('partial', True)
-		instance = self.get_object()
-		TTSOnlineService=TrackTextAudioServices(instance)
-		# value is a json, status is http status
-		#Google TTS Function makes a HTTP Post call to Google Cloud function
-		value, status=TTSOnlineService.GoogleTTSFunction()
-		if(status==200):
-			pass
-			#request.data['processed']=True
-			#request.data['duration']=value.get('duration')
-			#request.data['file_url']=value.get('file_url')
+		instance = self.get_object()		
 		serializer = self.get_serializer(instance, data=request.data, partial=True)
 		serializer.is_valid(raise_exception=True)
 		

@@ -80,6 +80,8 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['localhost', '192.168.1.101']
 
 
+
+
 if GOOGLE_STORAGE:
 
 

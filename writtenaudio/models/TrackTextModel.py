@@ -10,11 +10,11 @@ class TrackText(models.Model):
 	#user=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	time_marker=models.IntegerField(default=0, blank=False)
 	text=models.CharField(max_length=2000, blank=False)
-	audio_file=models.FileField(blank=True)
+	audio_file=models.CharField(max_length=300,default='', blank=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	processed=models.BooleanField(default=False)
-	duration=models.IntegerField(blank=True, null=True, default=0)
+	duration=models.FloatField(blank=True, null=True, default=0)
 	voice_profile=models.ForeignKey(TTSServiceModel.TTSService, on_delete=models.CASCADE, blank=True, null=True)
 	track=models.ForeignKey(TrackModel.Track, on_delete=models.CASCADE, blank=True, null=True)
 	class Meta:

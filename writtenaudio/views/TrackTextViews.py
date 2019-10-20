@@ -43,7 +43,7 @@ def DeleteTrackText(request, tracktextid):
 	if(myTrackText.count()==1): #There is a track like this
 		myTrack=Track.objects.filter(id=myTrackText[0].track.id, user=user)
 		if(myTrack.count()==1): #User has access to this track
-			myTrackText[0].delete()
+			myTrackText[0].mark_for_deletion=True
 			return HttpResponse(str(tracktextid), status=200)
 		else:
 			return HttpResponse('Unauthorized', status=401)

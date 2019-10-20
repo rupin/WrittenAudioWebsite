@@ -15,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
 class TrackTextAdmin(ImportExportModelAdmin):   
     
     model = TrackTextModel.TrackText
-    list_display = ['time_marker', 'text', 'processed', 'duration', 'voice_profile']
+    list_display = ['time_marker', 'text', 'processed', 'duration', 'voice_profile', 'mark_for_deletion']
 
 
 class TrackAdmin(ImportExportModelAdmin):   

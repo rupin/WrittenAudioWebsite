@@ -26,8 +26,8 @@ class TrackTextAudioServices():
 		dataDict['engine_name'] = TTSServiceObject.service_voice_model
 		dataDict['language_code'] = TTSServiceObject.language_code
 		json_data = json.dumps(dataDict)
-		print(json_data)
-		#return "", 400
+		#print(json_data)
+		
 
 
 		

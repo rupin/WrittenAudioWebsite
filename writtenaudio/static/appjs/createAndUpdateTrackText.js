@@ -38,11 +38,11 @@ function updateTrackText(trackID, trackTextData)
 	        // Do something with the result
          if(result.processed) // flag that says if this track is processed
          {
-            $("#play_button_"+trackID).removeClass('disabled')
+            enableButton(trackID);
          }
          else
          {
-            $("#play_button_"+trackID).addClass('disabled')
+            disableButton(trackID);
          }
 	    }
 	});
@@ -179,16 +179,46 @@ function generateAudio(trackTextId)
       success: function(result) {
           if(result.processed) // flag that says if this track is processed
          {
-            $("#play_button_"+trackTextId).removeClass('disabled')
+            enableButton(trackTextId);
          }
          else
          {
-            $("#play_button_"+trackTextId).addClass('disabled')
+            disableButton(trackTextId);
          }
           
       }
   });
 }
+
+function play(tracktextid)
+{
+
+ 
+  URL="https://storage.cloud.google.com/written-audio-files/"+tracktextid+".mp3?a="+Math.random()
+  //$("#audio-source").attr('src', URL);
+  //$('#audio-modal').show();
+  //console.log(URL)
+
+  var audio = new Audio(URL);
+  audio.play();
+
+}
+
+function disableButton(tracktextid)
+{
+  buttonRef=$("#play_button_"+tracktextid)
+  console.log(buttonRef.attr('data-id'))
+  $(buttonRef).addClass("disabled")
+}
+
+function enableButton(tracktextid)
+{
+  
+  buttonRef=$("#play_button_"+tracktextid)
+  console.log(buttonRef.attr('data-id'))
+  $(buttonRef).removeClass("disabled")
+}
+
 
 
 
@@ -228,6 +258,8 @@ $( document ).ready(function() {
   			}
   			else if(select_type=='voice_profile')
   			{
+          disableButton(tracktextid);
+
   				requestdata='{"processed":"False","voice_profile": '+selected_value+""+'}'
   				
   			}
@@ -239,6 +271,8 @@ $( document ).ready(function() {
   			
   			updateTrackText(tracktextid,requestdata)
 	});
+
+    $(this).trigger("disable_audio_button")
 
 
     
@@ -259,6 +293,7 @@ $(document).on('keypress change focusout', 'textarea', function () {
         	textValue=text_clean_up(textValue)
         	requestdata='{"processed":"False","text": "'+textValue+'"}'
         	//console.log(requestdata)
+          disableButton(tracktextid);
   			updateTrackText(tracktextid,requestdata)
     }, 750, that);
 });
@@ -327,6 +362,8 @@ $('#showmodal').on('click', function(){
 
   $('#track_settings_modal').show();
 })
+
+
 
 
 $('.close').on('click', function(event){

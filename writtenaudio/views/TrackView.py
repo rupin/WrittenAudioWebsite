@@ -71,7 +71,7 @@ def CreateEmptyTrack(request):
 def EditTrack(request,trackid):
     user=request.user    
     mytrack=Track.objects.get(user=user, id=trackid)
-    myTrackText=TrackText.objects.filter(track=trackid).prefetch_related('voice_profile')
+    myTrackText=TrackText.objects.filter(track=trackid, mark_for_deletion=False).prefetch_related('voice_profile')
     voiceProfiles=TTSService.objects.all()
     template = loader.get_template('edit_track_view.html')
     #print(mytracks.count())

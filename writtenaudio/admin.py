@@ -26,7 +26,7 @@ class TrackAdmin(ImportExportModelAdmin):
 class TTSServiceAdmin(ImportExportModelAdmin):   
     
     model = TTSServiceModel.TTSService
-    list_display = ['name','provider', 'gender', 'accent']
+    list_display = ['name','provider', 'gender', 'accent', 'enabled', 'system_default_profile']
 	
 
 

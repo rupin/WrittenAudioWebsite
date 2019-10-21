@@ -21,6 +21,10 @@ class TTSService(models.Model):
 	service_voice_model=models.CharField(max_length=200, default='')
 	accent=models.CharField(max_length=20, default='')
 	language_code=models.CharField(max_length=20, default='', blank=True)
+	premium_voice=models.BooleanField(default=True)
+	cost=models.FloatField(blank=True, null=True, default=0)
+	enabled=models.BooleanField(default=False)
+	system_default_profile=models.BooleanField(default=False)
 	class Meta:
 		ordering=['name']
 		verbose_name = "TTS Service"

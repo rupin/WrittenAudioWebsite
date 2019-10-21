@@ -12,38 +12,39 @@ class TrackTextAudioServices():
 	def GoogleTTSFunction(self):
 		datadict={}
 		response=""
-		#dataString=""
+		
 
 		TTSServiceObject=self.trackTextInstance.voice_profile
-
-		dataDict={}
-
-
-
-		
+		TrackTTSServiceObject=self.trackTextInstance.track.voice_profile
+		dataDict={}		
 		dataDict['filename'] = str(self.trackTextInstance.id)
 		dataDict['sentence'] = self.trackTextInstance.text
-		dataDict['engine_name'] = TTSServiceObject.service_voice_model
-		dataDict['language_code'] = TTSServiceObject.language_code
+
+		
+		if(TTSServiceObject):
+			dataDict['engine_name'] = TTSServiceObject.service_voice_model
+			dataDict['language_code'] = TTSServiceObject.language_code
+
+		elif (TrackTTSServiceObject):
+			dataDict['engine_name'] = TrackTTSServiceObject.service_voice_model
+			dataDict['language_code'] = TrackTTSServiceObject.language_code
+		else:
+			default_voice_profile=	TTSService.objects.filter(system_default_profile=True)
+			dataDict['engine_name'] = default_voice_profile[0].service_voice_model
+			dataDict['language_code'] = default_voice_profile[0].language_code
+
+
 		json_data = json.dumps(dataDict)
-		#print(json_data)
-		
-
-
-		
-		
+		print(json_data)		
 		headers = {'Content-type': 'application/json'}
-		#print(type(headers))
-
-		#data=json.dumps(datadict)
-		#print(base.__dict__)
+		
 		response=requests.post(base.TTS_END_POINT,data=json_data, headers=headers)
 		status_code=response.status_code
-		#print(status_code)
+		print(response)
+
 		jsonresponse=json.load(io.BytesIO(response.content))
-		#print(jsonresponse.get('duration'))
-		#print(type(json.load(jsonresponse)))
+		
 		return jsonresponse, status_code
-		#print(data)
+		
 		
 		

@@ -32,6 +32,11 @@
 
 {%block appjs%}
 	<script src="{% static 'appjs/createAndUpdateTrackText.js' %}" type="text/javascript"></script>
+  <script src="{% static 'appjs/settings_sidebar.js' %}" type="text/javascript"></script>
+{%endblock%}
+
+{%block appcss%}
+	<link href="{% static 'appcss/settings_modal.css' %}" rel="stylesheet" type="text/css" />
 {%endblock%}
 
 {%block modal%}
@@ -43,5 +48,11 @@
 {%block audiomodal%}
 
 	{%include 'audiomodal.html'%}
+
+{%endblock%}
+
+{%block sidesettings%}
+
+	{%include 'SideSettings.html'%}
 
 {%endblock%}

@@ -7,13 +7,14 @@ from writtenaudio.utilities.Utilities import TrackTextAudioServices
 class TrackTextSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = TrackText
-		fields = ['time_marker', 'text', 'voice_profile', 'processed']
+		fields = ['id','time_marker', 'text', 'voice_profile', 'processed', 'mark_for_deletion']
 	
 
 class AudioCreationSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = TrackText
-		fields = ['audio_file', 'duration', 'processed']
+		fields = ['id','audio_file', 'duration', 'processed']
+		read_only=['duration']
 
 	def update(self, instance, validated_data):
 

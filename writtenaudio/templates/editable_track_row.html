@@ -17,11 +17,12 @@
               
             </td>  
                                   
-            <td style='vertical-align: middle;padding:4px'> 
-              {%if tracktext.processed%} {{tracktext.duration|SecondsToDateFormatter}} {%endif%}
+            <td id='duration_container_{{tracktext.id}}' tyle='vertical-align: middle;padding:4px'> 
+              {%if tracktext.processed%} {{tracktext.duration}} {%endif%}
             
 
           </td>
+          {% if track.podcast_mode%}
             <td style='vertical-align: middle'>
 
               <select data_select_type='voice_profile' data_id='{{tracktext.id}}' class="form-control" name='outputformat' id='profile_{{tracktext.id}}' >
@@ -39,7 +40,7 @@
             
 
             </td> 
-            
+            {% endif%}
             <td style='vertical-align: middle'>
                   <div class="btn-group">
                   <button 
@@ -47,7 +48,7 @@
                   data-id="{{tracktext.id}}" 
                   id='play_button_{{tracktext.id}}' 
                   onclick='play("{{tracktext.id}}");'
-                  class="btn btn-primary {%if not tracktext.processed%}disabled{%endif%}">
+                  class="btn btn-primary">
 
                     <i class="fa fa-volume-up"></i>
 
@@ -58,14 +59,14 @@
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu" role="menu">                      
-                      <li>
+                      <!--<li>
                         <a href='javascript:;' onclick='generateAudio("{{tracktext.id}}");'>
 
                           <i class="fa fa-music"></i>Create Audio
 
                         </a>
                        </li>
-                      <li class="divider"></li>
+                      <li class="divider"></li>-->
                       <li ><a href='javascript:;' onclick='deleteTrackText("{{tracktext.id}}");'
                        data_track_text_id='{{tracktext.id}}' class='text-red'>
                         <i class="fa fa-trash"></i>

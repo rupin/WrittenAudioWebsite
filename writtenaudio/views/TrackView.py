@@ -62,6 +62,10 @@ def CreateEmptyTrack(request):
   tracktitle='<Click Here to Edit The Track Title>'
   createdTrack=Track.objects.create(user=user, title=tracktitle, duration=0)
   trackID=createdTrack.id
+  defaultTTS=TTSService.objects.filter(system_default_profile=True)
+  if(defaultTTS.count()==1):
+    createdTrack.voice_profile=defaultTTS[0]
+    createdTrack.save()
   createdEmptyTrackText=TrackText.objects.create(track=createdTrack)
   return HttpResponseRedirect('/editTrack/'+str(trackID))
     
@@ -72,7 +76,7 @@ def EditTrack(request,trackid):
     user=request.user    
     mytrack=Track.objects.get(user=user, id=trackid)
     myTrackText=TrackText.objects.filter(track=trackid, mark_for_deletion=False).prefetch_related('voice_profile')
-    voiceProfiles=TTSService.objects.all()
+    voiceProfiles=TTSService.objects.filter(enabled=True)
     template = loader.get_template('edit_track_view.html')
     #print(mytracks.count())
     context = {
@@ -81,17 +85,17 @@ def EditTrack(request,trackid):
        'user':user,
        'page_title': mytrack.title,
        'track_section_count':myTrackText.count(),
-       'voiceprofiles':voiceProfiles
-       
+       'voiceprofiles':voiceProfiles      
 
     }
+    
     return HttpResponse(template.render(context, request))
 
 @login_required
 def ViewTrack(request,trackid):
     user=request.user    
     mytrack=Track.objects.get(user=user, id=trackid)
-    myTrackText=TrackText.objects.filter(track=trackid).prefetch_related('voice_profile')
+    myTrackText=TrackText.objects.filter(track=trackid,mark_for_deletion=False).prefetch_related('voice_profile')
     template = loader.get_template('view_track_detail_view.html')
     #print(mytracks.count())
     context = {

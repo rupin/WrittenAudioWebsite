@@ -15,6 +15,13 @@ function getCookie(name) {
  return cookieValue;
 }
 
+function getBaseURL()
+{
+  var getUrl = window.location;
+  var baseUrl = getUrl.protocol + "//" + getUrl.host 
+  return baseUrl;
+}
+
 /**********************************************************/
 
 function updateTrackText(trackID, trackTextData)
@@ -26,7 +33,7 @@ function updateTrackText(trackID, trackTextData)
          
      }
 });
-	URL='http://localhost:8000/updateTrackText/'+trackID+"/"	
+	URL=getBaseURL()+'/updateTrackText/'+trackID+"/"	
 	
 	$.ajax({
 	    url: URL,
@@ -36,14 +43,12 @@ function updateTrackText(trackID, trackTextData)
 	    dataType: "json",	    
 	    success: function(result) {
 	        // Do something with the result
-         if(result.processed) // flag that says if this track is processed
+         if(result.mark_for_deletion) // flag that says if this track is processed
          {
-            //enableButton(trackID);
+            track_text_id=result.id
+            $("#row_"+track_text_id).remove()
          }
-         else
-         {
-            //disableButton(trackID);
-         }
+        
 	    }
 	});
 }
@@ -59,7 +64,7 @@ function updateTrack(trackID, trackData)
          
      }
 });
-  URL='http://localhost:8000/updateTrack/'+trackID+"/"  
+  URL=getBaseURL()+'/updateTrack/'+trackID+"/"  
   
   $.ajax({
       url: URL,
@@ -73,6 +78,8 @@ function updateTrack(trackID, trackData)
   });
 }
 
+
+
 /**********************************************************/
 
 function AddRowToTable(trackid)
@@ -84,7 +91,7 @@ function AddRowToTable(trackid)
          
      }
 });
-	URL='http://localhost:8000/CreateTrackEmptyRow/'+trackid	
+	URL=getBaseURL()+'/CreateTrackEmptyRow/'+trackid	
 	
 	$.ajax({
 	    url: URL,
@@ -105,6 +112,7 @@ function text_clean_up(newtext)
 	newtext = newtext.replace(/(\r\n|\n|\r)/gm, ""); //Remove all Line breaks
   newtext = newtext.replace(/</gm, "");
   newtext = newtext.replace(/>/gm, "");
+  newtext=  newtext.trim()
 
 	return newtext
 }
@@ -142,24 +150,9 @@ function calculateDuration(inputValue)
 
 function deleteTrackText(trackTextId)
 {
-	$.ajaxSetup({
-     beforeSend: function(xhr, settings) {
-         
-        	xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-         
-     }
-});
-	URL='http://localhost:8000/deleteTrackText/'+trackTextId	
+  requestdata='{"mark_for_deletion":"True"}'
+  updateTrackText(trackTextId,requestdata)
 	
-	$.ajax({
-	    url: URL,
-	    type: 'GET',	      
-	    success: function(result) {
-	        track_text_id=result
-	        $('#row_'+track_text_id).remove()
-	        
-	    }
-	});
 }
 /**********************************************************/
 function generateAudio(trackTextId)
@@ -171,12 +164,15 @@ function generateAudio(trackTextId)
          
      }
 });
-  URL='http://localhost:8000/generateAudio/'+trackTextId+"/"  
+  URL=getBaseURL()+'/generateAudio/'+trackTextId+"/"  
   
   $.ajax({
       url: URL,
       type: 'PATCH',        
       success: function(result) {
+
+          object_id=result.id
+          $("#duration_container_"+object_id).html(result.duration)
           //console.log(result)
           audioURL=result["audio_file"]
           //console.log(audioURL)
@@ -184,15 +180,18 @@ function generateAudio(trackTextId)
           //var audio = new Audio(audioURL);
           //audio.play();
           var count = $("#track_audio").children().length;
-          console.log(count)
+          //console.log(count)
           $('#track_audio').empty()
           var count = $("#track_audio").children().length;
-          console.log(count)
+          //console.log(count)
           
           $('#track_audio').append("<source id='sound_src' src=" + audioURL + " type='audio/mpeg'>");
           $("#track_audio").trigger('load');
+         
           $("#audio-modal").show()
           enableButton(trackTextId)
+         
+          
           
       }
   });
@@ -298,10 +297,13 @@ $(document).on('keypress change focusout', 'textarea', function () {
         	tracktextid=$(textareaRef).attr('data_id');
         	textValue=$(textareaRef).val()
         	textValue=text_clean_up(textValue)
-        	requestdata='{"processed":"False","text": "'+textValue+'"}'
-        	//console.log(requestdata)
-          //disableButton(tracktextid);
-  			updateTrackText(tracktextid,requestdata)
+          if(textValue!="")
+          {
+              requestdata='{"processed":"False","text": "'+textValue+'"}'
+              //console.log(requestdata)
+              //disableButton(tracktextid);
+              updateTrackText(tracktextid,requestdata)
+        }
     }, 750, that);
 });
 
@@ -384,8 +386,8 @@ $('.close').on('click', function(event){
 
 });
 
-$("input[type=text][data-input-type=time_marker]").on('keypress change focusout', function(){
-
+$(document).on('keypress change focusout',"input[type=text][data-input-type=time_marker]", function(){
+  //console.log("I am here")
   // If a timer was already started, clear it.
     if (timeoutId) clearTimeout(timeoutId);
     

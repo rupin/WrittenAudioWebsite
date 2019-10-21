@@ -18,11 +18,13 @@
          
 
           <tr>
-            <th>Time Marker</th>                            
+            <th style='width:150px'>Time Marker</th>                            
             <th>Text</th>                           
-            <th>Duration</th>
-            <th>Voice Profile</th>
-            <th></th>   
+            <th style='width:150px'>Duration</th>
+             {% if track.podcast_mode%}
+                <th>Voice Profile</th>
+            {%endif%}
+            <th style='width:150px'></th>   
             
           </tr>
         </thead>

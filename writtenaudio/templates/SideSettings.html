@@ -1,0 +1,27 @@
+<div id='settings_sidebar_icon' style='right: 0px;' class="gear_icon no-print"><i class="fa fa-gear"></i></div>
+
+<div id='settings_sidebar'  style='right: -250px;' class="settings_container no-print">
+	<h4 class="text-light-blue settings_header" >Track Settings</h4>
+	<div class="form-group">
+		<label>Default Voice Profile</label>		
+		<select data_select_type='track_voice_profile' data_id='{{track.id}}' class="form-control" name='outputformat' id='profile_{{track.id}}' >
+
+                {% for voiceprofile in voiceprofiles %}
+                    {% if voiceprofile.id == track.voice_profile.id %}
+
+                        <option value='{{voiceprofile.id}}' selected='selected'>{{voiceprofile.name}}</option>
+                      {%else%}
+                      <option value='{{voiceprofile.id}}'>{{voiceprofile.name}}</option>
+
+                    {%endif%}
+                {%endfor%}
+         </select>
+	</div>
+			<div class="btn-group">
+		                  <button class="btn btn-block btn-primary">Save</button>
+		     </div>
+			
+
+		
+
+</div>

@@ -24,7 +24,8 @@ class AudioCreationSerializer(serializers.ModelSerializer):
 			if(status==200):		
 				instance.processed=True			
 				instance.duration=round(value.get('duration'),3)
-				instance.audio_file=value.get('file_url')	
+				instance.audio_file=value.get('file_url')
+				instance.audio_file_name=value.get('file_name')	
 			instance.save()
 		return instance
 		

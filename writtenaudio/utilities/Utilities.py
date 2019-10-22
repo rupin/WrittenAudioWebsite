@@ -11,16 +11,45 @@ class TrackTextAudioServices():
 
 	def GoogleTTSFunction(self):
 		datadict={}
-		response=""
+		response=""	
 		
+
+		json_data=self.getTrackTextJSON()
+		json_data = json.dumps(json_data)
+
+		print(json_data)		
+		headers = {'Content-type': 'application/json'}
+		
+		response=requests.post(base.TTS_END_POINT,data=json_data, headers=headers)
+		status_code=response.status_code		
+
+		jsonresponse=json.load(io.BytesIO(response.content))
+		
+		return jsonresponse, status_code
+
+	def getTrackTextJSON(self):
 
 		TTSServiceObject=self.trackTextInstance.voice_profile
 		TrackTTSServiceObject=self.trackTextInstance.track.voice_profile
 		dataDict={}		
-		dataDict['filename'] = str(self.trackTextInstance.id)
+		dataDict['filename'] = "track_text_"+str(self.trackTextInstance.id)
 		dataDict['sentence'] = self.trackTextInstance.text
+		dataDict['object_id'] = str(self.trackTextInstance.id)
+		dataDict['bucket_name'] = base.TTS_BUCKET_NAME
 
-		
+		# Check if the Track Text Has a Voice Profile, if yes, grab the 
+		# engine name and Language Code. This happens is podcast mode is on
+		# for the Track
+
+		# If podcast mode is off, the Track has one common Voice Profile
+		# that is associated with the Track Model, and not the Track Text Model
+
+		# It is possible that the Track Also does not have a voice profile
+		# so then there will be a default voice profile marked as default in the
+		# TTSService Model
+
+		#All you get is three shots!
+
 		if(TTSServiceObject):
 			dataDict['engine_name'] = TTSServiceObject.service_voice_model
 			dataDict['language_code'] = TTSServiceObject.language_code
@@ -33,18 +62,16 @@ class TrackTextAudioServices():
 			dataDict['engine_name'] = default_voice_profile[0].service_voice_model
 			dataDict['language_code'] = default_voice_profile[0].language_code
 
+		#When converting the complete track, some tracks may be unprocessed.
+		# We want to have the raw dictionary when appending to that request
 
-		json_data = json.dumps(dataDict)
-		print(json_data)		
-		headers = {'Content-type': 'application/json'}
+		# But if the Track Text is being processed individually, the JSON is required
 		
-		response=requests.post(base.TTS_END_POINT,data=json_data, headers=headers)
-		status_code=response.status_code
-		print(response)
+		return dataDict
+		
+			
 
-		jsonresponse=json.load(io.BytesIO(response.content))
-		
-		return jsonresponse, status_code
+
 		
 		
 		

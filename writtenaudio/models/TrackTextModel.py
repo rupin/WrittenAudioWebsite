@@ -18,6 +18,7 @@ class TrackText(models.Model):
 	voice_profile=models.ForeignKey(TTSServiceModel.TTSService, on_delete=models.CASCADE, blank=True, null=True)
 	track=models.ForeignKey(TrackModel.Track, on_delete=models.CASCADE, blank=True, null=True)
 	mark_for_deletion=models.BooleanField(default=False)
+	audio_file_name=models.CharField(max_length=100,default='', blank=True)
 	class Meta:
 		ordering=['time_marker', 'track']
 		verbose_name = "Track Text"

@@ -106,6 +106,30 @@ function AddRowToTable(trackid)
 
 /**********************************************************/
 
+function generateCombinedAudio(track_id)
+{
+
+  $.ajaxSetup({
+     beforeSend: function(xhr, settings) {
+         
+          xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         
+     }
+});
+  URL=getBaseURL()+'/CombinedAudioTrack/'+track_id+"/"  
+  
+  $.ajax({
+      url: URL,
+      type: 'PATCH',        
+      success: function(result) {
+         
+      }
+  });
+
+}
+
+/**********************************************************/
+
 
 function text_clean_up(newtext)
 {
@@ -369,7 +393,9 @@ $('#track_title_text_input').on('track_title_saved', function(){
 
 $('#showmodal').on('click', function(){
 
-  $('#track_settings_modal').show();
+  //$('#track_settings_modal').show();
+  track_id=$(this).attr('data_track_id');
+    generateCombinedAudio(track_id)
 })
 
 

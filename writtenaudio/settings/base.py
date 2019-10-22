@@ -158,7 +158,9 @@ GOOGLE_STORAGE=False
 with open('credentials/CloudEndPoints.json') as f:
     endPoints = json.load(f)
 
-TTS_END_POINT=endPoints.get('URL')
+TTS_END_POINT=endPoints.get('generator_endpoint')
+COMBINER_ENDPOINT=endPoints.get('combiner_endpoint')
+TTS_BUCKET_NAME=os.environ.get('BUCKET_NAME','written_audio_local')
 
 
 

@@ -179,7 +179,7 @@ if(SERVICE_ACCOUNT_JSON==False):
     with open('credentials/credentials.json') as f:
         gs_credentials = json.load(f)
 else:
-    gs_credentials=json.loads(CLOUD_ENDPOINTS_JSON)
+    gs_credentials=json.loads(SERVICE_ACCOUNT_JSON)
 
 
 GS_CREDENTIALS=gs_credentials

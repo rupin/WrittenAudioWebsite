@@ -71,11 +71,37 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 
 		myobject['tracktexts']=tracktexts
 		json_data = json.dumps(myobject)
-		print(json_data)
+		#print(json_data)
 		headers = {'Content-type': 'application/json'}
 		response=requests.post(base.COMBINER_ENDPOINT,data=json_data, headers=headers)
 		#jsonresponse=json.load(io.BytesIO(response.content))
-		#print(response.__dict__)
+		jsonresponse=json.load(io.BytesIO(response.content))
+		instance.duration=jsonresponse.get("duration",2)
+		instance.audio_file=jsonresponse.get("track_file_name")
+		instance.processed=True
+
+		processed_tracks=jsonresponse.get("processed_tracks", [])
+
+		for processed_track in processed_tracks:
+			# There could be some of the tracks which could be unprocessed
+			# The user may have not listened to them. 
+			# We can prevent reconverting these to audio again, unless they are updated again.
+
+			#The combine operation gets us all the data for the unprocessed tracks.
+
+			track_text_id=processed_track.get("id")
+			unprocessed_track_text=TrackText.objects.get(id=track_text_id)
+			unprocessed_track_text.duration=processed_track.get("duration")
+			file_name=processed_track.get("file_name")
+			unprocessed_track_text.audio_file_name=file_name
+			fileURL=base.GOOGLE_CLOUD_STORAGE_BASE_URL+"/"+base.TTS_BUCKET_NAME+"/"+file_name
+			unprocessed_track_text.audio_file=fileURL
+			unprocessed_track_text.processed=True
+			unprocessed_track_text.save()
+
+
+
+		instance.save()
 		return instance
 
 		

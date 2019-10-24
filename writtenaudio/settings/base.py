@@ -155,12 +155,19 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 GOOGLE_STORAGE=False
 
-with open('credentials/CloudEndPoints.json') as f:
-    endPoints = json.load(f)
+CLOUD_ENDPOINTS_JSON=os.environ.get("CLOUD_ENDPOINTS_JSON", False)
+
+if(CLOUD_ENDPOINTS_JSON==False):
+
+    with open('credentials/CloudEndPoints.json') as f:
+        endPoints = json.load(f)
+else:
+    endPoints=json.loads(CLOUD_ENDPOINTS_JSON)
 
 TTS_END_POINT=endPoints.get('generator_endpoint')
 COMBINER_ENDPOINT=endPoints.get('combiner_endpoint')
 TTS_BUCKET_NAME=os.environ.get('BUCKET_NAME','written_audio_local')
+GOOGLE_CLOUD_STORAGE_BASE_URL="https://storage.cloud.google.com"
 
 
 

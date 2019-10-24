@@ -136,7 +136,6 @@ def DeleteTrack(request,trackid):
 def DownloadTrack(request,trackid):
     user=request.user
 
-
     myTrack=Track.objects.get(user=user,id=trackid)
     storage_credentials = service_account.Credentials.from_service_account_info(base.GS_CREDENTIALS)
 

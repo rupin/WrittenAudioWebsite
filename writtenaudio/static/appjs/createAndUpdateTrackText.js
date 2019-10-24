@@ -122,6 +122,16 @@ function generateCombinedAudio(track_id)
       url: URL,
       type: 'PATCH',        
       success: function(result) {
+        audioURL=result['file_url']
+
+          $('#combined_track_audio').append("<source id='sound_src' src=" + audioURL + " type='audio/mpeg'>");
+          $("#combined_track_audio").trigger('load').trigger('play');
+          $("#waiting_div").hide();
+          $("#track_audio_container").show();
+          $("#track_file_name_div").show()
+          $("#file_name_tag").html(result['audio_file'])
+          //$("#audio-modal").show()
+          //enableButton(trackTextId)
          
       }
   });
@@ -393,21 +403,27 @@ $('#track_title_text_input').on('track_title_saved', function(){
 
 $('#showmodal').on('click', function(){
 
-  //$('#track_settings_modal').show();
+  $('#track_generation_modal').show();
+
   track_id=$(this).attr('data_track_id');
-    generateCombinedAudio(track_id)
+  generateCombinedAudio(track_id)
 })
 
 
 
 
-$('.close').on('click', function(event){
+$('#combine_audio_close_modal').on('click', function(event){
   target_modal=$(this).attr("data-dismiss")
   //console.log(target_modal)
   if(target_modal)
   {
     $("#"+target_modal).hide();
   }
+  //$("#combined_track_audio").pause();
+  $("#combined_track_audio").trigger('pause');
+  $("#track_audio_container").hide();
+  $("#waiting_div").show();
+  $("#track_file_name_div").hide()
   //$(event).stopPropagation()
 
 });

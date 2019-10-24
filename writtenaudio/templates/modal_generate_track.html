@@ -1,19 +1,42 @@
   <div class="example-modal">
-    <div class="modal" id='track_settings_modal'>
+    <div class="modal" id='track_generation_modal'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" aria-label="Close" data-dismiss="track_settings_modal">
+            <button type="button" class="close" id='combine_audio_close_modal' aria-label="Close" data-dismiss="track_generation_modal">
               <span aria-hidden="true" >×</span>
             </button>
             <h4 class="modal-title">Generate Audio Track</h4>
           </div>
           <div class="modal-body">
-            <p>One fine body…</p>
+              <div class='row' id='waiting_div'>
+                <div class="col-xs-12">
+                  <div >Processing..</div> 
+                </div>
+              </div>
+
+              
+
+
+               <div class='row' id='track_audio_container' style='display:none'>
+                 <div class="col-xs-9">
+                  <audio id="combined_track_audio" controls style='width: 100%'>
+                    
+                  </audio>
+                 </div>
+                  <div class="col-xs-3" style='padding-top: 3px'>
+                    <button type="button" class="btn btn-primary">Download</button>
+                  </div>
+              </div>
+              <div class='row'>
+                <div class="col-xs-12" id='track_file_name_div' style='display:none'>
+                 <h5 id=file_name_tag class='file_name_tag'></h5>
+                </div>
+              </div>
+
+             
           </div>
-          <div class="modal-footer">
-             <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
+         
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->

@@ -149,10 +149,11 @@ def DownloadTrack(request,trackid):
     tmpdir=tempfile.gettempdir() # prints the current temporary directory
     tempFilePath=tmpdir+"/"+myTrack.audio_file
     blob.download_to_filename(tempFilePath)   
-
-    response = HttpResponse(open(tempFilePath, 'rb').read())
+    myFile=open(tempFilePath, 'rb').read()
+    response = HttpResponse(myFile)
     response['Content-Type'] = 'audio/mpeg'
     response['Content-Disposition'] = 'attachment; filename='+myTrack.audio_file
+    #os.remove(tempFilePath)
     return response
 
     #return HttpResponse("abcd")

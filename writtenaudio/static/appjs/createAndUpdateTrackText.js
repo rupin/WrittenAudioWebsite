@@ -122,9 +122,11 @@ function generateCombinedAudio(track_id)
       url: URL,
       type: 'PATCH',        
       success: function(result) {
-          audioURL=result['file_url']
-          audioURL=audioURL+"?a="+Math.random() 
-          $('#combined_track_audio').append("<source id='sound_src' src=" + audioURL + " type='audio/mpeg'>");
+          trackID=result['id']
+          //audioURL=result['file_url']
+          //audioURL=audioURL+"?a="+Math.random()
+          URL=getBaseURL()+'/download/'+trackID+"/" 
+          $('#combined_track_audio').append("<source id='sound_src' src=" + URL + " type='audio/mpeg'>");
           $("#combined_track_audio").trigger('load').trigger('play');
           $("#waiting_div").hide();
           $("#track_audio_container").show();

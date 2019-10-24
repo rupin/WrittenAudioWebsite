@@ -45,6 +45,7 @@ urlpatterns = [
     path('CreateTrackEmptyRow/<uuid:trackid>', TrackTextViews.CreateTrackEmptyRow),
     path('deleteTrackText/<uuid:tracktextid>', TrackTextViews.DeleteTrackText),
     path('createtrack/', TrackView.CreateEmptyTrack),
+    path('download/<uuid:trackid>/', TrackView.DownloadTrack),
 
     
 

@@ -17,6 +17,10 @@ from writtenaudio.models.TTSServiceModel import TTSService
 
 from django.http import HttpResponseRedirect
 
+import requests
+import io
+from django.http import FileResponse
+
 @login_required
 def ViewMyTracks(request):
     user=request.user
@@ -118,3 +122,18 @@ def DeleteTrack(request,trackid):
         myTrack.delete()
 
     return HttpResponseRedirect('/mytracks')
+
+@login_required
+def DownloadTrack(request,trackid):
+    user=request.user
+
+
+    myTrack=Track.objects.get(user=user,id=trackid)
+    if myTrack:
+        #print(myTrack.file_url)
+        downloadedfile=requests.get(myTrack.file_url)
+        #print(downloadedfile.__dict__)
+        mp3file=io.BytesIO(downloadedfile.content)
+        response = FileResponse(mp3file, content_type="audio/mpeg")   
+        response['Content-Disposition'] = 'attachment; filename="%s"'%myTrack.audio_file
+        return response

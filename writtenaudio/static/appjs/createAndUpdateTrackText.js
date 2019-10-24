@@ -122,8 +122,8 @@ function generateCombinedAudio(track_id)
       url: URL,
       type: 'PATCH',        
       success: function(result) {
-        audioURL=result['file_url']
-
+          audioURL=result['file_url']
+          audioURL=audioURL+"?a="+Math.random() 
           $('#combined_track_audio').append("<source id='sound_src' src=" + audioURL + " type='audio/mpeg'>");
           $("#combined_track_audio").trigger('load').trigger('play');
           $("#waiting_div").hide();
@@ -259,8 +259,15 @@ function enableButton(tracktextid)
   $(buttonRef).removeClass("disabled")
 }
 
+function downloadTrackFile(trackID)
+{
+  
+  URL=getBaseURL()+'/download/'+trackID+"/"  
+  
+  window.location.assign(URL);
 
 
+}
 
 
 $( document ).ready(function() {
@@ -465,12 +472,21 @@ $(document).keydown(function(event) {
   }
 });
 
+$("#downloadbutton").on('click', function(){
+
+   track_id==$(this).attr("data-track_id")
+   downloadTrackFile(track_id);
+
+})
+
 
 
 
 
 
 });
+
+
 
 
 

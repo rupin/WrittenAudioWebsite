@@ -21,6 +21,15 @@ import requests
 import io
 from django.http import FileResponse
 
+import json
+
+from google.cloud import storage
+from google.oauth2 import service_account
+
+from writtenaudio.settings import base
+import tempfile
+from django.core.files import File
+
 @login_required
 def ViewMyTracks(request):
     user=request.user
@@ -129,11 +138,21 @@ def DownloadTrack(request,trackid):
 
 
     myTrack=Track.objects.get(user=user,id=trackid)
-    if myTrack:
-        #print(myTrack.file_url)
-        downloadedfile=requests.get(myTrack.file_url)
-        #print(downloadedfile.__dict__)
-        mp3file=io.BytesIO(downloadedfile.content)
-        response = FileResponse(mp3file, content_type="audio/mpeg")   
-        response['Content-Disposition'] = 'attachment; filename="%s"'%myTrack.audio_file
-        return response
+    storage_credentials = service_account.Credentials.from_service_account_info(base.GS_CREDENTIALS)
+
+    storage_client = storage.Client(project=base.GS_PROJECT_ID, credentials=storage_credentials)
+
+    
+    bucket = storage_client.get_bucket(base.TTS_BUCKET_NAME)
+    blob = bucket.blob(myTrack.audio_file)
+    #f=io.BytesIO()
+    tmpdir=tempfile.gettempdir() # prints the current temporary directory
+    tempFilePath=tmpdir+"/"+myTrack.audio_file
+    blob.download_to_filename(tempFilePath)   
+
+    response = HttpResponse(open(tempFilePath, 'rb').read())
+    response['Content-Type'] = 'audio/mpeg'
+    response['Content-Disposition'] = 'attachment; filename='+myTrack.audio_file
+    return response
+
+    #return HttpResponse("abcd")

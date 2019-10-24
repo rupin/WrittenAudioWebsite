@@ -164,10 +164,28 @@ if(CLOUD_ENDPOINTS_JSON==False):
 else:
     endPoints=json.loads(CLOUD_ENDPOINTS_JSON)
 
+
+
 TTS_END_POINT=endPoints.get('generator_endpoint')
 COMBINER_ENDPOINT=endPoints.get('combiner_endpoint')
 TTS_BUCKET_NAME=os.environ.get('BUCKET_NAME','written_audio_local')
 GOOGLE_CLOUD_STORAGE_BASE_URL="https://storage.cloud.google.com"
+
+
+SERVICE_ACCOUNT_JSON=os.environ.get("SERVICE_ACCOUNT_JSON", False)
+
+if(SERVICE_ACCOUNT_JSON==False):
+
+    with open('credentials/credentials.json') as f:
+        gs_credentials = json.load(f)
+else:
+    gs_credentials=json.loads(CLOUD_ENDPOINTS_JSON)
+
+
+GS_CREDENTIALS=gs_credentials
+GS_PROJECT_ID=gs_credentials['project_id']
+
+
 
 
 

@@ -27,7 +27,7 @@ class TrackSerializer(serializers.ModelSerializer):
 class CombineAudioSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Track
-		fields = ['id','audio_file']
+		fields = ['id','file_url']
 	def validate(self, data):
 
 		trackid=self.instance.id
@@ -45,6 +45,15 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 		tracktexts=[]
 		myobject['id']=str(instance.id)
 		myobject['bucket_name']=base.TTS_BUCKET_NAME
+		myobject['voice_profile_name']=str(instance.voice_profile)
+		myobject['title']=instance.title
+		#replace all spaces with underscores
+		#formatted_file_name=str(instance.title).replace(" ", "_")
+		file_name_to_be_saved=instance.title.strip() + "(" + str(instance.voice_profile)+")"
+		file_name_to_be_saved=file_name_to_be_saved.replace(" ", "_")
+		myobject['track_file_name']=file_name_to_be_saved
+
+		formatted_file_name=str(instance.title).replace(" ", "_")
 		
 		TrackTexts=TrackText.objects.filter(track=instance, mark_for_deletion=False).prefetch_related('voice_profile')
 		
@@ -71,13 +80,19 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 
 		myobject['tracktexts']=tracktexts
 		json_data = json.dumps(myobject)
-		#print(json_data)
+		print("**** Request Here *****")
+		print(json_data)
 		headers = {'Content-type': 'application/json'}
 		response=requests.post(base.COMBINER_ENDPOINT,data=json_data, headers=headers)
 		#jsonresponse=json.load(io.BytesIO(response.content))
 		jsonresponse=json.load(io.BytesIO(response.content))
+		print("**** Response Here *****")
+		print(jsonresponse)
 		instance.duration=jsonresponse.get("duration",2)
-		instance.audio_file=jsonresponse.get("track_file_name")
+		track_file_name=jsonresponse.get("track_file_name")
+		instance.audio_file=track_file_name
+		track_fileURL=base.GOOGLE_CLOUD_STORAGE_BASE_URL+"/"+base.TTS_BUCKET_NAME+"/"+track_file_name
+		instance.file_url=track_fileURL
 		instance.processed=True
 
 		processed_tracks=jsonresponse.get("processed_tracks", [])

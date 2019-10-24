@@ -14,6 +14,7 @@ class Track(models.Model):
 	duration=models.IntegerField(blank=True, null=True)
 	voice_profile=models.ForeignKey(TTSServiceModel.TTSService, on_delete=models.CASCADE, blank=True, null=True)
 	podcast_mode=models.BooleanField(default=False)
+	file_url=models.CharField(max_length=300,default='', blank=True)
 	class Meta:
 		ordering=['-updated_at']
 	def __str__(self):

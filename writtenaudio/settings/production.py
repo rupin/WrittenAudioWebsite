@@ -13,7 +13,6 @@ import os
 import dj_database_url
 import django_heroku
 from pathlib import Path
-from google.oauth2 import service_account
 import json
 from .base import *
 

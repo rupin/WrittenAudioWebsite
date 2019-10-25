@@ -12,10 +12,11 @@ class TrackTextSerializer(serializers.ModelSerializer):
 	def update(self, instance, validated_data):
 
 		instance.save()
-
 		TrackUpdateData={}
 		TrackUpdateData['processed']=False
 		AssociatedTrack=Track.objects.filter(id=instance.track.id).update(**TrackUpdateData)
+		instance.__dict__.update(**validated_data)
+		instance.save()
 		return instance
 
 		

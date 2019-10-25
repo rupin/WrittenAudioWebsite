@@ -8,6 +8,17 @@ class TrackTextSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = TrackText
 		fields = ['id','time_marker', 'text', 'voice_profile', 'processed', 'mark_for_deletion']
+
+	def update(self, instance, validated_data):
+
+		instance.save()
+
+		TrackUpdateData={}
+		TrackUpdateData['processed']=False
+		AssociatedTrack=Track.objects.filter(id=instance.track.id).update(**TrackUpdateData)
+		return instance
+
+		
 	
 
 class AudioCreationSerializer(serializers.ModelSerializer):

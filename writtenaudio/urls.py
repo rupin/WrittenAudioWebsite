@@ -19,6 +19,7 @@ from django.urls import path, include
 from writtenaudio.views import TrackView
 from writtenaudio.views import TrackTextViews
 from writtenaudio.views import HomePageViews
+from writtenaudio.views import VoiceProfileViews
 from writtenaudio.api import TrackTextAPI
 from writtenaudio.api import TrackAPI
 
@@ -45,7 +46,11 @@ urlpatterns = [
     path('CreateTrackEmptyRow/<uuid:trackid>', TrackTextViews.CreateTrackEmptyRow),
     path('deleteTrackText/<uuid:tracktextid>', TrackTextViews.DeleteTrackText),
     path('createtrack/', TrackView.CreateEmptyTrack),
-    path('download/<uuid:trackid>/', TrackView.DownloadTrack),
+    path('downloadTrack/<uuid:trackid>/', TrackView.DownloadTrack),
+    path('downloadTrackText/<uuid:trackTextid>/', TrackTextViews.DownloadTrackText),
+    path('voiceProfiles/', VoiceProfileViews.ViewVoiceProfile),
+
+
 
     
 
@@ -54,6 +59,7 @@ urlpatterns = [
     path('updateTrack/<uuid:pk>/', TrackAPI.UpdateTrackAPIView.as_view(),),
     path('generateAudio/<uuid:pk>/', TrackTextAPI.UpdateAudio.as_view(),),
     path('CombinedAudioTrack/<uuid:pk>/', TrackAPI.GenerateCombinedAudio.as_view(),),
+    path('updateVoiceProfile/<uuid:pk>/', TrackAPI.UpdateVoiceProfileAPIView.as_view(),),
 
     
     

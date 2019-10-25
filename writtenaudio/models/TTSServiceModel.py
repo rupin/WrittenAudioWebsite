@@ -26,7 +26,7 @@ class TTSService(models.Model):
 	enabled=models.BooleanField(default=False)
 	system_default_profile=models.BooleanField(default=False)
 	class Meta:
-		ordering=['name']
+		ordering=['name', 'accent']
 		verbose_name = "TTS Service"
 
 	def __str__(self):

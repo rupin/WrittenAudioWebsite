@@ -24,6 +24,48 @@ class TrackSerializer(serializers.ModelSerializer):
 		else:
 			raise serializers.ValidationError("finish must occur after start")
 
+
+class UpdateVoiceProfileSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Track
+		fields = ['voice_profile']
+	def validate(self, data):
+
+		trackid=self.instance.id
+		user=self.context['request'].user
+
+		TrackCount=Track.objects.filter(user=user, id=trackid).count()
+		if(TrackCount==1):
+			return data
+		else:
+			raise serializers.ValidationError("finish must occur after start")
+	def update(self, instance, validated_data):
+		new_voice_profile=validated_data["voice_profile"]
+		instance.voice_profile=new_voice_profile
+		instance.processed=False
+		instance.audio_file=""
+		instance.file_url=''
+		instance.duration=0
+		instance.save()
+
+
+		# Update All Track Texts
+		trackTextDict={}
+		trackTextDict['processed']=False
+		trackTextDict['duration']=0
+		if(not instance.podcast_mode):
+			trackTextDict['voice_profile']=new_voice_profile
+		trackTextDict['audio_file_name']=''
+		trackTextDict['audio_file']=''
+		
+		TrackTexts=TrackText.objects.filter(track=instance).update(**trackTextDict)
+		
+		return instance
+
+
+
+
+
 class CombineAudioSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Track

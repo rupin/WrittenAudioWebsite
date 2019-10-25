@@ -17,6 +17,13 @@ from writtenaudio.models.TrackModel import Track
 from django.http import HttpResponseRedirect
 from writtenaudio.models.TTSServiceModel import TTSService
 
+from google.cloud import storage
+from google.oauth2 import service_account
+
+from writtenaudio.settings import base
+import tempfile
+from django.core.files import File
+
 @login_required
 def CreateTrackEmptyRow(request, trackid):
 	template = loader.get_template('editable_track_row.html')
@@ -50,3 +57,26 @@ def DeleteTrackText(request, tracktextid):
 	else:
 			
 		return HttpResponse('Not Found', status=404)
+
+@login_required
+def DownloadTrackText(request,trackTextid):
+    user=request.user
+
+    myTrackText=TrackText.objects.get(id=trackTextid)
+    storage_credentials = service_account.Credentials.from_service_account_info(base.GS_CREDENTIALS)
+
+    storage_client = storage.Client(project=base.GS_PROJECT_ID, credentials=storage_credentials)
+
+    
+    bucket = storage_client.get_bucket(base.TTS_BUCKET_NAME)
+    blob = bucket.blob(myTrackText.audio_file_name)
+    #f=io.BytesIO()
+    tmpdir=tempfile.gettempdir() # prints the current temporary directory
+    tempFilePath=tmpdir+"/"+myTrackText.audio_file_name
+    blob.download_to_filename(tempFilePath)   
+    myFile=open(tempFilePath, 'rb').read()
+    response = HttpResponse(myFile)
+    response['Content-Type'] = 'audio/mpeg'
+    response['Content-Disposition'] = 'attachment; filename='+myTrackText.audio_file_name
+    #os.remove(tempFilePath)
+    return response

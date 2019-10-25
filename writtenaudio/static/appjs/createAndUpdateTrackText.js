@@ -78,6 +78,30 @@ function updateTrack(trackID, trackData)
   });
 }
 
+function updateVoiceProfile(trackID, trackData)
+{
+    $.ajaxSetup({
+       beforeSend: function(xhr, settings) {
+           
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+           
+       }
+  });
+    URL=getBaseURL()+'/updateVoiceProfile/'+trackID+"/"  
+    
+    $.ajax({
+        url: URL,
+        type: 'PATCH',
+        data:trackData,
+        contentType: "application/json",
+        dataType: "json",     
+        success: function(result) {
+            //$('#track_title_text_input').trigger('track_title_saved');
+            //console.log(result)
+        }
+    });
+}
+
 
 
 /**********************************************************/
@@ -125,7 +149,7 @@ function generateCombinedAudio(track_id)
           trackID=result['id']
           //audioURL=result['file_url']
           //audioURL=audioURL+"?a="+Math.random()
-          URL=getBaseURL()+'/download/'+trackID+"/" 
+          URL=getBaseURL()+'/downloadTrack/'+trackID+"/" 
           $('#combined_track_audio').append("<source id='sound_src' src=" + URL + " type='audio/mpeg'>");
           $("#combined_track_audio").trigger('load').trigger('play');
           $("#waiting_div").hide();
@@ -210,9 +234,9 @@ function generateAudio(trackTextId)
           object_id=result.id
           $("#duration_container_"+object_id).html(result.duration)
           //console.log(result)
-          audioURL=result["audio_file"]
+          URL=getBaseURL()+'/downloadTrackText/'+object_id+"/" 
           //console.log(audioURL)
-          audioURL=audioURL+"?a="+Math.random()    
+          audioURL=URL+"?a="+Math.random()    
           //var audio = new Audio(audioURL);
           //audio.play();
           var count = $("#track_audio").children().length;
@@ -222,7 +246,7 @@ function generateAudio(trackTextId)
           //console.log(count)
           
           $('#track_audio').append("<source id='sound_src' src=" + audioURL + " type='audio/mpeg'>");
-          $("#track_audio").trigger('load');
+          $("#track_audio").trigger('load').trigger('play');
          
           $("#audio-modal").show()
           enableButton(trackTextId)
@@ -478,6 +502,14 @@ $("#downloadbutton").on('click', function(){
 
    track_id==$(this).attr("data-track_id")
    downloadTrackFile(track_id);
+
+})
+
+$("select[data_select_type=track_voice_profile]").on("change", function(){
+        trackid=$(this).attr('data_id');
+        selected_value=$(this).find('option:selected').val() 
+        requestdata='{"voice_profile":' +selected_value+'}'
+        updateVoiceProfile(trackid,requestdata)     
 
 })
 

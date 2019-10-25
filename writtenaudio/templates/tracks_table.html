@@ -12,7 +12,7 @@
                           <tr>
                             <th>Title</th>
                             <th>Track Duration</th>
-                            <th>Output Format</th> 
+                            
                             <th>Created On</th>
                             <th>Last Updated</th>
                             <th>Actions</th>
@@ -23,7 +23,7 @@
                             <tr>
                             <td><a href="/viewTrack/{{track.id}}">{{track.title}}</a></td>
                             <td>{{track.duration|SecondsToTextFormatter}}</td>  
-                            <td>{{track.output_format}}</td>                           
+                                                    
                             <td>{{track.created_at|date:"M d, Y"}}</td>
                             <td>{{track.updated_at|date:"M d, Y"}}</td>
                             <td>
@@ -38,7 +38,7 @@
                                       <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                      <li><a href="/download/{{track.id}}">
+                                      <li><a href="/downloadTrack/{{track.id}}">
                                           <i class="fa fa-download"></i>
 
                                       Download</a></li>
@@ -47,13 +47,13 @@
                                           <i class="fa fa-pencil"></i>
 
                                       Edit</a></li>
-                                      <li>
+                                      <!--<li>
                                         <a href="/cloneTrack/{{track.id}}">
 
                                           <i class="fa fa-clone"></i>Clone
 
                                       </a>
-                                    </li>
+                                    </li>-->
                                       <li class="divider"></li>
                                       <li ><a href="/deleteTrack/{{track.id}}" class='text-red'>
                                         <i class="fa fa-trash"></i>

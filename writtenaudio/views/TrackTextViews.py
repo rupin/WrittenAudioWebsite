@@ -60,23 +60,38 @@ def DeleteTrackText(request, tracktextid):
 
 @login_required
 def DownloadTrackText(request,trackTextid):
-    user=request.user
 
-    myTrackText=TrackText.objects.get(id=trackTextid)
-    storage_credentials = service_account.Credentials.from_service_account_info(base.GS_CREDENTIALS)
+	user=request.user
 
-    storage_client = storage.Client(project=base.GS_PROJECT_ID, credentials=storage_credentials)
+	myTrackTextObject=TrackText.objects.filter(id=trackTextid)
+	if(myTrackTextObject.count()==1): #There is a track like this
+		myTrack=Track.objects.filter(id=myTrackTextObject[0].track.id, user=user)
+		if(myTrack.count()==1): #User has access to this track
+			print("Validated")
+		else:
+			return HttpResponse('Unauthorized', status=401)
+	else:
+			
+		return HttpResponse('Not Found', status=404)
 
-    
-    bucket = storage_client.get_bucket(base.TTS_BUCKET_NAME)
-    blob = bucket.blob(myTrackText.audio_file_name)
-    #f=io.BytesIO()
-    tmpdir=tempfile.gettempdir() # prints the current temporary directory
-    tempFilePath=tmpdir+"/"+myTrackText.audio_file_name
-    blob.download_to_filename(tempFilePath)   
-    myFile=open(tempFilePath, 'rb').read()
-    response = HttpResponse(myFile)
-    response['Content-Type'] = 'audio/mpeg'
-    response['Content-Disposition'] = 'attachment; filename='+myTrackText.audio_file_name
-    #os.remove(tempFilePath)
-    return response
+
+   
+
+	myTrackText=myTrackTextObject[0]
+	storage_credentials = service_account.Credentials.from_service_account_info(base.GS_CREDENTIALS)
+
+	storage_client = storage.Client(project=base.GS_PROJECT_ID, credentials=storage_credentials)
+
+
+	bucket = storage_client.get_bucket(base.TTS_BUCKET_NAME)
+	blob = bucket.blob(myTrackText.audio_file_name)
+	#f=io.BytesIO()
+	tmpdir=tempfile.gettempdir() # prints the current temporary directory
+	tempFilePath=tmpdir+"/"+myTrackText.audio_file_name
+	blob.download_to_filename(tempFilePath)   
+	myFile=open(tempFilePath, 'rb').read()
+	response = HttpResponse(myFile)
+	response['Content-Type'] = 'audio/mpeg'
+	response['Content-Disposition'] = 'attachment; filename='+myTrackText.audio_file_name
+	#os.remove(tempFilePath)
+	return response

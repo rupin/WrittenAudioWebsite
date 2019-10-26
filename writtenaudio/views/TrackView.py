@@ -87,16 +87,24 @@ def CreateEmptyTrack(request):
 @login_required
 def EditTrack(request,trackid):
     user=request.user    
-    mytrack=Track.objects.get(user=user, id=trackid)
+
+    mytrack=Track.objects.filter(user=user, id=trackid)
+
+    if(mytrack.count()==1): #There is a track like this   
+      print("Authorised to Edit Track")
+    else:
+      return HttpResponse('Unauthorized', status=401)
+
+
     myTrackText=TrackText.objects.filter(track=trackid, mark_for_deletion=False).prefetch_related('voice_profile')
     voiceProfiles=TTSService.objects.filter(enabled=True)
     template = loader.get_template('edit_track_view.html')
     #print(mytracks.count())
     context = {
-       'track':mytrack,
+       'track':mytrack[0],
        'tracktextlist':myTrackText,      
        'user':user,
-       'page_title': mytrack.title,
+       'page_title': mytrack[0].title,
        'track_section_count':myTrackText.count(),
        'voiceprofiles':voiceProfiles      
 
@@ -107,7 +115,14 @@ def EditTrack(request,trackid):
 @login_required
 def ViewTrack(request,trackid):
     user=request.user    
-    mytrack=Track.objects.get(user=user, id=trackid)
+    mytrackObjects=Track.objects.filter(user=user, id=trackid)
+
+    if(mytrackObjects.count()==1): #There is a track like this   
+      print("Authorised to Edit Track")
+    else:
+      return HttpResponse('Unauthorized', status=401)
+
+    mytrack=mytrackObjects[0]
     myTrackText=TrackText.objects.filter(track=trackid,mark_for_deletion=False).prefetch_related('voice_profile')
     template = loader.get_template('view_track_detail_view.html')
     #print(mytracks.count())
@@ -136,7 +151,17 @@ def DeleteTrack(request,trackid):
 def DownloadTrack(request,trackid):
     user=request.user
 
-    myTrack=Track.objects.get(user=user,id=trackid)
+    mytrackObjects=Track.objects.filter(id=trackid, user=user)
+
+    
+
+    if(mytrackObjects.count()==1): #There is a track like this   
+      print("Authorised to Edit Track")
+    else:
+      return HttpResponse('Unauthorized', status=401)
+
+    myTrack=mytrackObjects[0]
+
     storage_credentials = service_account.Credentials.from_service_account_info(base.GS_CREDENTIALS)
 
     storage_client = storage.Client(project=base.GS_PROJECT_ID, credentials=storage_credentials)

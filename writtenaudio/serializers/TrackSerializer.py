@@ -86,11 +86,7 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 		myobject={}
 		tracktexts=[]
 
-		if(instance.processed):
-			return instance
-
-		
-		else:
+		if(not instance.processed):			
 
 			myobject['id']=str(instance.id)
 			myobject['bucket_name']=base.TTS_BUCKET_NAME
@@ -131,12 +127,28 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 			json_data = json.dumps(myobject)
 			print("**** Request Here *****")
 			print(json_data)
+			
+			# Call the End Point which combines the audio files
+
+			# this usually takes more than 20 seconds. 
+
+			#The endpoint returns back a wellformed JSON.
+
 			headers = {'Content-type': 'application/json'}
 			response=requests.post(base.COMBINER_ENDPOINT,data=json_data, headers=headers)
 			#jsonresponse=json.load(io.BytesIO(response.content))
 			jsonresponse=json.load(io.BytesIO(response.content))
+
+
+
+
 			print("**** Response Here *****")
 			print(jsonresponse)
+
+			# after the combiner combined the audio files
+			# It returns the locations of the combined files
+			# and the audio duration of the combined file. 
+
 			instance.duration=jsonresponse.get("duration",2)
 			track_file_name=jsonresponse.get("track_file_name")
 			instance.audio_file=track_file_name
@@ -145,7 +157,15 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 			instance.processed=True
 			instance.save()
 
-			
+			# # There could be some tracks which are unprocessed while we sent the data to 
+			# the combiner end Point.
+
+			# The combiner will internally do the text to audio conversion based on the tracktext information
+
+			# These now have to be saved in the Database. The combiner return response
+
+			# has information about these unprocessed tracks ( which are not processed)
+
 
 			processed_tracks=jsonresponse.get("processed_tracks", [])
 
@@ -168,7 +188,7 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 
 
 
-			
+		# Return the Track Instance	
 		return instance
 
 		

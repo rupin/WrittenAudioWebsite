@@ -4,9 +4,11 @@ from writtenaudio.serializers.TrackSerializer import *
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from writtenaudio.permissions.TrackAccessPermission import UserPermittedonTrack
+
 class UpdateTrackAPIView(generics.UpdateAPIView):
 	serializer_class = TrackSerializer
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated, UserPermittedonTrack]
 
 	def get_queryset(self):        
 		return Track.objects.all()
@@ -21,7 +23,7 @@ class UpdateTrackAPIView(generics.UpdateAPIView):
 
 class UpdateVoiceProfileAPIView(generics.UpdateAPIView):
 	serializer_class = UpdateVoiceProfileSerializer
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated,UserPermittedonTrack]
 
 	def get_queryset(self):        
 		return Track.objects.all()
@@ -38,7 +40,7 @@ class UpdateVoiceProfileAPIView(generics.UpdateAPIView):
 
 class GenerateCombinedAudio(generics.UpdateAPIView):
 	serializer_class=CombineAudioSerializer
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated,UserPermittedonTrack]
 
 	def get_queryset(self):        
 		return Track.objects.all()

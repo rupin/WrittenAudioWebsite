@@ -20,7 +20,11 @@ def HomePage(request):
     
     context = {
        
-       'user':user,
-       'page_title': 'Home'
+			'user':user,
+			'page_title': 'Home',
+			'homemenu':'treemenu active',
+			'trackmenu':'treemenu',
+			'voiceprofilemenu':'treemenu',
+			'billingmenu':'treemenu', 
     }
     return HttpResponse(template.render(context, request))

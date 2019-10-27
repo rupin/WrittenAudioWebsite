@@ -15,4 +15,4 @@ class UserVoiceProfile(models.Model):
 		verbose_name = "User Voice Profile"
 
 	def __str__(self):
-		return self.voice_profile
+		return str(self.voice_profile)

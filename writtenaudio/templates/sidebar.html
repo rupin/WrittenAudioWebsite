@@ -22,7 +22,7 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <!--<li class="header">MAIN NAVIGATION</li>-->
-            <li class="active treeview">
+            <li class="{{homemenu}}">
               <a href="/">
                 <i class="fa fa-home"></i> <span>Home</span> 
               </a>
@@ -31,7 +31,7 @@
                 <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
               </ul>-->
             </li>
-            <li class="treeview">
+            <li class="{{trackmenu}}">
               <a href="#">
                 <i class="fa fa-headphones"></i>
                 <span>Audio Tracks</span>                
@@ -57,16 +57,32 @@
                 <i class="fa fa-th"></i> <span>Widgets</span> <small class="label pull-right bg-green">new</small>
               </a>
             </li>-->
-            <li class="treeview">
+            <li class="{{voiceprofilemenu}}">
               <a href="/voiceProfiles/">
                 <i class="fa fa-volume-up"></i>
                 <span>Voice Profiles</span>
+
+               
                 
               </a>
+
+               {% if accents%}
+                 <ul class="treeview-menu">
+                {%for accent in accents%}
+                <li>
+                  <a href="/voiceProfiles/{{accent.accent}}">
+                  <i class="fa fa-credit-card"></i>{{accent.accent}} <span class="label label-primary pull-right">{{accent.total}}</span>
+                </a>
+                </li>
+                {%endfor%}
+                
+                
+              </ul>
+              {%endif %}
               
             </li>
 
-            <li class="treeview">
+            <li class="{{billingmenu}}">
               <a href="#">
                 <i class="fa fa-credit-card"></i>
                 <span>Billing</span>
@@ -85,7 +101,7 @@
             
            
             
-            <li><a href="documentation/index.html"><i class="fa fa-book"></i> Documentation</a></li>
+            <!--<li><a href="documentation/index.html"><i class="fa fa-book"></i> Documentation</a></li>-->
             <!--<li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-danger"></i> Important</a></li>
             <li><a href="#"><i class="fa fa-circle-o text-warning"></i> Warning</a></li>

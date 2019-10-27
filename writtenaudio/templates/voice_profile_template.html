@@ -1,0 +1,44 @@
+{% load static %}
+{% for voiceprofile in profiles %}
+
+			<div class="box box-solid box-primary">
+                <div class="box-header">
+                  <h3 class="box-title">{{voiceprofile.name}}</h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn btn-primary btn-sm"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-primary btn-sm"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body">
+                 <div class='row'>
+                 	<div class="col-lg-2 col-xs-4">
+                 		<div class='avatar-img-container' width=100%>
+                 			
+                 			<img 
+                            class='avatar'
+                            src="{{voiceprofile.avatar_image_path}}" />
+                 			
+                        </div> 
+                 		<div class='accent-name-container'>
+                 			<h4>{{voiceprofile.accent}}</h4>
+                 		</div> 
+                 	
+                 	</div>
+
+                    <div class='col-lg-4 col-xs-12' >
+                       {{voiceprofile.voice_profile_description}}
+                    </div>
+                 	
+                 	<div class='col-lg-6 col-xs-12' >
+                 		<audio controls><source src="" type=""></source></audio>
+                 	</div>	
+                 	
+                 </div>
+                 <div class='row'>
+                 	<!--<div class="col-lg-6 col-xs-6">rupin</div>
+                 	<div class='col-lg-6 col-xs-6'>chheda</div>-->                 	
+                 </div>
+                </div><!-- /.box-body -->
+              </div>
+
+{%endfor%}

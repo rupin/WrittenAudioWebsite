@@ -22,6 +22,7 @@ from writtenaudio.views import HomePageViews
 from writtenaudio.views import VoiceProfileViews
 from writtenaudio.api import TrackTextAPI
 from writtenaudio.api import TrackAPI
+from django.conf.urls import url
 
 import uuid
 
@@ -49,6 +50,7 @@ urlpatterns = [
     path('downloadTrack/<uuid:trackid>/', TrackView.DownloadTrack),
     path('downloadTrackText/<uuid:trackTextid>/', TrackTextViews.DownloadTrackText),
     path('voiceProfiles/', VoiceProfileViews.ViewVoiceProfile),
+    path('voiceProfiles/<str:accent>', VoiceProfileViews.ViewVoiceProfile),
 
 
 

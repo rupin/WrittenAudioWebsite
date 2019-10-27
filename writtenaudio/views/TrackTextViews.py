@@ -37,7 +37,11 @@ def CreateTrackEmptyRow(request, trackid):
 		voiceProfiles=TTSService.objects.all()
 		context={
 				'tracktextlist':[createdTrackText],
-       			'voiceprofiles':voiceProfiles
+       			'voiceprofiles':voiceProfiles,
+       			 'homemenu':'treemenu',
+                'trackmenu':'treemenu active',
+                'voiceprofilemenu':'treemenu',
+                'billingmenu':'treemenu', 
 
 				} ## UI Expects a List
 

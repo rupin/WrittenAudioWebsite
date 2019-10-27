@@ -37,10 +37,14 @@ def ViewMyTracks(request):
     mytracks=Track.objects.filter(user=user)
     #print(mytracks.count())
     context = {
-       'tracks':mytracks,
-       'trackcount':mytracks.count(),
-       'user':user,
-       'page_title': 'My Tracks'
+                'tracks':mytracks,
+                'trackcount':mytracks.count(),
+                'user':user,
+                'page_title': 'My Tracks',
+                'homemenu':'treemenu',
+                'trackmenu':'treemenu active',
+                'voiceprofilemenu':'treemenu',
+                'billingmenu':'treemenu', 
     }
     return HttpResponse(template.render(context, request))
 
@@ -101,12 +105,16 @@ def EditTrack(request,trackid):
     template = loader.get_template('edit_track_view.html')
     #print(mytracks.count())
     context = {
-       'track':mytrack[0],
-       'tracktextlist':myTrackText,      
-       'user':user,
-       'page_title': mytrack[0].title,
-       'track_section_count':myTrackText.count(),
-       'voiceprofiles':voiceProfiles      
+              'track':mytrack[0],
+              'tracktextlist':myTrackText,      
+              'user':user,
+              'page_title': mytrack[0].title,
+              'track_section_count':myTrackText.count(),
+              'voiceprofiles':voiceProfiles,
+              'homemenu':'treemenu',
+              'trackmenu':'treemenu active',
+              'voiceprofilemenu':'treemenu',
+              'billingmenu':'treemenu',      
 
     }
     
@@ -127,12 +135,16 @@ def ViewTrack(request,trackid):
     template = loader.get_template('view_track_detail_view.html')
     #print(mytracks.count())
     context = {
-       'track':mytrack,
-       'tracktextlist':myTrackText,      
-       'user':user,
-       'page_title': mytrack.title,
-       'track_section_count':myTrackText.count()
-       
+              'track':mytrack,
+              'tracktextlist':myTrackText,      
+              'user':user,
+              'page_title': mytrack.title,
+              'track_section_count':myTrackText.count(),
+              'homemenu':'treemenu',
+              'trackmenu':'treemenu active',
+              'voiceprofilemenu':'treemenu',
+              'billingmenu':'treemenu',  
+
 
     }
     return HttpResponse(template.render(context, request))

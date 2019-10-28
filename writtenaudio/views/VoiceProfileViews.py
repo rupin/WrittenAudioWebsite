@@ -23,9 +23,9 @@ def ViewVoiceProfile(request,accent=None):
     #print(accent)
     TTSProfiles=[]
     if(accent):
-      TTSProfiles=TTSService.objects.filter(enabled=True, accent=accent).values('name','avatar_image_path','voice_profile_description', 'gender', 'accent', 'uservoiceprofile__user_default_profile', 'uservoiceprofile__enabled').order_by('name','accent')
+      TTSProfiles=TTSService.objects.filter(enabled=True, accent=accent).values('name','avatar_image_path','voice_profile_description', 'gender', 'accent', 'uservoiceprofile__user_default_profile', 'uservoiceprofile__enabled', 'cost').order_by('name','accent')
 
-    #print(TTSProfiles.query)
+      print(TTSProfiles.query)
 
     #TTSProfiles=TTSService.objects.filter(enabled=True)
     #UserChosenTTSProfile==UserVoiceProfile.objects.filter(user=user)    
@@ -41,6 +41,7 @@ def ViewVoiceProfile(request,accent=None):
        'user':user,
        'accents':accents,
        'page_title': page_title,
+       'selected_accent':accent,
        'homemenu':'treemenu',
        'trackmenu':'treemenu',
        'voiceprofilemenu':'treemenu active',

@@ -69,11 +69,11 @@
                {% if accents%}
                  <ul class="treeview-menu">
                 {%for accent in accents%}
-                <li>
-                  <a href="/voiceProfiles/{{accent.accent}}">
-                  <i class="fa fa-credit-card"></i>{{accent.accent}} <span class="label label-primary pull-right">{{accent.total}}</span>
-                </a>
-                </li>
+                  <li>
+                    <a href="/voiceProfiles/{{accent.accent}}">
+                   {{accent.accent}} <span class="label label-primary pull-right">{{accent.total}}</span>
+                  </a>
+                  </li>
                 {%endfor%}
                 
                 
@@ -90,7 +90,8 @@
                 
               </a>
               <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-credit-card"></i> Payment Methods</a></li>
+                <li><a href="pages/layout/top-nav.html"><i class="fa fa-credit-card"></i>Credits</a></li>
+                <li><a href="pages/layout/top-nav.html"><i class="fa fa-credit-card"></i>Payment Methods</a></li>
                 <li><a href="pages/layout/boxed.html"><i class="fa fa-file-text-o"></i>Invoices</a></li>
                 
               </ul>

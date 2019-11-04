@@ -31,14 +31,18 @@ class TrackTextAudioServices():
 
 		TTSServiceObject=self.trackTextInstance.voice_profile
 		TrackTTSServiceObject=self.trackTextInstance.track.voice_profile
+		default_voice_profile=	TTSService.objects.filter(system_default_profile=True)
 		dataDict={}		
 		dataDict['filename'] = "track_text_"+str(self.trackTextInstance.id)
 		dataDict['sentence'] = self.trackTextInstance.text
 		dataDict['object_id'] = str(self.trackTextInstance.id)
 		dataDict['bucket_name'] = base.TTS_BUCKET_NAME
+		dataDict['audio_speed'] = self.trackTextInstance.track.audio_speed
+		dataDict['audio_pitch'] = self.trackTextInstance.track.audio_pitch
+		dataDict['is_ssml'] = self.trackTextInstance.is_ssml
 
 		# Check if the Track Text Has a Voice Profile, if yes, grab the 
-		# engine name and Language Code. This happens is podcast mode is on
+		# engine name and Language Code. This happens if podcast mode is on
 		# for the Track
 
 		# If podcast mode is off, the Track has one common Voice Profile
@@ -57,8 +61,7 @@ class TrackTextAudioServices():
 		elif (TrackTTSServiceObject):
 			dataDict['engine_name'] = TrackTTSServiceObject.service_voice_model
 			dataDict['language_code'] = TrackTTSServiceObject.language_code
-		else:
-			default_voice_profile=	TTSService.objects.filter(system_default_profile=True)
+		else:			
 			dataDict['engine_name'] = default_voice_profile[0].service_voice_model
 			dataDict['language_code'] = default_voice_profile[0].language_code
 

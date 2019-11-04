@@ -19,6 +19,7 @@ class TrackText(models.Model):
 	track=models.ForeignKey(TrackModel.Track, on_delete=models.CASCADE, blank=True, null=True)
 	mark_for_deletion=models.BooleanField(default=False)
 	audio_file_name=models.CharField(max_length=100,default='', blank=True)
+	is_ssml=models.BooleanField(default=False)
 	class Meta:
 		ordering=['time_marker', 'track']
 		verbose_name = "Track Text"

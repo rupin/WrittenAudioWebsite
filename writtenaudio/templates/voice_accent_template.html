@@ -1,0 +1,37 @@
+{% load static %}
+
+{% for accent in accents %}
+			
+			{% if forloop.first %}
+        		<div class="row">
+    		{% endif %}
+
+
+    		<div class='col-md-4'>			
+			<div class="box box-solid bg-light-blue">
+                <div class="box-header">
+                  <h3 class="box-title">{{accent.accent}}</h3>
+                </div>
+                <div class="box-body">
+                 
+                 Voices Start from $&nbsp;{{accent.starts_from}}&nbsp;/&nbsp;minute
+                 
+                </div><!-- /.box-body -->
+              </div>
+          </div>
+
+              {% if forloop.counter|divisibleby:"3" %}
+              	</div>	<!-- end the row -->
+        		{% if not forloop.last %}
+            		<div class="row">
+        		{% endif %}
+    
+              {%endif%}
+
+              
+
+              {% if forloop.last %}
+        		</div>	
+    		  {% endif %}
+
+{%endfor%}

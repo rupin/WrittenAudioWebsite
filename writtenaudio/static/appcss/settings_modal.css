@@ -73,3 +73,8 @@ h1.nomargin
 {
 	margin-top: 0px;
 }
+
+.audio_speed_display, .audio_pitch_display
+{
+	text-align: center;
+}

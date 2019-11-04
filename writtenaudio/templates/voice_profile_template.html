@@ -63,14 +63,15 @@
                     <div class='col-lg-2 col-xs-12' >
                        
                         <div class='accent-name-container'>
-                            {% ifequal uservoiceprofile__enabled None %}
-                            <button class="btn btn-block btn-primary">Add to Account</button>  
+
+                            {% if uservoiceprofile__enabled%}
+                            <button class="btn btn-block btn-primary">Add</button>  
 
                             {%else%}
 
-                             <button class="btn btn-block btn-danger">Remove From Account</button>
+                             <button class="btn btn-block btn-danger">Remove</button>
                             
-                            {%endifequal%}
+                            {%endif%}
                         </div> 
                        
 

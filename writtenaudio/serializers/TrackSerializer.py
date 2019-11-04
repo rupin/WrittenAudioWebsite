@@ -28,7 +28,7 @@ class TrackSerializer(serializers.ModelSerializer):
 class UpdateVoiceProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Track
-		fields = ['voice_profile']
+		fields = ['voice_profile', 'audio_speed', 'audio_pitch']
 	def validate(self, data):
 
 		trackid=self.instance.id
@@ -38,7 +38,7 @@ class UpdateVoiceProfileSerializer(serializers.ModelSerializer):
 		if(TrackCount==1):
 			return data
 		else:
-			raise serializers.ValidationError("finish must occur after start")
+			raise serializers.ValidationError("Track Does not Exist")
 	def update(self, instance, validated_data):
 		new_voice_profile=validated_data["voice_profile"]
 		instance.voice_profile=new_voice_profile
@@ -46,6 +46,12 @@ class UpdateVoiceProfileSerializer(serializers.ModelSerializer):
 		instance.audio_file=""
 		instance.file_url=''
 		instance.duration=0
+		user_audio_speed=validated_data.get("audio_speed",instance.audio_speed)
+		user_audio_pitch=validated_data.get("audio_pitch",instance.audio_pitch)
+		if not (user_audio_speed==instance.audio_speed):
+			instance.audio_speed=user_audio_speed
+		if not (user_audio_pitch==instance.audio_pitch):
+			instance.audio_pitch=user_audio_pitch
 		instance.save()
 
 
@@ -92,6 +98,8 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 			myobject['bucket_name']=base.TTS_BUCKET_NAME
 			myobject['voice_profile_name']=str(instance.voice_profile)
 			myobject['title']=instance.title
+			myobject['audio_speed'] = instance.audio_speed
+			myobject['audio_pitch'] = instance.audio_pitch
 			#replace all spaces with underscores
 			#formatted_file_name=str(instance.title).replace(" ", "_")
 			file_name_to_be_saved=instance.title.strip() + "(" + str(instance.voice_profile)+")"

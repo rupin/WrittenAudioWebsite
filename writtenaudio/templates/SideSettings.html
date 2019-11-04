@@ -4,7 +4,7 @@
 	<h4 class="text-light-blue settings_header" >Track Settings</h4>
 	<div class="form-group">
 		<label>Default Voice Profile</label>		
-		<select data_select_type='track_voice_profile' data_id='{{track.id}}' class="form-control" name='outputformat' id='profile_{{track.id}}' >
+		<select data_select_type='track_voice_profile' data_id='{{track.id}}' class="form-control" name='outputformat' id='voice_profile_{{track.id}}' >
 
                 {% for voiceprofile in voiceprofiles %}
                     {% if voiceprofile.id == track.voice_profile.id %}
@@ -17,9 +17,25 @@
                 {%endfor%}
          </select>
 	</div>
-			<!--<div class="btn-group">
-		                  <button class="btn btn-block btn-primary">Save</button>
-		     </div>-->
+
+	<div class="form-group">
+		<label>Audio Speed</label>	
+		<input type="range" class="custom-range" name='audio_speed' id='audio_speed_{{track.id}}'  min="0.8" max="1.2" step="0.05" value='{{track.audio_speed}}' data_range_type='audio_speed' data-output-element='current_audio_speed'>	
+		<output class="audio_speed_display" name="current_audio_speed" id="current_audio_speed" for='audio_speed'>{{track.audio_speed}}x</output>	
+	</div>
+
+	<div class="form-group">
+		<label>Audio Pitch</label>	
+		<input type="range" class="custom-range" name='audio_pitch' id='audio_pitch_{{track.id}}'  min="-10" max="10" step="1" value='{{track.audio_pitch}}' data_range_type='audio_pitch'
+
+		data-output-element='current_audio_pitch'>	
+
+
+		<output class="audio_pitch_display" name="current_audio_pitch" id="current_audio_pitch" for='audio_pitch'>{{track.audio_pitch}}</output>	
+	</div>
+			<div class="btn-group">
+		                  <button data_id='{{track.id}}' class="btn btn-block btn-primary" id='save_track_param'>Save</button>
+		     </div>
 			
 
 		

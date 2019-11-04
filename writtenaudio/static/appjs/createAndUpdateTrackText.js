@@ -1,26 +1,4 @@
 // A $( document ).ready() block.
-function getCookie(name) {
- var cookieValue = null;
- if (document.cookie && document.cookie != '') {
-     var cookies = document.cookie.split(';');
-     for (var i = 0; i < cookies.length; i++) {
-         var cookie = jQuery.trim(cookies[i]);
-         // Does this cookie string begin with the name we want?
-         if (cookie.substring(0, name.length + 1) == (name + '=')) {
-             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-             break;
-         }
-     }
- }
- return cookieValue;
-}
-
-function getBaseURL()
-{
-  var getUrl = window.location;
-  var baseUrl = getUrl.protocol + "//" + getUrl.host 
-  return baseUrl;
-}
 
 /**********************************************************/
 
@@ -78,29 +56,7 @@ function updateTrack(trackID, trackData)
   });
 }
 
-function updateVoiceProfile(trackID, trackData)
-{
-    $.ajaxSetup({
-       beforeSend: function(xhr, settings) {
-           
-            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-           
-       }
-  });
-    URL=getBaseURL()+'/updateVoiceProfile/'+trackID+"/"  
-    
-    $.ajax({
-        url: URL,
-        type: 'PATCH',
-        data:trackData,
-        contentType: "application/json",
-        dataType: "json",     
-        success: function(result) {
-            //$('#track_title_text_input').trigger('track_title_saved');
-            //console.log(result)
-        }
-    });
-}
+
 
 
 
@@ -169,9 +125,9 @@ function generateCombinedAudio(track_id)
 
 function text_clean_up(newtext)
 {
-	newtext = newtext.replace(/(\r\n|\n|\r)/gm, ""); //Remove all Line breaks
-  newtext = newtext.replace(/</gm, "");
-  newtext = newtext.replace(/>/gm, "");
+	//newtext = newtext.replace(/(\r\n|\n|\r)/gm, ""); //Remove all Line breaks
+  //newtext = newtext.replace(/</gm, "");
+  //newtext = newtext.replace(/>/gm, "");
   newtext=  newtext.trim()
 
 	return newtext
@@ -351,6 +307,8 @@ $( document ).ready(function() {
     
     var timeoutId;
 
+
+
 $(document).on('keypress change focusout', 'textarea', function () {
     
 
@@ -505,13 +463,6 @@ $("#downloadbutton").on('click', function(){
 
 })
 
-$("select[data_select_type=track_voice_profile]").on("change", function(){
-        trackid=$(this).attr('data_id');
-        selected_value=$(this).find('option:selected').val() 
-        requestdata='{"voice_profile":' +selected_value+'}'
-        updateVoiceProfile(trackid,requestdata)     
-
-})
 
 
 

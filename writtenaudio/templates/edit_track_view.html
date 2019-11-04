@@ -33,10 +33,14 @@
 {%block appjs%}
 	<script src="{% static 'appjs/createAndUpdateTrackText.js' %}" type="text/javascript"></script>
   <script src="{% static 'appjs/settings_sidebar.js' %}" type="text/javascript"></script>
+  <script src="{% static 'appjs/ssml_editor.js' %}" type="text/javascript"></script>
+  
+
 {%endblock%}
 
 {%block appcss%}
 	<link href="{% static 'appcss/settings_modal.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'plugins/bootstrap-slider/slider.css'%}" rel="stylesheet" type="text/css" />
 {%endblock%}
 
 {%block modal%}

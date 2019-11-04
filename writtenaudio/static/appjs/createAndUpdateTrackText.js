@@ -105,7 +105,7 @@ function generateCombinedAudio(track_id)
           trackID=result['id']
           //audioURL=result['file_url']
           //audioURL=audioURL+"?a="+Math.random()
-          URL=getBaseURL()+'/downloadTrack/'+trackID+"/" 
+          URL=getDownloadFileURL(trackID)
           $('#combined_track_audio').append("<source id='sound_src' src=" + URL + " type='audio/mpeg'>");
           $("#combined_track_audio").trigger('load').trigger('play');
           $("#waiting_div").hide();
@@ -244,11 +244,17 @@ function enableButton(tracktextid)
 function downloadTrackFile(trackID)
 {
   
-  URL=getBaseURL()+'/download/'+trackID+"/"  
+  URL=getDownloadFileURL(trackID)
   
   window.location.assign(URL);
 
 
+}
+
+function getDownloadFileURL(trackID)
+{
+  
+  return getBaseURL()+'/downloadTrack/'+trackID+"/" 
 }
 
 

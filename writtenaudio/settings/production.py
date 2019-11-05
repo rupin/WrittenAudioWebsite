@@ -26,8 +26,7 @@ from .base import *
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "w+1*!qiejv4x79k3wq)$k%q$0mpp+)6*ca7b88^$o%_)&(th-$"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 
 

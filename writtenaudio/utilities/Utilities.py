@@ -40,6 +40,7 @@ class TrackTextAudioServices():
 		dataDict['audio_speed'] = self.trackTextInstance.track.audio_speed
 		dataDict['audio_pitch'] = self.trackTextInstance.track.audio_pitch
 		dataDict['is_ssml'] = self.trackTextInstance.is_ssml
+		dataDict['file_type'] = 'wav'
 
 		# Check if the Track Text Has a Voice Profile, if yes, grab the 
 		# engine name and Language Code. This happens if podcast mode is on

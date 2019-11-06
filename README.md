@@ -1,6 +1,6 @@
 # WrittenAudio
 
-WrittenAudio is a Web Application([www.writtenaudio.com]) which creates Noise Free Audio For E-Learning, Educational and Animation Videos. 
+WrittenAudio is a Web Application ( www.writtenaudio.com) which creates Noise Free Audio For E-Learning, Educational and Animation Videos. 
 
 
 

@@ -1,49 +1,29 @@
-# Heroku Django Starter Template
+# WrittenAudio
 
-An utterly fantastic project starter template for Django 2.0.
+WrittenAudio is a Web Application ( www.writtenaudio.com) which creates Noise Free Audio For E-Learning, Educational and Animation Videos. 
 
-## Features
+# Request an Account 
+I am currently accepting requests for people to try this amazing tool which has drastically reduced video edit times. Fill up this [form](https://forms.gle/DvJ5xvxd836JwBZo9) to get started.
 
-- Production-ready configuration for Static Files, Database Settings, Gunicorn, etc.
-- Enhancements to Django's static file serving functionality via WhiteNoise.
-- Latest Python 3.6 runtime environment.
-
-## How to Use
-
-To use this project, follow these steps:
-
-1. Create your working environment.
-2. Install Django (`$ pipenv install django`)
-3. Create a new project using this template
-
-## Creating Your Project
-
-Using this template to create a new Django app is easy::
-
-    $ django-admin.py startproject --template=https://github.com/heroku/heroku-django-template/archive/master.zip --name=Procfile helloworld
-
-(If this doesn't work on windows, replace `django-admin.py` with `django-admin`)
-
-You can replace ``helloworld`` with your desired project name.
-
-## Deployment to Heroku
-
-    $ git init
-    $ git add -A
-    $ git commit -m "Initial commit"
-
-    $ heroku create
-    $ git push heroku master
-
-    $ heroku run python manage.py migrate
-
-See also, a [ready-made application](https://github.com/heroku/python-getting-started), ready to deploy.
+# Background
+I had a bad cough in September 2019. My immediate task was to record and publish a DIY learning video. With the video already captured, I could not record audio. 
 
 
-## License: MIT
+Now came Python to the rescue, I cooked up a script which would take an .xls file and use the Google Text to Speech engine to generate the audio for me. Crystal clear audio with zero noise. I could have been an American Or a British Female by voice. See the script here (https://github.com/rupin/WrittenAudio) 
 
-## Further Reading
 
-- [Gunicorn](https://warehouse.python.org/project/gunicorn/)
-- [WhiteNoise](https://warehouse.python.org/project/whitenoise/)
-- [dj-database-url](https://warehouse.python.org/project/dj-database-url/)
+Thinking more about this dilemma, I figured that a lot of people still struggle with noise in audio when recording. Cars honking, babies crying, or a plane going above you. All are sources of noise in videos which require expensive audio equipment and ninja sound proofing. 
+
+
+Fast forward two weeks, with a lot of learning, I could get this web application built which is an extension to my original script, but is much user friendly to use. 
+
+Introducing WrittenAudio (writtenaudio.com). You can look at the video for more details on how the process works. 
+
+
+
+
+[![Watch the video](https://img.youtube.com/vi/eznPrInQ0rs/maxresdefault.jpg)](https://www.youtube.com/watch?v=eznPrInQ0rs)
+
+
+Sample Videos
+https://www.youtube.com/watch?v=Jz1fDZ1FUkM

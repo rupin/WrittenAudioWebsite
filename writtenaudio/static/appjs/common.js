@@ -20,3 +20,9 @@ function getBaseURL()
   var baseUrl = getUrl.protocol + "//" + getUrl.host 
   return baseUrl;
 }
+
+function getDownloadFileURL(trackID)
+{
+  
+  return getBaseURL()+'/downloadTrack/'+trackID+"/?a="+Math.random() 
+}

@@ -62,6 +62,7 @@ urlpatterns = [
     path('generateAudio/<uuid:pk>/', TrackTextAPI.UpdateAudio.as_view(),),
     path('CombinedAudioTrack/<uuid:pk>/', TrackAPI.GenerateCombinedAudio.as_view(),),
     path('updateVoiceProfile/<uuid:pk>/', TrackAPI.UpdateVoiceProfileAPIView.as_view(),),
+    path('isTrackResultAvailable/<uuid:pk>/', TrackAPI.TrackResponseTimeoutAPI.as_view(),),
 
     
     

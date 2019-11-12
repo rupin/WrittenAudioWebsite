@@ -8,6 +8,16 @@ import io
 from writtenaudio.settings import base
 
 from writtenaudio.utilities.Utilities import TrackTextAudioServices
+from writtenaudio.utilities.TrackUpdater import TrackUpdater
+
+from google.cloud import storage
+from google.oauth2 import service_account
+
+from writtenaudio.settings import base
+import tempfile
+from django.core.files import File
+
+
 
 class TrackSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -22,7 +32,10 @@ class TrackSerializer(serializers.ModelSerializer):
 		if(TrackCount==1):
 			return data
 		else:
-			raise serializers.ValidationError("finish must occur after start")
+			raise serializers.ValidationError("Not Allowed")
+
+
+
 
 
 class UpdateVoiceProfileSerializer(serializers.ModelSerializer):
@@ -91,6 +104,7 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 
 		myobject={}
 		tracktexts=[]
+		
 
 		if(not instance.processed):			
 
@@ -143,60 +157,69 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 			#The endpoint returns back a wellformed JSON.
 
 			headers = {'Content-type': 'application/json'}
+
+			# This request can time out(after 30s), and everything after this does not execute
+			# The request returns a 503 timeout
+
+			#The way we handle timeout is as follows
+
+			# 1) The HTTP Post has timed out, but function execution will complete
+			# 2) The cloud function will save a JSON file on the same bucket as it normally does
+			# 3) The AJAX call will automatically know that the request has timedout
+			# 4) In the AJAX call, we must repeatedly check for the presence of the JSON file
+			# 5) Once the JSON is available, we can download it and process it. 
+			# 6) The processed flag will be set on the track.
+			# 6) Once processed, the audio is available, and we can play it.
+
 			response=requests.post(base.COMBINER_ENDPOINT,data=json_data, headers=headers)
-			#jsonresponse=json.load(io.BytesIO(response.content))
-			jsonresponse=json.load(io.BytesIO(response.content))
+			jsonresponse=json.load(io.BytesIO(response.content))			
+			track_updater=TrackUpdater(instance, jsonresponse)
+			track_updater.updateTrackInstance()
+			# Once the instance goes to the TrackUpdater, the object gets copied
+			# We query the Track Model again. 
+			instance=Track.objects.get(id=instance.id)
+			
+		return instance
 
+class TrackResponseTimeoutSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Track
+		fields = ['id','audio_file', 'processed']
+	def validate(self, data):
 
+		trackid=self.instance.id
+		user=self.context['request'].user
 
+		TrackCount=Track.objects.filter(user=user, id=trackid).count()
+		if(TrackCount==1):
+			return data
+		else:
+			raise serializers.ValidationError("Not Allowed")
 
-			print("**** Response Here *****")
-			print(jsonresponse)
+	def update(self, instance, validated_data):	
 
-			# after the combiner combined the audio files
-			# It returns the locations of the combined files
-			# and the audio duration of the combined file. 
+		if(not instance.processed):
 
-			instance.duration=jsonresponse.get("duration",2)
-			track_file_name=jsonresponse.get("track_file_name")
-			instance.audio_file=track_file_name
-			track_fileURL=base.GOOGLE_CLOUD_STORAGE_BASE_URL+"/"+base.TTS_BUCKET_NAME+"/"+track_file_name
-			instance.file_url=track_fileURL
-			instance.processed=True
-			instance.save()
+			storage_credentials = service_account.Credentials.from_service_account_info(base.GS_CREDENTIALS)
 
-			# # There could be some tracks which are unprocessed while we sent the data to 
-			# the combiner end Point.
+			storage_client = storage.Client(project=base.GS_PROJECT_ID, credentials=storage_credentials)
 
-			# The combiner will internally do the text to audio conversion based on the tracktext information
+			json_file_name=str(instance.id) +".json"
+			bucket = storage_client.get_bucket(base.TTS_BUCKET_NAME)
+			blob = bucket.blob(json_file_name)
+			if(blob.exists()): # only if the file exists, do download it.
+				f=io.BytesIO()
+				blob.download_to_file(f)
+				track_json=f.getvalue().decode()
+				#print(type(track_json)) 
+				jsonresponse=json.loads(track_json)
+				track_updater=TrackUpdater(instance, jsonresponse)
+				track_updater.updateTrackInstance()
+				# Once the instance goes to the TrackUpdater, the object gets copied
+				# We query the Track Model again. 
+				instance=Track.objects.get(id=instance.id)   
+			
 
-			# These now have to be saved in the Database. The combiner return response
-
-			# has information about these unprocessed tracks ( which are not processed)
-
-
-			processed_tracks=jsonresponse.get("processed_tracks", [])
-
-			for processed_track in processed_tracks:
-				# There could be some of the tracks which could be unprocessed
-				# The user may have not listened to them. 
-				# We can prevent reconverting these to audio again, unless they are updated again.
-
-				#The combine operation gets us all the data for the unprocessed tracks.
-
-				track_text_id=processed_track.get("id")
-				unprocessed_track_text=TrackText.objects.get(id=track_text_id)
-				unprocessed_track_text.duration=processed_track.get("duration")
-				file_name=processed_track.get("file_name")
-				unprocessed_track_text.audio_file_name=file_name
-				fileURL=base.GOOGLE_CLOUD_STORAGE_BASE_URL+"/"+base.TTS_BUCKET_NAME+"/"+file_name
-				unprocessed_track_text.audio_file=fileURL
-				unprocessed_track_text.processed=True
-				unprocessed_track_text.save()
-
-
-
-		# Return the Track Instance	
 		return instance
 
 		

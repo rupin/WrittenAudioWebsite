@@ -21,7 +21,7 @@
             </td>  
                                   
             <td id='duration_container_{{tracktext.id}}' tyle='vertical-align: middle;padding:4px'> 
-              {%if tracktext.processed%} {{tracktext.duration}} {%endif%}
+              {%if tracktext.processed%} {{tracktext.duration|floatformat:-2}} {%endif%}
             
 
           </td>

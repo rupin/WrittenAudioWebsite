@@ -1,4 +1,4 @@
-// A $( document ).ready() block.
+
 
 /**********************************************************/
 
@@ -86,39 +86,7 @@ function AddRowToTable(trackid)
 
 /**********************************************************/
 
-function generateCombinedAudio(track_id)
-{
 
-  $.ajaxSetup({
-     beforeSend: function(xhr, settings) {
-         
-          xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-         
-     }
-});
-  URL=getBaseURL()+'/CombinedAudioTrack/'+track_id+"/"  
-  
-  $.ajax({
-      url: URL,
-      type: 'PATCH',        
-      success: function(result) {
-          trackID=result['id']
-          //audioURL=result['file_url']
-          //audioURL=audioURL+"?a="+Math.random()
-          URL=getDownloadFileURL(trackID)
-          $('#combined_track_audio').append("<source id='sound_src' src=" + URL + " type='audio/mpeg'>");
-          $("#combined_track_audio").trigger('load').trigger('play');
-          $("#waiting_div").hide();
-          $("#track_audio_container").show();
-          $("#track_file_name_div").show()
-          $("#file_name_tag").html(result['audio_file'])
-          //$("#audio-modal").show()
-          //enableButton(trackTextId)
-         
-      }
-  });
-
-}
 
 /**********************************************************/
 
@@ -251,11 +219,7 @@ function downloadTrackFile(trackID)
 
 }
 
-function getDownloadFileURL(trackID)
-{
-  
-  return getBaseURL()+'/downloadTrack/'+trackID+"/" 
-}
+
 
 
 $( document ).ready(function() {
@@ -398,32 +362,12 @@ $('#track_title_text_input').on('track_title_saved', function(){
 
 //
 
-$('#showmodal').on('click', function(){
-
-  $('#track_generation_modal').show();
-
-  track_id=$(this).attr('data_track_id');
-  generateCombinedAudio(track_id)
-})
 
 
 
 
-$('#combine_audio_close_modal').on('click', function(event){
-  target_modal=$(this).attr("data-dismiss")
-  //console.log(target_modal)
-  if(target_modal)
-  {
-    $("#"+target_modal).hide();
-  }
-  //$("#combined_track_audio").pause();
-  $("#combined_track_audio").trigger('pause');
-  $("#track_audio_container").hide();
-  $("#waiting_div").show();
-  $("#track_file_name_div").hide()
-  //$(event).stopPropagation()
 
-});
+
 
 $(document).on('keypress change focusout',"input[type=text][data-input-type=time_marker]", function(){
   //console.log("I am here")
@@ -459,15 +403,11 @@ $(document).keydown(function(event) {
 //console.log(event) 
   if (event.keyCode == 27) { 
    $("#audio-modal").hide()
+    $("audio").trigger('pause');
   }
 });
 
-$("#downloadbutton").on('click', function(){
 
-   track_id==$(this).attr("data-track_id")
-   downloadTrackFile(track_id);
-
-})
 
 
 

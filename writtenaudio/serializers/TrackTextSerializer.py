@@ -7,7 +7,7 @@ from writtenaudio.utilities.Utilities import TrackTextAudioServices
 class TrackTextSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = TrackText
-		fields = ['id','time_marker', 'text', 'voice_profile', 'processed', 'mark_for_deletion']
+		fields = ['id','time_marker','duration', 'text', 'voice_profile', 'processed', 'mark_for_deletion']
 
 	def update(self, instance, validated_data):
 

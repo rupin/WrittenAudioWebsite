@@ -1,4 +1,13 @@
+function updateRowDetails(result)
+{
+          object_id=result.id
+          $("#duration_container_"+object_id).html(result.duration)
+          end_time=Math.ceil(result.duration+result.time_marker)
 
+          $("#end_time_container_"+object_id).html(toHHMMSS(end_time)) //find this is common.js
+          //console.log(result)
+          
+}
 
 /**********************************************************/
 
@@ -26,6 +35,7 @@ function updateTrackText(trackID, trackTextData)
             track_text_id=result.id
             $("#row_"+track_text_id).remove()
          }
+         updateRowDetails(result);
         
 	    }
 	});
@@ -156,10 +166,7 @@ function generateAudio(trackTextId)
       success: function(result) {
 
           object_id=result.id
-          $("#duration_container_"+object_id).html(result.duration)
-          end_time=Math.ceil(result.duration+result.time_marker)
-
-          $("#end_time_container_"+object_id).html(toHHMMSS(end_time)) //find this is common.js
+          updateRowDetails(result);
           //console.log(result)
           URL=getBaseURL()+'/downloadTrackText/'+object_id+"/" 
           //console.log(audioURL)

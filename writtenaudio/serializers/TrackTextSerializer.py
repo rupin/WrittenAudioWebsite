@@ -25,7 +25,7 @@ class TrackTextSerializer(serializers.ModelSerializer):
 class AudioCreationSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = TrackText
-		fields = ['id','audio_file', 'duration', 'processed']
+		fields = ['id','audio_file', 'duration', 'processed','time_marker']
 		read_only=['duration']
 
 	def update(self, instance, validated_data):

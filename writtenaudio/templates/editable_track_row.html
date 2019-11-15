@@ -25,6 +25,14 @@
             
 
           </td>
+
+          <td id='end_time_container_{{tracktext.id}}' tyle='vertical-align: middle;padding:4px'> 
+              {%if tracktext.processed%} 
+              {{tracktext.time_marker|add:1|add:tracktext.duration|SecondsToDateFormatter}}
+               {%endif%}
+            
+
+          </td>
           {% if track.podcast_mode%}
             <td style='vertical-align: middle'>
 

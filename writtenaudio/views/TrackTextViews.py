@@ -23,6 +23,7 @@ from google.oauth2 import service_account
 from writtenaudio.settings import base
 import tempfile
 from django.core.files import File
+import math
 
 @login_required
 def CreateTrackEmptyRow(request, trackid):
@@ -31,7 +32,21 @@ def CreateTrackEmptyRow(request, trackid):
 	context={}
 	myTrack=Track.objects.filter(user=user,id=trackid)
 	if myTrack.count()==1:
-		defaultData={'duration':0, 'track':myTrack[0], 'time_marker':0}
+		# Lets us get the last track. 
+		lastTrack=TrackText.objects.filter(track=myTrack[0], mark_for_deletion=False).last()
+		#print(ExistingTracks)
+
+		newTrackStartTime=0
+		if(lastTrack):
+			if(lastTrack.processed):
+				last_track_duration=lastTrack.duration
+			else:
+				# Let us assume the last track duration will be 15 seconds long. 
+				last_track_duration=15
+			last_track_time_marker=lastTrack.time_marker
+			newTrackStartTime=math.ceil(last_track_duration+last_track_time_marker)
+
+		defaultData={'duration':0, 'track':myTrack[0], 'time_marker':newTrackStartTime}
 		createdTrackText=TrackText(**defaultData)
 		createdTrackText.save()
 		voiceProfiles=TTSService.objects.all()

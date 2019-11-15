@@ -17,6 +17,7 @@ class Track(models.Model):
 	file_url=models.CharField(max_length=300,default='', blank=True)
 	audio_speed=models.FloatField(blank=True, null=True, default=1)
 	audio_pitch=models.IntegerField(blank=True, null=True, default=1)
+	#video_path=models.FileField()
 	class Meta:
 		ordering=['-updated_at']
 	def __str__(self):

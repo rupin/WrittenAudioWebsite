@@ -157,6 +157,9 @@ function generateAudio(trackTextId)
 
           object_id=result.id
           $("#duration_container_"+object_id).html(result.duration)
+          end_time=Math.ceil(result.duration+result.time_marker)
+
+          $("#end_time_container_"+object_id).html(toHHMMSS(end_time)) //find this is common.js
           //console.log(result)
           URL=getBaseURL()+'/downloadTrackText/'+object_id+"/" 
           //console.log(audioURL)

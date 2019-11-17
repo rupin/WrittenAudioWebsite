@@ -14,6 +14,7 @@ from dateutil.parser import *
 from writtenaudio.models.TrackModel import Track
 from writtenaudio.models.TrackTextModel import TrackText
 from writtenaudio.models.TTSServiceModel import TTSService
+from writtenaudio.models.LanguageModel import Language
 
 from django.http import HttpResponseRedirect
 
@@ -29,12 +30,14 @@ from google.oauth2 import service_account
 from writtenaudio.settings import base
 import tempfile
 from django.core.files import File
+from django.db import transaction
 
 @login_required
 def ViewMyTracks(request):
     user=request.user
     template = loader.get_template('mytracks.html')
     mytracks=Track.objects.filter(user=user)
+    languages=Language.objects.filter(enabled=True)
     #print(mytracks.count())
     context = {
                 'tracks':mytracks,
@@ -45,6 +48,7 @@ def ViewMyTracks(request):
                 'trackmenu':'treemenu active',
                 'voiceprofilemenu':'treemenu',
                 'billingmenu':'treemenu', 
+                'languages':languages
     }
     return HttpResponse(template.render(context, request))
 
@@ -193,3 +197,69 @@ def DownloadTrack(request,trackid):
     return response
 
     #return HttpResponse("abcd")
+
+@login_required
+@transaction.atomic
+def cloneTrack(request, trackid, language_id):
+    user=request.user
+    track_details=Track.objects.filter(user=user, id=trackid)
+    if(track_details.count()==1): #There is a track like this   
+      print("Authorised to Edit Track")
+    else:
+      return HttpResponse('Unauthorized', status=401)
+    language_object=Language.objects.filter(id=language_id, enabled=True)
+
+    if(not language_object.count()==1): #There is no language code like this
+      return HttpResponse('Unauthorized', status=401)
+
+
+    newTrack=track_details[0]
+    if(newTrack.parent_track is not None): # Not allowed to Clone Child Tracks. 
+      return HttpResponse('Unauthorized', status=401)
+
+    cloneTitle=newTrack.title +"("+language_object[0].display_name+")"
+    
+    newTrack.title=cloneTitle
+    newTrack.duration=0
+    newTrack.language=language_object[0]
+    newTrack.parent_track=track_details[0]
+    newTrack.pk=None
+    newTrack.save()
+    newTrackID=newTrack.id
+
+    Track_Texts=TrackText.objects.filter(track=trackid, mark_for_deletion=False)
+
+    for track_text in Track_Texts:
+        original_track_text=track_text
+        track_text.processed=False
+        track_text.duration=0
+        track_text.editable=False
+        track_text.track=newTrack
+        track_text.audio_file=""
+        track_text.audio_file_name
+        track_text.pk=None
+        
+        track_text.save()
+        track_text.parent_track_text=original_track_text
+        track_text.save()
+        #a=1/0
+
+
+    return HttpResponseRedirect('/editTrack/'+str(newTrackID))
+
+    
+
+
+@login_required
+def TranslateTrack(request,trackid):
+    user=request.user    
+
+    mytrack=Track.objects.filter(user=user, id=trackid)
+
+    if(mytrack.count()==1): #There is a track like this   
+      print("Authorised to Edit Track")
+    else:
+      return HttpResponse('Unauthorized', status=401)
+
+      
+    return HttpResponse("OK")

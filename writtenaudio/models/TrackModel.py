@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from django.conf import settings
 from writtenaudio.models import TTSServiceModel
+from writtenaudio.models import LanguageModel
 
 class Track(models.Model):
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -17,7 +18,9 @@ class Track(models.Model):
 	file_url=models.CharField(max_length=300,default='', blank=True)
 	audio_speed=models.FloatField(blank=True, null=True, default=1)
 	audio_pitch=models.IntegerField(blank=True, null=True, default=1)
-	#video_path=models.FileField()
+	language=models.ForeignKey(LanguageModel.Language, on_delete=models.CASCADE, blank=True, null=True)
+	parent_track=models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+	
 	class Meta:
 		ordering=['-updated_at']
 	def __str__(self):

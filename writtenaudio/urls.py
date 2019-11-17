@@ -51,6 +51,7 @@ urlpatterns = [
     path('downloadTrackText/<uuid:trackTextid>/', TrackTextViews.DownloadTrackText),
     path('voiceProfiles/', VoiceProfileViews.ViewVoiceProfile),
     path('voiceProfiles/<str:accent>', VoiceProfileViews.ViewVoiceProfile),
+    path('cloneTrack/<uuid:trackid>/<uuid:language_id>', TrackView.cloneTrack),
 
 
 

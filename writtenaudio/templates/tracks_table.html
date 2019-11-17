@@ -21,7 +21,7 @@
                         <tbody>
                           {% for track in tracks %}
                             <tr>
-                            <td><a href="/viewTrack/{{track.id}}">{{track.title}}</a></td>
+                            <td><a href="/editTrack/{{track.id}}">{{track.title}}</a></td>
                             <td>{{track.duration|SecondsToTextFormatter}}</td>  
                                                     
                             <td>{{track.created_at|date:"M d, Y"}}</td>
@@ -38,22 +38,29 @@
                                       <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                      <li><a href="/downloadTrack/{{track.id}}">
+                                      <!--<li><a href="/downloadTrack/{{track.id}}">
                                           <i class="fa fa-download"></i>
 
-                                      Download</a></li>
+                                      Download</a></li>-->
 
                                       <li><a href="/editTrack/{{track.id}}">
                                           <i class="fa fa-pencil"></i>
 
                                       Edit</a></li>
-                                      <!--<li>
-                                        <a href="/cloneTrack/{{track.id}}">
-
-                                          <i class="fa fa-clone"></i>Clone
-
-                                      </a>
-                                    </li>-->
+                                      {%if track.parent_track%}
+                                        <li>
+                                          <a href="javascript:openTranslateModal('{{track.id}}')">
+                                            <i class="fa fa-language"></i>Translate
+                                          </a>
+                                        </li>
+                                      {%endif%}
+                                      {%if not track.parent_track%}
+                                        <li>
+                                          <a href="javascript:openTranslateModal('{{track.id}}')">
+                                            <i class="fa fa-clone"></i>Clone
+                                          </a>
+                                        </li>
+                                      {%endif%}
                                       <li class="divider"></li>
                                       <li ><a href="/deleteTrack/{{track.id}}" class='text-red'>
                                         <i class="fa fa-trash"></i>

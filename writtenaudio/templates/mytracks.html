@@ -1,5 +1,5 @@
 {% extends 'base_template.html' %}
-
+{% load static %}
 {% block tracks_table %}
           
     {% include 'tracks_table.html' %}
@@ -25,7 +25,21 @@
 {% endblock %}
 
 
+{%block modal%}
 
-    {%block page_heading%}
-        {% include 'page_heading.html' %}
-    {%endblock%}
+	{%include 'translate_track_modal.html'%}
+
+{%endblock%}
+
+
+
+{%block page_heading%}
+    {% include 'page_heading.html' %}
+{%endblock%}
+
+
+{%block appjs%}
+<script src="{% static 'appjs/clonetrack.js' %}" type="text/javascript"></script>
+<script src="{% static 'appjs/common.js' %}" type="text/javascript"></script>
+{% endblock %}
+

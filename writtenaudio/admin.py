@@ -34,6 +34,11 @@ class TTSServiceAdmin(ImportExportModelAdmin):
                     'system_default_profile',
                     'cost',
                     'premium_voice']
+
+class LanguageModelAdmin(ImportExportModelAdmin):   
+    
+    model = LanguageModel.Language
+    list_display = ['code','display_name']
 	
 
 
@@ -42,3 +47,4 @@ admin.site.register(TrackTextModel.TrackText,TrackTextAdmin)
 admin.site.register(TrackModel.Track,TrackAdmin)
 admin.site.register(TTSServiceModel.TTSService,TTSServiceAdmin)
 admin.site.register(UserVoiceProfileModel.UserVoiceProfile)
+admin.site.register(LanguageModel.Language,LanguageModelAdmin)

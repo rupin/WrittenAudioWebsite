@@ -1,0 +1,39 @@
+  <div class="example-modal">
+    <div class="modal" id='translate_track_modal' data_track_id='{{track.id}}'>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" id='translate_track_modal_close' aria-label="Close" data-dismiss="translate_track_modal">
+              <span aria-hidden="true" >×</span>
+            </button>
+            <h3 class="modal-title">Select Language</h3>
+          </div>
+          <div class="modal-body">             
+
+
+               <div class='row' id='track_audio_container'>
+                <div class="col-xs-3" >
+                    <h4>Translate to:</h4>
+                </div>
+
+                 <div class="col-xs-4">
+                  <select>
+                   {%for language in languages%}
+                   <option value='{{language.id}}'>{{language.display_name}}</option>
+                   {%endfor%}
+                  </select>
+                 </div>
+
+                  <div class="col-xs-3" >
+                    <button type="button" data-track_id='' class="btn btn-primary" id='translatebutton'>Translate</button>
+                  </div>
+              </div>
+              
+
+             
+          </div>
+         
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  </div>

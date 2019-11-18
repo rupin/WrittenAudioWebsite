@@ -51,7 +51,7 @@ urlpatterns = [
     path('downloadTrackText/<uuid:trackTextid>/', TrackTextViews.DownloadTrackText),
     path('voiceProfiles/', VoiceProfileViews.ViewVoiceProfile),
     path('voiceProfiles/<str:accent>', VoiceProfileViews.ViewVoiceProfile),
-    path('cloneTrack/<uuid:trackid>/<uuid:language_id>', TrackView.cloneTrack),
+    
 
 
 
@@ -64,6 +64,7 @@ urlpatterns = [
     path('CombinedAudioTrack/<uuid:pk>/', TrackAPI.GenerateCombinedAudio.as_view(),),
     path('updateVoiceProfile/<uuid:pk>/', TrackAPI.UpdateVoiceProfileAPIView.as_view(),),
     path('isTrackResultAvailable/<uuid:pk>/', TrackAPI.TrackResponseTimeoutAPI.as_view(),),
+    path('translateTrack/<uuid:pk>/', TrackAPI.TranslateTrack.as_view(),),
 
     
     

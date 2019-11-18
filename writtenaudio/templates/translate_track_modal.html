@@ -17,7 +17,7 @@
                 </div>
 
                  <div class="col-xs-4">
-                  <select>
+                  <select id='translation_dropdown'>
                    {%for language in languages%}
                    <option value='{{language.id}}'>{{language.display_name}}</option>
                    {%endfor%}

@@ -168,6 +168,7 @@ else:
 
 TTS_END_POINT=endPoints.get('generator_endpoint')
 COMBINER_ENDPOINT=endPoints.get('combiner_endpoint')
+TRANSLATION_ENDPOINT=endPoints.get('translation_endpoint')
 TTS_BUCKET_NAME=os.environ.get('BUCKET_NAME','written_audio_local')
 GOOGLE_CLOUD_STORAGE_BASE_URL="https://storage.cloud.google.com"
 

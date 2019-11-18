@@ -46,18 +46,13 @@
                                       <li><a href="/editTrack/{{track.id}}">
                                           <i class="fa fa-pencil"></i>
 
-                                      Edit</a></li>
-                                      {%if track.parent_track%}
+                                      Edit</a></li>                                     
+                                        
+                                      
+                                      {% if not track.cloned %}
                                         <li>
                                           <a href="javascript:openTranslateModal('{{track.id}}')">
                                             <i class="fa fa-language"></i>Translate
-                                          </a>
-                                        </li>
-                                      {%endif%}
-                                      {%if not track.parent_track%}
-                                        <li>
-                                          <a href="javascript:openTranslateModal('{{track.id}}')">
-                                            <i class="fa fa-clone"></i>Clone
                                           </a>
                                         </li>
                                       {%endif%}

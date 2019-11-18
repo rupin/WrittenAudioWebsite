@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from writtenaudio.permissions.TrackAccessPermission import UserPermittedonTrack
+from django.db import transaction
 
 class UpdateTrackAPIView(generics.UpdateAPIView):
 	serializer_class = TrackSerializer
@@ -58,6 +59,22 @@ class GenerateCombinedAudio(generics.UpdateAPIView):
 class TrackResponseTimeoutAPI(generics.UpdateAPIView):
 
 	serializer_class=TrackResponseTimeoutSerializer
+	permission_classes = [IsAuthenticated,UserPermittedonTrack]
+
+	def get_queryset(self):        
+		return Track.objects.all()
+		
+	def update(self, request, *args, **kwargs):
+		partial = kwargs.pop('partial', False)
+		instance = self.get_object()
+		serializer = self.get_serializer(instance, data=request.data, partial=partial)
+		serializer.is_valid(raise_exception=True)
+		self.perform_update(serializer)
+		return Response(serializer.data)
+
+
+class TranslateTrack(generics.UpdateAPIView):
+	serializer_class=TranslateTrackSerializer
 	permission_classes = [IsAuthenticated,UserPermittedonTrack]
 
 	def get_queryset(self):        

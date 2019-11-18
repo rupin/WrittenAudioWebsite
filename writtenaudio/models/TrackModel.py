@@ -19,7 +19,7 @@ class Track(models.Model):
 	audio_speed=models.FloatField(blank=True, null=True, default=1)
 	audio_pitch=models.IntegerField(blank=True, null=True, default=1)
 	language=models.ForeignKey(LanguageModel.Language, on_delete=models.CASCADE, blank=True, null=True)
-	parent_track=models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+	cloned=models.BooleanField(default=False)
 	
 	class Meta:
 		ordering=['-updated_at']

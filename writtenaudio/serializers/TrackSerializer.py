@@ -17,7 +17,9 @@ from writtenaudio.settings import base
 import tempfile
 from django.core.files import File
 
+from .TrackTextSerializer import TrackTextSerializer
 
+from django.db import transaction
 
 class TrackSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -221,6 +223,70 @@ class TrackResponseTimeoutSerializer(serializers.ModelSerializer):
 			
 
 		return instance
+
+class TranslateTrackSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		model = Track
+		fields = ['id','language']
+	def validate(self, data):
+
+		trackid=self.instance.id
+		user=self.context['request'].user
+
+		TrackCount=Track.objects.filter(user=user, id=trackid).count()
+		if(TrackCount==1):
+			return data
+		else:
+			raise serializers.ValidationError("Not Allowed")
+
+	def update(self, instance, validated_data):
+		#print(validated_data)
+		request_data={}
+		#request_data.target_language=
+		target_language=validated_data["language"]
+		language_code=target_language.code
+		#print(target_language)	
+		tracktextslist=[]
+
+		# Lets us make a copy of the track, before translation.
+		print(instance.id)
+		clone=TrackUpdater(instance)
+		newTrack=clone.cloneTrack()
+
+		
+		track_texts=TrackText.objects.filter(track=newTrack, mark_for_deletion=False)
+		for track_text in track_texts:
+			tracktextdict={}
+			tracktextdict["sentence"]=track_text.text
+			tracktextdict["id"]=str(track_text.id)
+			tracktextdict["target_language"]=language_code
+			tracktextslist.append(tracktextdict)
+
+		request_data["tracktexts"]=tracktextslist
+		json_data = json.dumps(request_data)
+		#print(json_data)
+		headers = {'Content-type': 'application/json'}
+
+		
+		response=requests.post(base.TRANSLATION_ENDPOINT,data=json_data, headers=headers)
+		jsonresponse=json.load(io.BytesIO(response.content))
+		translations=jsonresponse.get("translations",[])
+		for translation in translations:
+			track_text_id=translation.get("id")
+			track_text=translation.get("sentence")
+			track_text_object=TrackText.objects.get(id=track_text_id)
+			track_text_object.text=track_text
+			track_text_object.processed=False
+			track_text_object.duration=0
+			track_text_object.save()
+		newTrack.language=target_language
+		newTrack.title=newTrack.title + "("+target_language.display_name+")"
+		newTrack.save()
+		return newTrack
+
+		
+
 
 		
 		

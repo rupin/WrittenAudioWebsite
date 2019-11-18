@@ -3,9 +3,10 @@ from writtenaudio.models.TrackTextModel import TrackText
 import json
 from writtenaudio.settings import base
 import io
+from django.db import transaction
 class TrackUpdater():
 
-	def __init__(self, instance, jsonresponse):
+	def __init__(self, instance, jsonresponse={}):
 
 		self.trackInstance=instance
 		self.jsonresponse=jsonresponse
@@ -39,3 +40,35 @@ class TrackUpdater():
 			unprocessed_track_text.audio_file=fileURL
 			unprocessed_track_text.processed=True
 			unprocessed_track_text.save()
+
+
+	def cloneTrack(self):
+		newTrack=self.trackInstance
+		originalTrackId=self.trackInstance.id
+		
+		with transaction.atomic():
+			newTrack.duration=0	
+			newTrack.cloned=True	
+			newTrack.pk=None
+			newTrack.save()
+			newTrackID=newTrack.id
+			#print(originalTrackId)
+			Track_Texts=TrackText.objects.filter(track=originalTrackId, mark_for_deletion=False)
+			#print(Track_Texts.query)
+			#print(Track_Texts.count())
+
+			for track_text in Track_Texts:
+			    original_track_text=track_text
+			    track_text.processed=False
+			    track_text.duration=0
+			    track_text.editable=False
+			    track_text.track=newTrack
+			    track_text.audio_file=""
+			    track_text.audio_file_name
+			    track_text.pk=None
+			    
+			    track_text.save()
+			    #track_text.parent_track_text=original_track_text
+			    #track_text.save()
+			    #a=1/0 
+			return newTrack

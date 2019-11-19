@@ -48,7 +48,10 @@ class TrackUpdater():
 		
 		with transaction.atomic():
 			newTrack.duration=0	
-			newTrack.cloned=True	
+			newTrack.processed=False
+			newTrack.cloned=True
+			newTrack.audio_file=""
+			newTrack.file_url=""
 			newTrack.pk=None
 			newTrack.save()
 			newTrackID=newTrack.id

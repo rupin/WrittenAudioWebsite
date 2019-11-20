@@ -9,9 +9,9 @@
                 {% for voiceprofile in voiceprofiles %}
                     {% if voiceprofile.id == track.voice_profile.id %}
 
-                        <option value='{{voiceprofile.id}}' selected='selected'>{{voiceprofile.name}}</option>
+                        <option value='{{voiceprofile.id}}' selected='selected'>{{voiceprofile.name}}&nbsp;-{{voiceprofile.accent}}</option>
                       {%else%}
-                      <option value='{{voiceprofile.id}}'>{{voiceprofile.name}}</option>
+                      <option value='{{voiceprofile.id}}'>{{voiceprofile.name}}&nbsp;-{{voiceprofile.accent}}</option>
 
                     {%endif%}
                 {%endfor%}
@@ -20,7 +20,7 @@
 
 	<div class="form-group">
 		<label>Audio Speed</label>	
-		<input type="range" class="custom-range" name='audio_speed' id='audio_speed_{{track.id}}'  min="0.8" max="1.2" step="0.05" value='{{track.audio_speed}}' data_range_type='audio_speed' data-output-element='current_audio_speed'>	
+		<input type="range" class="custom-range" name='audio_speed' id='audio_speed_{{track.id}}'  min="0.5" max="1.2" step="0.05" value='{{track.audio_speed}}' data_range_type='audio_speed' data-output-element='current_audio_speed'>	
 		<output class="audio_speed_display" name="current_audio_speed" id="current_audio_speed" for='audio_speed'>{{track.audio_speed}}x</output>	
 	</div>
 

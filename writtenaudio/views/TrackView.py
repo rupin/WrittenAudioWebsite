@@ -84,9 +84,14 @@ def CreateEmptyTrack(request):
   createdTrack=Track.objects.create(user=user, title=tracktitle, duration=0)
   trackID=createdTrack.id
   defaultTTS=TTSService.objects.filter(system_default_profile=True)
+  default_language=Language.objects.filter(enabled=True, system_default=True)
   if(defaultTTS.count()==1):
     createdTrack.voice_profile=defaultTTS[0]
     createdTrack.save()
+   
+  if(default_language.count()==1):
+      createdTrack.language=default_language[0]      
+      createdTrack.save()
   createdEmptyTrackText=TrackText.objects.create(track=createdTrack)
   return HttpResponseRedirect('/editTrack/'+str(trackID))
     
@@ -103,9 +108,9 @@ def EditTrack(request,trackid):
     else:
       return HttpResponse('Unauthorized', status=401)
 
-
+    track_language=mytrack[0].language
     myTrackText=TrackText.objects.filter(track=trackid, mark_for_deletion=False).prefetch_related('voice_profile')
-    voiceProfiles=TTSService.objects.filter(enabled=True)
+    voiceProfiles=TTSService.objects.filter(enabled=True, preferred_language=track_language)
     template = loader.get_template('edit_track_view.html')
     #print(mytracks.count())
     context = {

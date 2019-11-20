@@ -1,4 +1,5 @@
 from django.db import models
+from .LanguageModel import Language
 import uuid
 
 class TTSService(models.Model):
@@ -27,7 +28,10 @@ class TTSService(models.Model):
 	system_default_profile=models.BooleanField(default=False)
 	avatar_image_path=models.CharField(max_length=200, blank=True, default='')
 	sample_audio_path=models.CharField(max_length=200, blank=True, default='')
-	voice_profile_description=models.CharField(max_length=300, blank=True, default='')	
+	voice_profile_description=models.CharField(max_length=300, blank=True, default='')
+
+	# Which languages are most suitable for this Speaker and Accent
+	preferred_language = models.ManyToManyField(Language)	
 	class Meta:
 		ordering=['name', 'accent']
 		verbose_name = "TTS Service"

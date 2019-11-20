@@ -6,8 +6,9 @@ class Language(models.Model):
 	code=models.CharField(max_length=10, blank=False)
 	display_name=models.CharField(max_length=40, blank=True, null=True)
 	enabled=models.BooleanField(default=False)
+	system_default=models.BooleanField(default=False)
 
 	class Meta:
-		ordering=['-display_name']
+		ordering=['display_name']
 	def __str__(self):
 		return self.display_name

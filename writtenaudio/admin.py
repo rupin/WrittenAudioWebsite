@@ -21,7 +21,7 @@ class TrackTextAdmin(ImportExportModelAdmin):
 class TrackAdmin(ImportExportModelAdmin):   
     
     model = TrackModel.Track
-    list_display = ['user','title', 'processed', 'duration']
+    list_display = ['user','title', 'processed', 'duration', 'language']
 
 class TTSServiceAdmin(ImportExportModelAdmin):   
     
@@ -33,7 +33,10 @@ class TTSServiceAdmin(ImportExportModelAdmin):
                     'enabled', 
                     'system_default_profile',
                     'cost',
-                    'premium_voice']
+                    'premium_voice',
+                    'get_preferred_language']
+    def get_preferred_language(self, obj):
+        return ",".join([p.display_name for p in obj.preferred_language.all()])
 
 class LanguageModelAdmin(ImportExportModelAdmin):   
     

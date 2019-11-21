@@ -32,7 +32,14 @@ import tempfile
 from django.core.files import File
 
 
-def a(request):
-    return HttpResponse("cuvlguslwBzUyaIinsA9mqhzJS4OOWcuQusL3W9Q72E.myDJpYgTrvLKjt6SbrmeGN6BxogAuJ12QPUVzGalfvA")
-def b(request):
-    return HttpResponse("0Y7xhX1JMo-IOI03pceAPYEduVPrCYLz_BqAOwX3pLg.myDJpYgTrvLKjt6SbrmeGN6BxogAuJ12QPUVzGalfvA")
+def verify(request,param):
+    tmpdir=tempfile.gettempdir() # prints the current temporary directory
+    tempFilePath=tmpdir+"/"+param
+    with open(tempFilePath, 'w') as a:
+        a.write(param)
+
+    myFile=open(tempFilePath, 'rb').read()
+    response = HttpResponse(myFile)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment; filename='+param
+    return response

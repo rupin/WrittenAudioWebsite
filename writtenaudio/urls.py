@@ -54,8 +54,8 @@ urlpatterns = [
     path('voiceProfiles/<str:accent>', VoiceProfileViews.ViewVoiceProfile),
     
     # Temporary
-    path('.well-known/acme-challenge/cuvlguslwBzUyaIinsA9mqhzJS4OOWcuQusL3W9Q72E', DomainVerification.a),
-    path('.well-known/acme-challenge/0Y7xhX1JMo-IOI03pceAPYEduVPrCYLz_BqAOwX3pLg', DomainVerification.b),
+    #path('.well-known/acme-challenge/cuvlguslwBzUyaIinsA9mqhzJS4OOWcuQusL3W9Q72E', DomainVerification.a),
+    path('.well-known/acme-challenge/<str:param>', DomainVerification.verify),
 
 
 

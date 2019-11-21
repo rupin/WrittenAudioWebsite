@@ -33,12 +33,8 @@ from django.core.files import File
 
 
 def verify(request,param):
-    tmpdir=tempfile.gettempdir() # prints the current temporary directory
-    tempFilePath=tmpdir+"/"+param
-    with open(tempFilePath, 'w') as a:
-        a.write(param)
-
-    myFile=open(tempFilePath, 'rb').read()
+    
+    myFile=open(param, 'rb').read()
     response = HttpResponse(myFile)
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment; filename='+param

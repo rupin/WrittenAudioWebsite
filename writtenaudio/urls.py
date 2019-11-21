@@ -20,6 +20,7 @@ from writtenaudio.views import TrackView
 from writtenaudio.views import TrackTextViews
 from writtenaudio.views import HomePageViews
 from writtenaudio.views import VoiceProfileViews
+from writtenaudio.views import DomainVerification
 from writtenaudio.api import TrackTextAPI
 from writtenaudio.api import TrackAPI
 from django.conf.urls import url
@@ -52,6 +53,9 @@ urlpatterns = [
     path('voiceProfiles/', VoiceProfileViews.ViewVoiceProfile),
     path('voiceProfiles/<str:accent>', VoiceProfileViews.ViewVoiceProfile),
     
+    # Temporary
+    path('.well-known/acme-challenge/cuvlguslwBzUyaIinsA9mqhzJS4OOWcuQusL3W9Q72E', DomainVerification.a),
+    path('.well-known/acme-challenge/0Y7xhX1JMo-IOI03pceAPYEduVPrCYLz_BqAOwX3pLg', DomainVerification.b),
 
 
 

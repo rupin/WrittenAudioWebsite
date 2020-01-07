@@ -42,6 +42,11 @@ class LanguageModelAdmin(ImportExportModelAdmin):
     
     model = LanguageModel.Language
     list_display = ['code','display_name']
+
+class MusicTrackModelAdmin(ImportExportModelAdmin):   
+    
+    model = MusicTrackModel.MusicTrack
+    list_display = ['genre','track_name', 'enabled']
 	
 
 
@@ -51,3 +56,4 @@ admin.site.register(TrackModel.Track,TrackAdmin)
 admin.site.register(TTSServiceModel.TTSService,TTSServiceAdmin)
 admin.site.register(UserVoiceProfileModel.UserVoiceProfile)
 admin.site.register(LanguageModel.Language,LanguageModelAdmin)
+admin.site.register(MusicTrackModel.MusicTrack,MusicTrackModelAdmin)

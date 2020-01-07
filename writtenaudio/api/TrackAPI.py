@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from writtenaudio.permissions.TrackAccessPermission import UserPermittedonTrack
-from django.db import transaction
+
 
 class UpdateTrackAPIView(generics.UpdateAPIView):
 	serializer_class = TrackSerializer

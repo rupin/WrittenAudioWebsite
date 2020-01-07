@@ -3,6 +3,7 @@ import uuid
 from django.conf import settings
 from writtenaudio.models import TTSServiceModel
 from writtenaudio.models import LanguageModel
+from writtenaudio.models import MusicTrackModel
 
 class Track(models.Model):
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -20,6 +21,7 @@ class Track(models.Model):
 	audio_pitch=models.IntegerField(blank=True, null=True, default=1)
 	language=models.ForeignKey(LanguageModel.Language, on_delete=models.CASCADE, blank=True, null=True)
 	cloned=models.BooleanField(default=False)
+	musictrack=models.ForeignKey(MusicTrackModel.MusicTrack, on_delete=models.CASCADE, blank=True, null=True)
 	
 	class Meta:
 		ordering=['-updated_at']

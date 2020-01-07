@@ -14,8 +14,8 @@ from google.cloud import storage
 from google.oauth2 import service_account
 
 from writtenaudio.settings import base
-import tempfile
-from django.core.files import File
+
+
 
 from .TrackTextSerializer import TrackTextSerializer
 
@@ -116,6 +116,9 @@ class CombineAudioSerializer(serializers.ModelSerializer):
 			myobject['title']=instance.title
 			myobject['audio_speed'] = instance.audio_speed
 			myobject['audio_pitch'] = instance.audio_pitch
+			music_track=instance.musictrack
+			if(music_track):
+				myobject['music_file_path'] = music_track.filename
 			#replace all spaces with underscores
 			#formatted_file_name=str(instance.title).replace(" ", "_")
 			file_name_to_be_saved=instance.title.strip() + "(" + str(instance.voice_profile)+")"

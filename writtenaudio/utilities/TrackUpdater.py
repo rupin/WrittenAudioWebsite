@@ -1,6 +1,6 @@
 from writtenaudio.models.TrackModel import Track
 from writtenaudio.models.TrackTextModel import TrackText
-import json
+
 from writtenaudio.settings import base
 import io
 from django.db import transaction
@@ -68,8 +68,7 @@ class TrackUpdater():
 			    track_text.track=newTrack
 			    track_text.audio_file=""
 			    track_text.audio_file_name
-			    track_text.pk=None
-			    
+			    track_text.pk=None			    
 			    track_text.save()
 			    #track_text.parent_track_text=original_track_text
 			    #track_text.save()

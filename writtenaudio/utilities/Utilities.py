@@ -10,7 +10,7 @@ class TrackTextAudioServices():
 		self.trackTextInstance=trackTextInstance
 
 	def GoogleTTSFunction(self):
-		datadict={}
+		
 		response=""	
 		
 
@@ -62,7 +62,7 @@ class TrackTextAudioServices():
 		elif (TrackTTSServiceObject):
 			dataDict['engine_name'] = TrackTTSServiceObject.service_voice_model
 			dataDict['language_code'] = TrackTTSServiceObject.language_code
-		else:			
+		else:
 			dataDict['engine_name'] = default_voice_profile[0].service_voice_model
 			dataDict['language_code'] = default_voice_profile[0].language_code
 
